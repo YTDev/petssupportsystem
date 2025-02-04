@@ -8,8 +8,8 @@ function App() {
   return (
     <>
       {/* <Navbar /> */}
-      
-      <div className="h-[1000vh] bg-gray-300"></div>
+      <AnimalCard />
+      {/* <div className="h-[1000vh] bg-gray-300"></div> */}
     </>
   );
 }
