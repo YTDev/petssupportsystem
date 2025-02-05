@@ -1,8 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-const cors = require("cors");
+const connection = require("./server");
+const vaccineRoutes = require("./routes/vaccineRoute");
 
 const app = express();
+app.use(express.json());
+app.use(vaccineRoutes);
+
+// Use the vaccine routes
 
 const port = 8000;
 
