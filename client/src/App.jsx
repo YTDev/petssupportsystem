@@ -11,6 +11,7 @@ function App() {
       <AnimalCard 
       name="Buddy"
       age="2 years"
+      size="Medium"
       description="Buddy is a very playful and friendly dog. He loves to play fetch and go on long walks."
       image="https://picsum.photos/id/237/280/180"
       status="Available"
