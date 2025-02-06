@@ -1,5 +1,6 @@
 import React from "react";
-import FormInput from "../components/forms/formInput";
+
+import RegisterForm from "../components/forms/RegisterForm";
 
 function SignUp() {
   return (
@@ -26,9 +27,9 @@ function SignUp() {
           Lorem ipsum dolor sit amet consectetur adipisicing.
         </div>
       </div>
-      <form className="max-w-[500px]">
-        <FormInput />
-      </form>
+      <div className="max-w-[500px]">
+        <RegisterForm />
+      </div>
     </div>
   );
 }
