@@ -6,7 +6,7 @@ import {
   MapPinIcon,
 } from "@heroicons/react/24/outline";
 import { ShareIcon } from "@heroicons/react/24/solid";
-import  Ruler  from "./Ruler";
+import Ruler from "./Ruler";
 
 const AnimalCard = ({
   name,
@@ -62,16 +62,17 @@ const AnimalCard = ({
           </button>
         </div>
         <div className="space-y-2">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <CalendarIcon className="size-5" />
-            <span>{age}</span>
-          </div>
+          <div className="flex gap-10"> 
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <CalendarIcon className="size-5" />
+              <span>{age}</span>
+            </div>
 
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Ruler  />
-            <span>{size}</span>
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Ruler />
+              <span>{size}</span>
+            </div>
           </div>
-
           {homeDetails && (
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <HomeIcon className="size-5" />
