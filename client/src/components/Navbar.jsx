@@ -13,8 +13,8 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-[#ffde00] shadow">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex justify-between">
             {/* Logo */}
@@ -26,13 +26,13 @@ const Navbar = () => {
           </div>
           {/* Desktop Menu */}
           <div className="hidden font-medium md:flex md:gap-4 ">
-            <a href="#" className="px-3 py-1 hover:bg-[#e6c40e]">
+            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
               About us
             </a>
-            <a href="#" className="px-3 py-1 hover:bg-[#e6c40e]">
+            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
               How it works
             </a>
-            <a href="#" className="px-3 py-1 hover:bg-[#e6c40e]">
+            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
               Testimonials
             </a>
           </div>
@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="flex items-center gap-2 font-medium">
             <a
               href="#"
-              className="px-4 py-2 border border-[#e6c40e] border-solid rounded-md  hover:bg-[#e6c40e] transition duration-300"
+              className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:bg-[#fff] hover:text-[#007bc8] transition duration-300"
             >
               Log in
             </a>
