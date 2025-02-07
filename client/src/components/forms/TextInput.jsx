@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { useField } from "formik";
 
-function TextInput() {
+function TextInput({ name }) {
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [field, meta] = useField("fullName");
+  const [field, meta] = useField();
 
   const isValid = meta.touched && !meta.error;
 
@@ -18,7 +18,7 @@ function TextInput() {
         htmlFor="fullName"
         className="block mb-2 text-[#272727] font-bold text-lg"
       >
-        Full Name
+        {name}
       </label>
       <div className="relative">
         <input
