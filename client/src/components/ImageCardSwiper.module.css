@@ -4,7 +4,7 @@
 }
 
 :global(.swiper-pagination-bullet) {
-  background-color: rgb(247, 234, 234);
+  background-color: rgb(247, 240, 185);
   opacity: 1;
   width: 12px;
   height: 12px;
@@ -13,7 +13,7 @@
 }
 
 :global(.swiper-pagination-bullet-active) {
-  background-color: green;
+  background-color: #e89b3d;
   width: 40px;
   border-radius: 5px;
 }

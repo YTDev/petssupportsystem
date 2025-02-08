@@ -12,7 +12,7 @@ function HeroContent() {
         better life
       </p>
 
-      <button className="mt-10 bg-[#000000]/60  text-xl px-12 py-4 rounded-2xl cursor-pointer ">
+      <button className="mt-10 block mx-auto lg:mx-0 bg-[#E89B3D] text-blue-950  text-xl px-12 py-4 rounded-2xl cursor-pointer ">
         ADOPT NOW
       </button>
     </div>

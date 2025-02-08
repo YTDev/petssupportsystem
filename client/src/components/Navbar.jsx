@@ -26,13 +26,22 @@ const Navbar = () => {
           </div>
           {/* Desktop Menu */}
           <div className="hidden font-medium md:flex md:gap-4 ">
-            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
+            <a
+              href="#"
+              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+            >
               About us
             </a>
-            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
+            <a
+              href="#"
+              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+            >
               How it works
             </a>
-            <a href="#" className="px-3 py-1 hover:underline underline-offset-[8px]">
+            <a
+              href="#"
+              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+            >
               Testimonials
             </a>
           </div>
@@ -41,17 +50,22 @@ const Navbar = () => {
           <div className="flex items-center gap-2 font-medium">
             <a
               href="#"
-              className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:bg-[#fff] hover:text-[#007bc8] transition duration-300"
+              className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
             >
               Log in
             </a>
             <a
               href="#"
-              className="hidden tracking-wider md:block px-4 py-2 bg-[#007bc8] border border-[#007bc8] rounded-md text-white hover:bg-[#005a91] transition duration-300"
+              className="hidden tracking-wider md:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-white hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
             >
               Start now
             </a>
-            <div className="md:hidden relative z-100">
+
+            <div
+              className={`md:hidden relative z-100 ${
+                isMenuOpen ? "text-blue-950" : " text-[#f9e5bd]"
+              }`}
+            >
               <Hamburger size={25} toggled={isMenuOpen} toggle={toggleMenu} />
             </div>
           </div>
@@ -59,7 +73,7 @@ const Navbar = () => {
       </div>
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-1 left-1 right-1 font-medium bg-white flex flex-col rounded-md shadow-md">
+        <div className="absolute top-1 left-1 right-1 font-medium bg-[#f9e5bd] flex flex-col rounded-md shadow-md text-blue-950">
           <div className="flex flex-col m-4 mt- mb-4 px-3 py-1 gap-7">
             <a href="#" className="text-xl font-bold">
               Logo

@@ -92,13 +92,13 @@ function ImageCardSwiper() {
                 className="absolute inset-0 w-full h-full object-cover rounded-lg"
               />
               <div className="p-4 relative z-10 top-[80%] w-full bg-transparent text-[#103D62] text-xs md:text-sm">
-                <span className="bg-white px-8 py-2 rounded-3xl  ">
+                <span className="bg-white px-6 py-2 rounded-3xl  ">
                   {image.race}
                 </span>
-                <span className="bg-white px-8 py-2 rounded-3xl  ml-4">
+                <span className="bg-white px-6 py-2 rounded-3xl  ml-4">
                   {image.homeDetails}
                 </span>
-                <span className="inline-block mt-4 bg-white px-8 py-2 rounded-3xl ">
+                <span className="inline-block mt-4 bg-white px-6 py-2 rounded-3xl ">
                   <MapPinIcon className="inline-block w-6 h-6 mr-2" />
                   {image.location}
                 </span>
