@@ -56,7 +56,7 @@ const Navbar = () => {
             </a>
             <a
               href="#"
-              className="hidden tracking-wider md:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-white hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
+              className="hidden tracking-wider md:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
             >
               Start now
             </a>
@@ -73,7 +73,7 @@ const Navbar = () => {
       </div>
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-1 left-1 right-1 font-medium bg-[#f9e5bd] flex flex-col rounded-md shadow-md text-blue-950">
+        <div className="absolute z-20 top-1 left-1 right-1 font-medium bg-[#f9e5bd] flex flex-col rounded-md shadow-md text-blue-950">
           <div className="flex flex-col m-4 mt- mb-4 px-3 py-1 gap-7">
             <a href="#" className="text-xl font-bold">
               Logo
@@ -90,7 +90,7 @@ const Navbar = () => {
             <hr className="border-t border-gray-300" />
             <a
               href="#"
-              className="px-4 py-2 tracking-wider text-center bg-[#007bc8] border border-[#007bc8] rounded-sm text-white hover:bg-[#005a91] transition duration-300"
+              className="p-4 tracking-wider text-center bg-amber-500   rounded-sm text-blue-950 "
             >
               Start Now
             </a>

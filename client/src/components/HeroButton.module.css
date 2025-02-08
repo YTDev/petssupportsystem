@@ -1,0 +1,71 @@
+.button {
+  pointer-events: auto;
+  cursor: pointer;
+  background: #1e1a4d;
+  border: none;
+  /* padding: 1.5rem 3rem; */
+  /* margin: 0; */
+  font-family: inherit;
+  font-size: inherit;
+  position: relative;
+  display: inline-block;
+}
+
+.buttonHero {
+  letter-spacing: 1.2px;
+  /* font-weight: 500; */
+  /* padding: 1rem 1.5rem; */
+  /* border: 1px solid #000; */
+  overflow: hidden;
+  color: #fe9a00;
+}
+
+.buttonHero span {
+  display: block;
+  position: relative;
+}
+
+.buttonHero > span {
+  overflow: hidden;
+}
+
+.buttonHero > span > span {
+  overflow: hidden;
+  mix-blend-mode: difference;
+}
+
+.buttonHero:hover > span > span {
+  animation: MoveUpInitial 0.2s forwards, MoveUpEnd 0.2s forwards 0.2s;
+}
+
+@keyframes MoveUpInitial {
+  to {
+    transform: translate3d(0, -105%, 0);
+  }
+}
+
+@keyframes MoveUpEnd {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.buttonHero::before {
+  content: "";
+  background: #fe9a00;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+  transform-origin: 100% 50%;
+}
+
+.buttonHero:hover::before {
+  transform: scale3d(0, 1, 1);
+  transform-origin: 0% 50%;
+}
