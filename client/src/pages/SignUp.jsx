@@ -1,21 +1,22 @@
 import React from "react";
-import FormInput from "../components/forms/formInput";
+
+import RegisterForm from "../components/forms/RegisterForm";
 
 function SignUp() {
   return (
-    <div className="bg-[#faf9f7] h-[1000vh]">
-      <div className="bg-yellow-300 pb-[260px]">
+    <div className="bg-[#faf9f7] ">
+      <div className="bg-[#207CC8] bg-gradient-to-b from-[#103D62] from-0% to-[#207CC8] to-90% pb-[260px] text-[#f9e5bd]">
         <header className="flex justify-between max-w-5xl mx-auto items-center pt-8 pb-16 px-2 sm:px-7">
           <a href="#" className="text-xl font-bold">
             Logo
           </a>
           <div>
-            <span className="text-[#6f5718] text-xs mr-2 sm:text-sm sm:mr-4">
+            <span className="text-amber-300 text-xs mr-2 sm:text-sm sm:mr-4">
               Already have an account?
             </span>
             <a
               href="#"
-              className="px-3 py-1.5 font-medium border border-[#e6c40e] border-solid rounded-md  hover:bg-[#e6c40e] transition duration-300"
+              className="px-3 py-1.5 font-medium border border-amber-500 border-solid rounded-md  hover:bg-amber-500 hover:text-blue-950 transition duration-300"
             >
               Log in
             </a>
@@ -26,9 +27,9 @@ function SignUp() {
           Lorem ipsum dolor sit amet consectetur adipisicing.
         </div>
       </div>
-      <form className="max-w-[500px]">
-        <FormInput />
-      </form>
+      <div className="-mt-48 pb-30">
+        <RegisterForm />
+      </div>
     </div>
   );
 }
