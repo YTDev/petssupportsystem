@@ -1,5 +1,6 @@
 import React from "react";
 import HeroButton from "./HeroButton";
+import CatDog from "./icons/CatDog";
 
 function HeroContent() {
   return (
@@ -16,10 +17,12 @@ function HeroContent() {
       {/* <button className="mt-10 block mx-auto lg:mx-0  hover:bg-blue-950 hover:text-amber-500 bg-amber-500  text-blue-950  text-xl px-12 py-4 rounded-2xl cursor-pointer ">
         ADOPT NOW
       </button> */}
+
       <div className="flex">
         <HeroButton
           className="z-10 mt-10 block 
       mx-auto lg:mx-0  text-lg sm:text-xl px-8 sm:px-12  py-3 sm:py-6 rounded-2xl cursor-pointer"
+          icon={<CatDog className="w-8 text-amber-500" />}
         />
       </div>
     </div>

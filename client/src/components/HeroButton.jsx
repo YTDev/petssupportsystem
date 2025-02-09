@@ -10,11 +10,10 @@ const HeroButton = ({
   return (
     <button
       {...props}
-      // Combine the module CSS classes with any extra Tailwind classes you need.
-      className={`${styles.button} ${styles.buttonHero}  inline-block relative overflow-hidden
-         ${className}`}
+      className={`${styles.button} ${styles.buttonHero} inline-block relative overflow-hidden ${className}`}
     >
-      <span className="block relative overflow-hidden">
+      <span className="flex items-center justify-center relative overflow-hidden">
+        {icon && <span className="mr-3 flex-shrink-0">{icon}</span>}
         <span className="block relative overflow-hidden text-xl">
           {children}
         </span>
