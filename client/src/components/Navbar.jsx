@@ -25,7 +25,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* Desktop Menu */}
-          <div className="hidden font-medium md:flex md:gap-4 ">
+          <div className="hidden font-medium lg:flex md:gap-4 ">
             <a
               href="#"
               className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
@@ -56,13 +56,13 @@ const Navbar = () => {
             </a>
             <a
               href="#"
-              className="hidden tracking-wider md:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
+              className="hidden tracking-wider lg:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
             >
               Start now
             </a>
 
             <div
-              className={`md:hidden relative z-100 ${
+              className={`lg:hidden relative z-100 ${
                 isMenuOpen ? "text-blue-950" : " text-[#f9e5bd]"
               }`}
             >
