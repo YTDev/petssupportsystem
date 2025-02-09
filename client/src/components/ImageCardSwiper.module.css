@@ -1,0 +1,19 @@
+:global(.swiper-pagination) {
+  position: relative;
+  margin-top: 20px;
+}
+
+:global(.swiper-pagination-bullet) {
+  background-color: rgb(247, 240, 185);
+  opacity: 1;
+  width: 12px;
+  height: 12px;
+  margin: 0 4px;
+  border-radius: 50%;
+}
+
+:global(.swiper-pagination-bullet-active) {
+  background-color: #e89b3d;
+  width: 40px;
+  border-radius: 5px;
+}
