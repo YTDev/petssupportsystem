@@ -3,12 +3,13 @@ import { useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import AnimalCard from "./components/AnimalCard";
+import FilterSidebar from "./components/FilterSidebar";
 
 function App() {
   return (
     <>
       {/* <Navbar /> */}
-      <AnimalCard 
+      {/* <AnimalCard 
       name="Buddy"
       age="2 years"
       size="Medium"
@@ -17,7 +18,9 @@ function App() {
       status="Available"
       homeDetails="Apartment"
       shelterName="Cantinho do Tareco"
-      />
+      /> */}
+      
+      <FilterSidebar />
       {/* <div className="h-[1000vh] bg-gray-300"></div> */}
     </>
   );
