@@ -85,3 +85,6 @@ cd server
 npm install
 ```
 
+>## License
+
+This project is licenced under the MIT License - see the License.md file for details
