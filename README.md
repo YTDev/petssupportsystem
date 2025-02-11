@@ -87,4 +87,4 @@ npm install
 
 >## License
 
-This project is licenced under the MIT License - see the License.md file for details
+This project is licenced under the MIT License - see the LICENSE file for details
