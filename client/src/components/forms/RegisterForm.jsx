@@ -114,7 +114,7 @@ const RegisterForm = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-6 px-4 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
+            className=" mx-auto block py-4 px-5 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
           >
             Let's get started
           </button>

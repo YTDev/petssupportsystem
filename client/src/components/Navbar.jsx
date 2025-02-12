@@ -56,7 +56,7 @@ const Navbar = () => {
             </a>
             <a
               href="#"
-              className="hidden tracking-wider lg:block px-4 py-2 bg-[#e89b3d] border border-[#e89b3d] rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
+              className="hidden tracking-wider lg:block px-4 py-2 bg-amber-500 border border-amber-500 rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
             >
               Start now
             </a>
