@@ -4,6 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import HeroSection from "./components/HeroSection";
 import { Routes, Route } from "react-router-dom";
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign_up" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );

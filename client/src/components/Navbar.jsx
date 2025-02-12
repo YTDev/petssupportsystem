@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
-    if (isMenuOpen) {
-      console.log("Menu Closed");
-    } else {
-      console.log("Menu Opened");
-    }
   }
 
   return (
@@ -19,9 +14,9 @@ const Navbar = () => {
           <div className="flex justify-between">
             {/* Logo */}
             <div className="font-display flex-shrink-0 flex items-center">
-              <a href="#" className="text-xl font-bold">
+              <Link to="/" className="text-xl font-bold">
                 Logo
-              </a>
+              </Link>
             </div>
           </div>
           {/* Desktop Menu */}
@@ -48,18 +43,18 @@ const Navbar = () => {
 
           {/* Desktop Buttons */}
           <div className="flex items-center gap-2 font-medium">
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
             >
               Log in
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/sign_up"
               className="hidden tracking-wider lg:block px-4 py-2 bg-amber-500 border border-amber-500 rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
             >
               Start now
-            </a>
+            </Link>
 
             <div
               className={`lg:hidden relative z-100 ${
@@ -75,9 +70,9 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="absolute z-20 top-1 left-1 right-1 font-medium bg-[#f9e5bd] flex flex-col rounded-md shadow-md text-blue-950">
           <div className="flex flex-col m-4 mt- mb-4 px-3 py-1 gap-7">
-            <a href="#" className="text-xl font-bold">
+            <Link to="/" className="text-xl font-bold">
               Logo
-            </a>
+            </Link>
             <a href="#" className="text-xl">
               About us
             </a>
@@ -88,17 +83,20 @@ const Navbar = () => {
               Testimonials
             </a>
             <hr className="border-t border-gray-300" />
-            <a
-              href="#"
+            <Link
+              to="/sign_up"
               className="p-4 tracking-wider text-center bg-amber-500   rounded-sm text-blue-950 "
             >
               Start Now
-            </a>
+            </Link>
             <p className="font-normal text-center">
               Already have an account?{" "}
-              <a href="" className="text-[#007bc8] underline hover:text-black">
+              <Link
+                to="/login"
+                className="text-[#007bc8] underline hover:text-black"
+              >
                 Log in →
-              </a>
+              </Link>
             </p>
           </div>
         </div>

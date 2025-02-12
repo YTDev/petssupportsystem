@@ -1,7 +1,7 @@
 import React from "react";
 
 import RegisterForm from "../components/forms/RegisterForm";
-
+import { Link } from "react-router-dom";
 function SignUp() {
   return (
     <div className="bg-[#faf9f7] ">
@@ -14,12 +14,12 @@ function SignUp() {
             <span className="text-amber-300 text-xs mr-2 sm:text-sm sm:mr-4">
               Already have an account?
             </span>
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="px-3 py-1.5 font-medium border border-amber-500 border-solid rounded-md  hover:bg-amber-500 hover:text-blue-950 transition duration-300"
             >
               Log in
-            </a>
+            </Link>
           </div>
         </header>
 
