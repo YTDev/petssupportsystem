@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ShareIcon } from "@heroicons/react/24/solid";
 import Ruler from "./Ruler";
+import AnimalCardSkeleton from "./AnimalCardSkeleton";
 
 const AnimalCard = ({
   name,
@@ -17,7 +18,13 @@ const AnimalCard = ({
   status = "Available",
   homeDetails,
   shelterName,
+  isLoading = false
 }) => {
+
+  if (isLoading) {
+    return <AnimalCardSkeleton />;
+  }
+
   const [isBookmark, setIsBookmark] = useState(false);
 
   return (
