@@ -6,11 +6,11 @@ const FilterSidebar = () => {
   return (
     <div className="sticky top-[71px] z-40 w-full bg-white md:top-[79px] transform-gpu">
       <div className="w-full shadow-sm">
-        <div className="mx-auto w-full py-2 md:pr-6 max-w-7xl">
+        <div className="mx-auto w-full py-2 md:pr-6 max-w-8xl">
           <div className="flex w-full items-center overflow-x-auto scrollbar-hide">
             <div className="shrink-0 md:w-6" />
             <button className="relative min-w-fit rounded-full py-1.5 text-sm h-10 px-1.5 bg-gray-800/10 hover:bg-gray-800/20">
-              <AdjustmentsHorizontalIcon className="h-5 w-5" />
+              <AdjustmentsHorizontalIcon className="h-5 w-7" />
             </button>
             <div className="mx-2 h-7 border-r border-gray-200" />
             <div>
