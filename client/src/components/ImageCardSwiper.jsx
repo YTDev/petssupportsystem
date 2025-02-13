@@ -1,7 +1,7 @@
 import React from "react";
 import { MapPinIcon } from "@heroicons/react/24/outline";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCards, Pagination } from "swiper/modules";
+import { Autoplay,EffectCards, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-cards";
 import "swiper/css/pagination";
@@ -78,9 +78,13 @@ function ImageCardSwiper() {
     <div className="sm:mr-20">
       <div className="w-[300px] h-[500px] sm:w-[400px] sm:h-[600px]">
         <Swiper
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
           effect="cards"
           grabCursor={true}
-          modules={[EffectCards, Pagination]}
+          modules={[Autoplay,EffectCards, Pagination]}
           pagination={{ clickable: true }}
           className="w-full h-full"
         >
@@ -105,6 +109,8 @@ function ImageCardSwiper() {
               </div>
             </SwiperSlide>
           ))}
+
+        
         </Swiper>
       </div>
     </div>
