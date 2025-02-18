@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import {
     BookmarkIcon,
 } from "@heroicons/react/24/outline";
-import { ShareIcon } from "@heroicons/react/24/solid";
-import AnimalCardSkeleton2 from "./AnimalCardSkeleton";
+import AnimalCardSkeleton from "./AnimalCardSkeleton";
 
-const AnimalCard2 = ({
+const AnimalCard = ({
     name,
     age,
     image,
@@ -14,7 +13,7 @@ const AnimalCard2 = ({
     isLoading = false
 }) => {
     if (isLoading) {
-        return <AnimalCardSkeleton2 />;
+        return <AnimalCardSkeleton />;
     }
 
     const [isBookmark, setIsBookmark] = useState(false);
@@ -49,14 +48,6 @@ const AnimalCard2 = ({
                     {status}
                 </span>
                 <div className="flex items-center gap-2">
-                    {/* <button
-            className="p-2 rounded-full bg-white/80 hover:bg-white"
-            onClick={() => {
-              alert("Shared!");
-            }}
-          >
-            <ShareIcon className="size-5 text-gray-800" />
-          </button> */}
                     <button
                         onClick={() => setIsBookmark(!isBookmark)}
                         className="p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none"
@@ -85,4 +76,4 @@ const AnimalCard2 = ({
     );
 };
 
-export default AnimalCard2;
+export default AnimalCard;
