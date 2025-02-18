@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (email === "test@test.com" && password !== "fail") {
-          const fakeUser = { email, name: "John Doe", role: "adopter" };
+          const fakeUser = { email, fullName: "John Doe", role: "adopter" };
           setUser(fakeUser);
           resolve(fakeUser);
         } else {
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
   };
+
   const register = async (values) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -30,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           const fakeUser = {
             email: values.email,
-            name: values.fullName,
+            fullName: values.fullName,
             role: values.role,
           };
           setUser(fakeUser);
@@ -39,8 +40,25 @@ export const AuthProvider = ({ children }) => {
       }, 1500);
     });
   };
+
+  const updateProfile = async (updates) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (!user) {
+          reject(new Error("No user to update."));
+        } else {
+          const updatedUser = { ...user, ...updates };
+          console.log("updated user: " + JSON.stringify(updatedUser));
+          setUser(updatedUser);
+          resolve(updatedUser);
+        }
+      }, 1500);
+    });
+  };
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, login, register, logout, updateProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

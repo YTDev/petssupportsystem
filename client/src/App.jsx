@@ -9,6 +9,9 @@ import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import DashboardLayout from "./components/layout/DashboardLayout";
+import Applications from "./pages/Dashboard/Applications";
+import Profile from "./pages/Dashboard/Profile";
 function App() {
   return (
     <>
@@ -28,10 +31,14 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <DashboardHome />
+                <DashboardLayout />
               </ProtectedRoute>
             }
-          ></Route>
+          >
+            <Route index element={<DashboardHome />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="applications" element={<Applications />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </>
