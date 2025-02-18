@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import "./App.css";
 import Navbar from "./components/Navbar";
-import AnimalCard2 from "./components/AnimalCard2";
+import AnimalCard from "./components/AnimalCard";
 
 function App() {
 
@@ -55,7 +55,7 @@ function App() {
         {...animalData}
       /> */}
 
-      <AnimalCard2
+      <AnimalCard
         isLoading={isLoading}
         {...animalData}
       />
