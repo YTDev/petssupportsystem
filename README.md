@@ -6,7 +6,7 @@ A full-stack website for animal shelters to showcase their pets and manage adopt
 ### Frontend
 * React.js
 * Tailwind CSS for styling
-* Axious for API rquests
+* Axios for API rquests
 
 ### Backend
 * Node.js
