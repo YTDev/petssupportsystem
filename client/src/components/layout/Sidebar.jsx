@@ -3,16 +3,21 @@ import { NavLink } from "react-router-dom";
 import { LuAlignJustify } from "react-icons/lu";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
+import { TbDog } from "react-icons/tb";
+import { FaHeart } from "react-icons/fa";
+import { TbLogout2 } from "react-icons/tb";
+import { useAuth } from "../../hooks/useAuth";
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
+  const { user, logout } = useAuth();
   return (
     <aside
-      className={`bg-blue-950 text-white  transition-all  duration-[3000ms]  ${
+      className={`bg-[#17588D] text-white transition-all  duration-[300ms] rounded-lg  ${
         sidebarOpen ? "w-64 p-2" : "w-16 p-0"
       }`}
     >
       <button
         className="flex items-center justify-center
-          w-16 h-16
+          w-16 h-16 
           text-xl hover:text-2xl text-white
           hover:text-black hover:bg-amber-500 
           rounded-md
@@ -24,56 +29,140 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         <LuAlignJustify />
       </button>
 
-      <nav className="mt-4">
-        <ul className="list-none space-y-2 overflow-visible">
+      <nav className="mt-4 flex flex-col ">
+        <ul className="list-none space-y-2 overflow-visible h-full">
+          {/* Dashboard*/}
           <li
-            className={` transition-[background-color, width] duration-200  ease-linear
-              ${sidebarOpen ? "" : "hover:w-50 "}
+            className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
               `}
           >
+          
             <NavLink
               to="/dashboard"
               end
-              className={({
-                isActive,
-              }) => `grid grid-cols-[4rem_1fr] items-center
-                    w-full  h-16  
-                    hover:bg-amber-500 
+              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+                    w-full h-16  
+                    hover:bg-amber-500
                     rounded-md
                     cursor-pointer 
                     
                     ${
                       isActive
-                        ? "bg-amber-500 text-black"
-                        : "bg-transparent text-white"
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white "
+                        
                     }`}
             >
               <LuLayoutDashboard className="flex items-center justify-center w-16 text-xl " />
-              <span className={`ml-2 ${sidebarOpen ? "" : "opacity-0"}`}>
+              <span className={`ml-2 overflow-hidden`} >
                 Dashboard
               </span>
             </NavLink>
           </li>
-          <li>
+          {/* Profile */}
+          <li 
+          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}>
             <NavLink
               to="/dashboard/profile"
-              className="flex items-center
-              rounded-md cursor-pointer
-               text-white
-              transition-colors duration-200
-              overflow-hidden
-              px-2 h-12"
+              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    rounded-md
+                    cursor-pointer 
+                    
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white "
+                        
+                    }`}
             >
-              <CgProfile />
-              <span className="ml-2">Profile</span>
+              <CgProfile className="flex items-center justify-center w-16 text-xl "/>
+              <span className={`ml-2 overflow-hidden`}>
+                Profile
+                </span>
             </NavLink>
           </li>
-          <li>
+          {/* Applications */}
+          <li 
+          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}>
             <NavLink
               to="/dashboard/applications"
-              className="block py-2 px-4 hover:bg-gray-700"
+              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    rounded-md
+                    cursor-pointer 
+                    
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white "
+                        
+                    }`}
             >
-              My Applications
+              <TbDog className="flex items-center justify-center w-16 text-xl "/>
+              <span className={`ml-2 overflow-hidden`}>
+                Applications
+                </span>
+            </NavLink>
+          </li>
+          {/* Favorites */}
+          <li 
+          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}>
+            <NavLink
+              to="/dashboard/favorites"
+              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    rounded-md
+                    cursor-pointer 
+                    
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white "
+                        
+                    }`}
+            >
+              <FaHeart className="flex items-center justify-center w-16 text-xl "/>
+              <span className={`ml-2 overflow-hidden`}>
+                Favorites
+                </span>
+            </NavLink>
+          </li>
+          {/* Logout */}
+          <li 
+          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col mt-auto
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}>
+            <NavLink
+              onClick={logout}
+              to="/login"
+              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    rounded-md
+                    cursor-pointer 
+                  
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white "
+                        
+                    }`}
+            >
+              <TbLogout2 className="flex items-center justify-center w-16 text-xl "/>
+              <span className={`ml-2 overflow-hidden`}>
+                Logout
+                </span>
             </NavLink>
           </li>
         </ul>
