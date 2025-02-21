@@ -11,7 +11,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const { user, logout } = useAuth();
   return (
     <aside
-      className={`bg-[#17588D] text-white transition-all  duration-[300ms] rounded-lg  ${
+      className={`bg-[#17588D] text-white transition-all  duration-300 rounded-lg h-screen flex flex-col   ${
         sidebarOpen ? "w-64 p-2" : "w-16 p-0"
       }`}
     >
@@ -29,140 +29,144 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
         <LuAlignJustify />
       </button>
 
-      <nav className="mt-4 flex flex-col ">
-        <ul className="list-none space-y-2 overflow-visible h-full">
+      <nav className="mt-4 flex-1">
+        <ul className="list-none space-y-2 flex flex-col h-full">
           {/* Dashboard*/}
+          <li
+            className={`transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}
+          >
+            <NavLink
+              to="/dashboard"
+              end
+              className={({ isActive }) => `grid grid-cols-[4rem_1fr] 
+                    items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    hover:text-black
+                    rounded-md
+                    cursor-pointer 
+                    overflow-hidden
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white"
+                    }`}
+            >
+              <LuLayoutDashboard className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2`}>Dashboard</span>
+            </NavLink>
+          </li>
+          {/* Profile */}
           <li
             className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
               ${sidebarOpen ? "" : "hover:w-50"}
               `}
           >
-          
-            <NavLink
-              to="/dashboard"
-              end
-              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
-                    w-full h-16  
-                    hover:bg-amber-500
-                    rounded-md
-                    cursor-pointer 
-                    
-                    ${
-                      isActive
-                        ? "bg-amber-500 text-black "
-                        : "bg-transparent text-white "
-                        
-                    }`}
-            >
-              <LuLayoutDashboard className="flex items-center justify-center w-16 text-xl " />
-              <span className={`ml-2 overflow-hidden`} >
-                Dashboard
-              </span>
-            </NavLink>
-          </li>
-          {/* Profile */}
-          <li 
-          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
-              ${sidebarOpen ? "" : "hover:w-50"}
-              `}>
             <NavLink
               to="/dashboard/profile"
-              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+              className={({
+                isActive,
+              }) => `grid grid-cols-[4rem_1fr] items-center
                     w-full h-16  
+                    
                     hover:bg-amber-500
+                    hover:text-black
                     rounded-md
                     cursor-pointer 
-                    
+                    overflow-hidden
                     ${
                       isActive
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
-                        
                     }`}
             >
-              <CgProfile className="flex items-center justify-center w-16 text-xl "/>
-              <span className={`ml-2 overflow-hidden`}>
-                Profile
-                </span>
+              <CgProfile className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2`}>Profile</span>
             </NavLink>
           </li>
           {/* Applications */}
-          <li 
-          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+          <li
+            className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
               ${sidebarOpen ? "" : "hover:w-50"}
-              `}>
+              `}
+          >
             <NavLink
               to="/dashboard/applications"
-              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+              className={({
+                isActive,
+              }) => `grid grid-cols-[4rem_1fr] items-center
                     w-full h-16  
+                    
                     hover:bg-amber-500
+                    hover:text-black
                     rounded-md
                     cursor-pointer 
-                    
+                    overflow-hidden
                     ${
                       isActive
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
-                        
                     }`}
             >
-              <TbDog className="flex items-center justify-center w-16 text-xl "/>
-              <span className={`ml-2 overflow-hidden`}>
-                Applications
-                </span>
+              <TbDog className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2`}>Applications</span>
             </NavLink>
           </li>
           {/* Favorites */}
-          <li 
-          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
+          <li
+            className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
               ${sidebarOpen ? "" : "hover:w-50"}
-              `}>
+              `}
+          >
             <NavLink
               to="/dashboard/favorites"
-              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+              className={({
+                isActive,
+              }) => `grid grid-cols-[4rem_1fr] items-center
                     w-full h-16  
                     hover:bg-amber-500
+                    hover:text-black
                     rounded-md
                     cursor-pointer 
-                    
+                    overflow-hidden
                     ${
                       isActive
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
-                        
                     }`}
             >
-              <FaHeart className="flex items-center justify-center w-16 text-xl "/>
-              <span className={`ml-2 overflow-hidden`}>
-                Favorites
-                </span>
+              <FaHeart className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2`}>Favorites</span>
             </NavLink>
           </li>
           {/* Logout */}
-          <li 
-          className={` transition-[background-color, width] duration-200 ease-linear flex flex-col mt-auto
+          <li
+            className={` transition-[background-color, width] duration-200 ease-linear flex flex-col mt-auto
               ${sidebarOpen ? "" : "hover:w-50"}
-              `}>
+              `}
+          >
             <NavLink
               onClick={logout}
               to="/login"
-              className={({isActive}) => `grid grid-cols-[4rem_1fr] items-center
+              className={({
+                isActive,
+              }) => `grid grid-cols-[4rem_1fr] items-center
                     w-full h-16  
                     hover:bg-amber-500
+                    hover:text-black
                     rounded-md
                     cursor-pointer 
-                  
+                  overflow-hidden
                     ${
                       isActive
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
-                        
                     }`}
             >
-              <TbLogout2 className="flex items-center justify-center w-16 text-xl "/>
-              <span className={`ml-2 overflow-hidden`}>
-                Logout
-                </span>
+              <TbLogout2 className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2 `}>Logout</span>
             </NavLink>
           </li>
         </ul>
