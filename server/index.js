@@ -1,9 +1,13 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-const cors = require("cors");
+const connection = require("./server");
+const routesGeneral = require("./routes/routesGeneral");
 
 const app = express();
+app.use(express.json());
+app.use(routesGeneral);
 
+// Use the vaccine routes
 const port = 8000;
 
 app.listen(port, () => {
