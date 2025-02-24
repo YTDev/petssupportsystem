@@ -5,40 +5,55 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
 import FormCheckbox from "./FormCheckbox";
-
-// Define initial values for the form.
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 const initialValues = {
-  username: "",
+  email: "",
   password: "",
-  remember: false,
 };
 
-// Define the validation schema.
 const validationSchema = Yup.object({
-  username: Yup.string().required("Username is required"),
+  email: Yup.string()
+    .email("Please enter a valid email address.")
+    .required("Email is required"),
   password: Yup.string().required("Password is required"),
-  remember: Yup.boolean(),
 });
 
 const LoginForm = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        console.log("Logging in with:", values);
-        setSubmitting(false);
+      onSubmit={(values, { setSubmitting, setStatus }) => {
+        setStatus({ error: null });
+        // call the login function from our AuthContext
+        login(values.email, values.password)
+          .then(() => {
+            console.log("Logged in successfully: ", values);
+            navigate("/dashboard");
+          })
+          .catch((error) => {
+            setStatus({ error: error.message });
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
       }}
     >
       {({ isSubmitting, status, setStatus }) => (
         <Form className="bg-white max-w-lg w-full mx-auto shadow-lg rounded-md p-4 sm:p-10">
           <h2 className="text-2xl font-bold text-center mb-6">Log In</h2>
+          {status?.error && (
+            <div className="mb-4 text-center text-red-600">{status.error}</div>
+          )}
           <FormInput
             minimal={true}
             showValidation={status?.submitted}
-            label="Username"
-            name="username"
-            type="text"
+            label="Email Address"
+            name="email"
+            type="email"
             placeholder="Enter your username"
           />
           <FormInput
@@ -54,14 +69,14 @@ const LoginForm = () => {
               Forgot your username or password?
             </Link>
           </div>
-          <FormCheckbox label="Remember me for 2 weeks" name="remember" />
+
           <button
             type="submit"
             onClick={() => setStatus({ submitted: true })}
             disabled={isSubmitting}
             className=" mx-auto block py-4 px-12 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
           >
-            Log In
+            {isSubmitting ? "Logging in..." : "Log In"}
           </button>
           <div className="mt-4 text-center text-sm">
             Don’t have an account?{" "}
