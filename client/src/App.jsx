@@ -1,10 +1,9 @@
-import { useState } from "react";
 import "./App.css";
-import Navbar from "./components/Navbar";
+
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import HeroSection from "./components/HeroSection";
+
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
@@ -13,6 +12,8 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import Applications from "./pages/Dashboard/Applications";
 import Profile from "./pages/Dashboard/Profile";
 import Favorites from "./pages/Dashboard/Favorites";
+import PetListings from "./pages/PetListings";
+import PetDetails from "./pages/PetDetails";
 function App() {
   return (
     <>
@@ -28,6 +29,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/sign_up" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/pets" element={<PetListings />} />
+          <Route path="/pets/:id" element={<PetDetails />} />
           <Route
             path="/dashboard"
             element={
