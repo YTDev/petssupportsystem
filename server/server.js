@@ -1,11 +1,18 @@
 const mysql = require("mysql2");
-
+const fs = require("fs");
+require("dotenv").config();
+const DB_PASS = process.env.DB_PASSWORD;
+console.log(DB_PASS);
 // Create a connection to the database
 const connection = mysql.createConnection({
-  host: "localhost", // Host name
-  user: "root", // Your MySQL username (default is 'root')
-  password: "", // Your MySQL password (default is empty)
-  database: "bd_onlypaws", // Replace with your database name
+  host: "mysql-3f888ca6-pet-support-system.j.aivencloud.com", // Aiven host
+  port: 17999, // Aiven port
+  user: "avnadmin", // Your Aiven MySQL username
+  password: DB_PASS, // Your Aiven MySQL password
+  database: "pet-support-system", // Your Aiven database name
+  ssl: {
+    ca: fs.readFileSync("./cert/ca.pem"), // Ensure SSL is used, adjust as necessary
+  },
 });
 
 // Connect to the database
@@ -14,8 +21,8 @@ connection.connect((err) => {
     console.error("Error connecting to the database:", err.stack);
     return;
   }
+
   console.log("Connection successful!");
-  //console.log("Connected to the database as id " + connection.threadId);
 });
 
 module.exports = connection;
