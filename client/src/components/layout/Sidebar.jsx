@@ -16,7 +16,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   };
   return (
     <aside
-      className={`absolute sm:sticky  sm:top-0 z-10 bg-[#17588D] text-white transition-all  duration-300 rounded-tr-lg rounded-br-lg h-screen flex flex-col   ${
+      className={`fixed sm:sticky  sm:top-0 z-10 bg-[#17588D] text-white transition-all  duration-300 rounded-tr-lg rounded-br-lg h-screen flex flex-col   ${
         sidebarOpen ? "w-64 p-2" : "w-0 sm:w-16 p-0 "
       } `}
     >
