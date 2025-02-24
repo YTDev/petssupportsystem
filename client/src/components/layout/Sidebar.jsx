@@ -9,27 +9,36 @@ import { TbLogout2 } from "react-icons/tb";
 import { useAuth } from "../../hooks/useAuth";
 const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
   const { user, logout } = useAuth();
+  const handleLinkClick = () => {
+    if (window.innerWidth <= 640) {
+      toggleSidebar();
+    }
+  };
   return (
     <aside
-      className={`bg-[#17588D] text-white transition-all  duration-300 rounded-lg h-screen flex flex-col   ${
-        sidebarOpen ? "w-64 p-2" : "w-16 p-0"
-      }`}
+      className={`absolute sm:sticky  sm:top-0 z-10 bg-[#17588D] text-white transition-all  duration-300 rounded-tr-lg rounded-br-lg h-screen flex flex-col   ${
+        sidebarOpen ? "w-64 p-2" : "w-0 sm:w-16 p-0 "
+      } `}
     >
       <button
-        className="flex items-center justify-center
+        className={`absolute z- flex items-center justify-center 
           w-16 h-16 
-          text-xl hover:text-2xl text-white
+          text-xl hover:text-2xl  
           hover:text-black hover:bg-amber-500 
           rounded-md
           transition-all duration-300 ease-linear
           cursor-pointer
-          bg-transparent"
+          bg-transparent ${
+            sidebarOpen ? "text-white" : "text-black sm:text-white"
+          }
+          
+          `}
         onClick={toggleSidebar}
       >
         <LuAlignJustify />
       </button>
 
-      <nav className="mt-4 flex-1">
+      <nav className="mt-28 flex-1">
         <ul className="list-none space-y-2 flex flex-col h-full">
           {/* Dashboard*/}
           <li
@@ -53,6 +62,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white"
                     }`}
+              onClick={handleLinkClick}
             >
               <LuLayoutDashboard className="flex items-center justify-center w-16 text-xl " />
               <span className={`ml-2`}>Dashboard</span>
@@ -81,6 +91,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
                     }`}
+              onClick={handleLinkClick}
             >
               <CgProfile className="flex items-center justify-center w-16 text-xl " />
               <span className={`ml-2`}>Profile</span>
@@ -109,6 +120,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
                     }`}
+              onClick={handleLinkClick}
             >
               <TbDog className="flex items-center justify-center w-16 text-xl " />
               <span className={`ml-2`}>Applications</span>
@@ -136,6 +148,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
                         ? "bg-amber-500 text-black "
                         : "bg-transparent text-white "
                     }`}
+              onClick={handleLinkClick}
             >
               <FaHeart className="flex items-center justify-center w-16 text-xl " />
               <span className={`ml-2`}>Favorites</span>

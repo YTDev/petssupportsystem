@@ -12,10 +12,10 @@ const DashboardLayout = () => {
     <div className="min-h-screen flex">
       <Sidebar sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div className="flex-1 flex flex-col -z-10">
+      <div className="flex-1 flex flex-col ">
         <Topbar toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
 
-        <div className="p-6 flex-1 bg-gray-100">
+        <div className="p-6 flex-1 bg-gray-100 ">
           <Outlet />
         </div>
       </div>

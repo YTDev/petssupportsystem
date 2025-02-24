@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import Applications from "./pages/Dashboard/Applications";
 import Profile from "./pages/Dashboard/Profile";
+import Favorites from "./pages/Dashboard/Favorites";
 function App() {
   return (
     <>
@@ -38,6 +39,7 @@ function App() {
             <Route index element={<DashboardHome />} />
             <Route path="profile" element={<Profile />} />
             <Route path="applications" element={<Applications />} />
+            <Route path="favorites" element={<Favorites />} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -1,25 +1,23 @@
 import React from "react";
 import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-const Topbar = ({ toggleSidebar, sidebarOpen }) => {
-  const { user, logout } = useAuth();
-
+const Topbar = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   return (
-    <div className="bg-white shadow p-4 flex justify-between items-center">
-      <button
-        onClick={toggleSidebar}
-        className="text-gray-600 focus:outline-none"
-      >
-        {sidebarOpen ? "<" : ">"}
-      </button>
-      <div className="text-gray-800">
+    <div className="bg-gray-100 shadow p-4 flex justify-between items-center">
+      <div className="text-gray-800 text-xl font-semibold invisible sm:visible">
         Welcome, {user ? user.fullName : "User"}!
       </div>
+
       <button
-        onClick={logout}
-        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+        className="flex items-center focus:outline-none cursor-pointer"
+        onClick={() => navigate("/dashboard/profile")}
       >
-        Logout
+        <div className="w-12 h-12  rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
+          {user?.fullName?.charAt(0) || "U"}
+        </div>
       </button>
     </div>
   );
