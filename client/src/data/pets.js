@@ -7,7 +7,8 @@ const pets = [
     age: 3,
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. ",
-    imageUrl: "https://placehold.co/300",
+    imageUrl:
+      "https://storage.googleapis.com/listingappios.appspot.com/pet_images/optimized/830735c5-6416-40c5-8993-600767d006b9_680x680.webp",
   },
   {
     id: 2,
