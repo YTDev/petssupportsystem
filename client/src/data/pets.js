@@ -30,6 +30,16 @@ const pets = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",
     imageUrl: "https://placehold.co/300",
   },
+  {
+    id: 4,
+    name: "Joe",
+    type: "Dog",
+    breed: "Beagle",
+    age: 4,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem.",
+    imageUrl: "https://placehold.co/300",
+  },
 ];
 
 export default pets;

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 const Navbar = () => {
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
@@ -43,12 +45,26 @@ const Navbar = () => {
 
           {/* Desktop Buttons */}
           <div className="flex items-center gap-2 font-medium">
-            <Link
-              to="/login"
-              className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
-            >
-              Log in
-            </Link>
+            {user ? (
+              <>
+                <button
+                  onClick={logout}
+                  className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
+                >
+                  Log in
+                </Link>
+              </>
+            )}
+
             <Link
               to="/sign_up"
               className="hidden tracking-wider lg:block px-4 py-2 bg-amber-500 border border-amber-500 rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
@@ -101,36 +117,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {/* another implementation for the mobile menu (check with the team) */}
-      {/* {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="#" className="block px-3 py-1 hover:bg-[#e6c40e]">
-              About us
-            </a>
-            <a href="#" className="block px-3 py-1 hover:bg-[#e6c40e]">
-              How it works
-            </a>
-            <a href="#" className="block px-3 py-1 hover:bg-[#e6c40e]">
-              Testimonials
-            </a>
-          </div>
-          <div className="px-2 pb-3">
-            <a
-              href="#"
-              className="block text-center  mt-1 px-4 py-2 bg-[#007bc8] border border-[#007bc8] rounded-md text-white hover:bg-[#005a91] transition duration-300"
-            >
-              Start now
-            </a>
-            <p className="font-normal text-center px-4 py-2">
-              Already have an account?{" "}
-              <a href="" className="text-[#007bc8] underline hover:text-black ">
-                Log in →
-              </a>
-            </p>
-          </div>
-        </div>
-      )} */}
     </nav>
   );
 };
