@@ -1,8 +1,10 @@
 import React from "react";
 import HeroButton from "./HeroButton";
 import CatDog from "./icons/CatDog";
+import { useNavigate } from "react-router-dom";
 
 function HeroContent() {
+  const navigate = useNavigate();
   return (
     <div className=" text-[#f9e5bd]">
       <h1 className="text-4xl md:text-7xl font-bold max-w-xl md:max-w-2xl">
@@ -20,6 +22,7 @@ function HeroContent() {
 
       <div className="flex">
         <HeroButton
+          onClick={() => navigate("/pets")}
           className="z-10 mt-10 block 
       mx-auto lg:mx-0  text-lg sm:text-xl px-8 sm:px-12  py-3 sm:py-6 rounded-2xl cursor-pointer"
           icon={<CatDog className="w-8 text-amber-500" />}
