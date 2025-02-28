@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 function Login() {
   const { user } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard", { replace: true });

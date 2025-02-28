@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import AvatarDropdown from "./AvatarDropdown";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
@@ -21,6 +23,7 @@ const Navbar = () => {
               </Link>
             </div>
           </div>
+
           {/* Desktop Menu */}
           <div className="hidden font-medium lg:flex md:gap-4 ">
             <a
@@ -105,15 +108,19 @@ const Navbar = () => {
             >
               Start Now
             </Link>
-            <p className="font-normal text-center">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-[#007bc8] underline hover:text-black"
-              >
-                Log in →
-              </Link>
-            </p>
+            {user ? (
+              <></>
+            ) : (
+              <p className="font-normal text-center">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="text-[#007bc8] underline hover:text-black"
+                >
+                  Log in →
+                </Link>
+              </p>
+            )}
           </div>
         </div>
       )}
