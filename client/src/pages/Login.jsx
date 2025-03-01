@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import LoginForm from "../components/forms/LoginForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 function Login() {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [user, navigate]);
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   return (
     <div className="bg-[#faf9f7] min-h-screen">

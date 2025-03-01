@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import AvatarDropdown from "./AvatarDropdown";
+
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);

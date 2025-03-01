@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
 
 import RegisterForm from "../components/forms/RegisterForm";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 function SignUp() {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      navigate("/pets", { replace: true });
-    }
-  }, [user, navigate]);
+  if (user) {
+    return <Navigate to="/pets" replace />;
+  }
 
   return (
     <div className="bg-[#faf9f7] ">
