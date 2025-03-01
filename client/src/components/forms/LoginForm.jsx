@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import FormInput from "./FormInput";
 import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 const initialValues = {
   email: "",
   password: "",
@@ -21,7 +21,7 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const { login } = useAuth();
-  const navigate = useNavigate();
+  // constate = useNavigate();
   return (
     <Formik
       initialValues={initialValues}
@@ -32,7 +32,7 @@ const LoginForm = () => {
         login(values.email, values.password)
           .then(() => {
             console.log("Logged in successfully: ", values);
-            navigate("/dashboard");
+            // navigate("/dashboard");
           })
           .catch((error) => {
             setStatus({ error: error.message });

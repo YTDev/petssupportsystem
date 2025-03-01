@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const location = useLocation();
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
@@ -61,6 +61,7 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
+                  state={{ from: location.pathname }}
                   className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
                 >
                   Log in

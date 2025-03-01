@@ -1,13 +1,16 @@
 import React from "react";
 import LoginForm from "../components/forms/LoginForm";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 function Login() {
   const { user } = useAuth();
+  const location = useLocation();
+
+  const from = location.state?.from || "/dashboard";
 
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={from} replace />;
   }
 
   return (

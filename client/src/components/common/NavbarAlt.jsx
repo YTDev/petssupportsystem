@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AvatarDropdown from "./AvatarDropdown";
 import { useAuth } from "../../hooks/useAuth";
 
 const NavbarAlt = () => {
   const { user } = useAuth();
+  const location = useLocation();
 
   return (
     <nav className="bg-white shadow-md" aria-label="Main Navigation">
@@ -24,6 +25,7 @@ const NavbarAlt = () => {
               <>
                 <Link
                   to="/login"
+                  state={{ from: location.pathname }}
                   className="px-4 py-2 border border-white rounded-md hover:border-amber-500 hover:text-amber-500 transition duration-300"
                 >
                   Log in
