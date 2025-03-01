@@ -1,12 +1,12 @@
 import React from "react";
 import PetCard from "../components/common/PetCard";
 import pets from "../data/pets";
-import Navbar from "../components/common/Navbar";
+import NavbarAlt from "../components/common/NavbarAlt";
 
 const PetListings = () => {
   return (
     <div>
-      <Navbar />
+      <NavbarAlt />
 
       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6">Available Pets for Adoption</h1>
