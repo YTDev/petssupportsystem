@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PetCard from "../components/common/PetCard";
 import pets from "../data/pets";
 import NavbarAlt from "../components/common/NavbarAlt";
@@ -7,7 +7,7 @@ import PetFilter from "../components/common/PetFilter";
 const PetListings = () => {
   const [filteredPets, setFilteredPets] = useState([]);
 
-  const handleFilterChange = (filters) => {
+  const handleFilterChange = useCallback((filters) => {
     let newFiltered = pets.filter((pet) => pet.type === filters.type);
 
     // gender filter
@@ -49,7 +49,7 @@ const PetListings = () => {
     }
 
     setFilteredPets(newFiltered);
-  };
+  }, []);
 
   return (
     <div>
