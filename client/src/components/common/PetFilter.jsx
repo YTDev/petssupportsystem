@@ -56,6 +56,7 @@ const PetFilter = ({ onFilterChange }) => {
     <div className="w-full shadow-sm">
       <div className="max-w-7xl mx-auto w-full py-2 md:pr-6">
         <div className="flex w-full items-center flex-wrap">
+          <div className="min-w-4 shrink-0 md:min-w-6"></div>
           <button
             onClick={handleResetFilters}
             className="cursor-pointer min-w-fit rounded-full p-2.5 bg-gray-800/10 text-xl flex items-center justify-center"
