@@ -9,7 +9,7 @@ const NavbarAlt = () => {
 
   return (
     <nav
-      className="bg-white border-b border-gray-200"
+      className="sticky top-0 z-50 bg-white border-b border-gray-200"
       aria-label="Main Navigation"
     >
       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
