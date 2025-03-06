@@ -1,7 +1,7 @@
 {
-  "name": "server",
+  "name": "pet-adoption-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for the Pet Adoption Platform",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

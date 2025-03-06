@@ -1,15 +1,16 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-const connection = require("./server");
-const routesGeneral = require("./routes/routesGeneral");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
 app.use(express.json());
-app.use(routesGeneral);
 
-// Use the vaccine routes
-const port = 8000;
+const petRoutes = require("./routes/petRoutes");
+app.use("/api/pets", petRoutes);
 
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`Hey yo wassup !! the server is running on ${port}`);
 });
