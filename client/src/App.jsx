@@ -14,6 +14,11 @@ import Profile from "./pages/Dashboard/Profile";
 import Favorites from "./pages/Dashboard/Favorites";
 import PetListings from "./pages/PetListings";
 import PetDetails from "./pages/PetDetails";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
+
 function App() {
   return (
     <>

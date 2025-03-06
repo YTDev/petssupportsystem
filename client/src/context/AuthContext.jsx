@@ -1,4 +1,8 @@
 import React, { createContext, useState } from "react";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8000";
+axios.defaults.withCredentials = true;
 
 export const AuthContext = createContext();
 
@@ -6,17 +10,30 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (email, password) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === "test@test.com" && password !== "fail") {
-          const fakeUser = { email, fullName: "John Doe", role: "adopter" };
-          setUser(fakeUser);
-          resolve(fakeUser);
-        } else {
-          reject(new Error("Login failed: Invalid credentials."));
-        }
-      }, 1500);
-    });
+    try {
+      // Make a POST request to the backend login endpoint
+      const response = await axios.post("/login", {
+        email,
+        password,
+      });
+
+      // Check if the response is successful
+      if (response.status === 200) {
+        const User = response.data; // Assuming your backend returns user data
+        setUser(User);
+        return User; // Return the user data
+      }
+    } catch (error) {
+      // Handle errors (e.g., invalid credentials)
+      console.error("Error during login:", error); // Log the entire error for debugging
+
+      // Check if error response exists and has a message
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed: An unknown error occurred.";
+      throw new Error(errorMessage); // Throw the error with a detailed message
+    }
   };
 
   const logout = () => {
