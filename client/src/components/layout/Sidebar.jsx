@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { LuAlignJustify } from "react-icons/lu";
-import { LuLayoutDashboard } from "react-icons/lu";
+import { LuLayoutDashboard } from "react-icons/lu"
+import { IoHome } from "react-icons/io5";;
 import { CgProfile } from "react-icons/cg";
 import { TbDog } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
@@ -40,6 +41,34 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
 
       <nav className="mt-28 flex-1">
         <ul className="list-none space-y-2 flex flex-col h-full">
+          {/* Home */}
+          <li
+            className={`transition-[background-color, width] duration-200 ease-linear flex flex-col
+              ${sidebarOpen ? "" : "hover:w-50"}
+              `}
+          >
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) => `grid grid-cols-[4rem_1fr] 
+                    items-center
+                    w-full h-16  
+                    hover:bg-amber-500
+                    hover:text-black
+                    rounded-md
+                    cursor-pointer 
+                    overflow-hidden
+                    ${
+                      isActive
+                        ? "bg-amber-500 text-black "
+                        : "bg-transparent text-white"
+                    }`}
+              onClick={handleLinkClick}
+            >
+              <IoHome className="flex items-center justify-center w-16 text-xl " />
+              <span className={`ml-2`}>Home</span>
+            </NavLink>
+          </li>
           {/* Dashboard*/}
           <li
             className={`transition-[background-color, width] duration-200 ease-linear flex flex-col
