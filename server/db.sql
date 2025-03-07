@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS pet_adoption;
+
 USE pet_adoption;
 
 CREATE TABLE IF NOT EXISTS Pets (

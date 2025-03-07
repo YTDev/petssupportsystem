@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import PetCard from "../components/common/PetCard";
+import AnimalCard from "../components/common/AnimalCard";
 import NavbarAlt from "../components/common/NavbarAlt";
 import PetFilter from "../components/common/PetFilter";
 
@@ -92,7 +92,8 @@ const PetListings = () => {
     (filters) => {
       let newFiltered = allPets.filter((pet) => pet.type === filters.type);
 
-      const genderFilters = filters.attributes.filter((attr) =>
+      //gender filter
+      const genderFilters = filters.attributes.filter((attr) => 
         ["Male", "Female"].includes(attr)
       );
       if (genderFilters.length) {
@@ -101,7 +102,8 @@ const PetListings = () => {
         );
       }
 
-      const sortingAttributes = filters.attributes.filter((attr) =>
+      //sorting filter
+      const sortingAttributes = filters.attributes.filter((attr) => 
         ["Closest", "Youngest", "New Joiners"].includes(attr)
       );
 
@@ -139,9 +141,9 @@ const PetListings = () => {
       <PetFilter onFilterChange={handleFilterChange} />
       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6">Available Pets for Adoption</h1>
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4">
           {filteredPets.map((pet) => (
-            <PetCard key={pet.id} pet={pet} />
+            <AnimalCard key={pet.id} pet={pet} />
           ))}
         </div>
       </div>
