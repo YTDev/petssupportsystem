@@ -1,18 +1,30 @@
-const mysql = require("mysql2/promise");
-require("dotenv").config();
+require('dotenv').config();
+const { Sequelize } = require('sequelize');
+const fs = require('fs');
+const path = require('path');
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "",
-  database: process.env.DB_NAME || "pet_adoption",
-  // host: "localhost",
-  // user: "root",
-  // password: "",
-  // database: "pet_adoption",
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+
+const db = new Sequelize({
+  database: process.env.DATABASE,
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  host: process.env.HOST,
+  port: process.env.PORT,
+  dialect: process.env.DIALECT,
+  dialectOption: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: true,
+      ca: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)).toString(),
+    },
+  },
 });
 
-module.exports = pool;
+try {
+  db.authenticate();
+  console.log("database is connected")
+} catch (err) {
+  console.log("database is not connected", err)
+}
+
+module.exports = db;
