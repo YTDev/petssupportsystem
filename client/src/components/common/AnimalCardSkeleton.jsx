@@ -5,7 +5,7 @@ import { BookmarkIcon } from "@heroicons/react/24/outline";
 
 const AnimalCardSkeleton = () => {
     return (
-        <div className="rounded-lg bg-white shadow-sm overflow-hidden relative w-60 h-82 animate-pulse">
+        <div className="rounded-lg bg-white shadow-sm overflow-hidden relative w-full h-82 animate-pulse">
       {/* Image placeholder */}
       <div className="w-full h-full">
         <Skeleton className="h-full" baseColor="#D3D3D3" highlightColor="#BCBCBC" />

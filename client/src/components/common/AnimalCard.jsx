@@ -28,7 +28,7 @@ const AnimalCard = ({ pet, status = "Available", isLoading = false }) => {
   return (
     <Link
       to={`/pets/${pet.id}`}
-      className="group relative rounded-lg shadow-sm overflow-hidden w-70 h-82"
+      className="group relative rounded-lg shadow-sm overflow-hidden w-full h-82"
     >
       {/* Full-width image */}
       <img
@@ -71,7 +71,7 @@ const AnimalCard = ({ pet, status = "Available", isLoading = false }) => {
         <div className="flex items-center justify-between gap-4"></div>
 
         <div className="flex items-center gap-2 text-m text-gray-600 ">
-          <div className="flex items-center gap-2 text-lg">
+          <div className="flex items-center gap-2 text-l">
             <span className="text-gray-600">{pet.age} years </span>
 
             {pet.distance !== undefined && (
