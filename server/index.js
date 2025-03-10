@@ -1,10 +1,15 @@
-require ("dotenv").config();
-const express = require("express");
-require("./config/db");
+const sequelize = require('./config/database');
 
-const app = express();
-app.use(express.json());
+const syncDatabase = async () => {
+    try {
+        await sequelize.sync({});
+        console.log('Database connected');
+    } catch (error) {
+        console.log('Error', error);
+    }
+}
 
-app.listen(17999, () =>{
-  console.log(`App is running`);
-})
+module.exports = {
+    sequelize,
+    syncDatabase,
+}
