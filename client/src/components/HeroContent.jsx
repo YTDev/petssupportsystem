@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 function HeroContent() {
   const navigate = useNavigate();
+  
+  
   return (
     <div className=" text-[#f9e5bd]">
       <h1 className="text-4xl md:text-7xl font-bold max-w-xl md:max-w-2xl">

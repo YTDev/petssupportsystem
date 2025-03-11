@@ -22,7 +22,7 @@ const AvatarDropdown = () => {
     <div className="relative">
       <button
         className="p-1 flex items-center space-x-2 focus:outline-none cursor-pointer rounded-3xl outline-none transition duration-300 ease-in-out  
-        border-2 border-gray-200 hover:bg-blue-50"
+        border-2 border-gray-200 bg-white hover:bg-blue-50"
         onClick={toggleDropdown}
       >
         <div className="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500  text-black text-sm font-semibold hover:scale-105 ">

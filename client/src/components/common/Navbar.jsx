@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import AvatarDropdown from "./AvatarDropdown";
+
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -47,7 +49,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Buttons */}
-          <div className="flex items-center gap-2 font-medium">
+          {/* <div className="flex items-center gap-2 font-medium">
             {user ? (
               <>
                 <button
@@ -83,6 +85,27 @@ const Navbar = () => {
             >
               <Hamburger size={25} toggled={isMenuOpen} toggle={toggleMenu} />
             </div>
+          </div> */}
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <AvatarDropdown />
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  state={{ from: location.pathname }}
+                  className="px-4 py-2 border border-white rounded-md hover:border-amber-500 hover:text-amber-500 transition duration-300"
+                >
+                  Log in
+                </Link>
+                <Link
+                  to="/sign_up"
+                  className="tracking-wider lg:block px-4 py-2 bg-amber-500 border border-amber-500 rounded-md text-blue-950 hover:text-[#e89b3d] hover:bg-transparent transition duration-300"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
