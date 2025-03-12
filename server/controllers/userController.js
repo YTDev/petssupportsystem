@@ -1,24 +1,13 @@
 const { User, Animal, Favorites } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { where } = require('sequelize');
 
-// Get all users (admin only)
-exports.getAllUsers = async (req, res) => {
+// Get user by Email
+exports.getUserByEmail = async (req, res) => {
     try {
-        const users = await User.findAll({
-            attributes: { exclude: ['password'] }
-        });
-        return res.status(200).json(users);
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
-
-// Get user by ID
-exports.getUserById = async (req, res) => {
-    try {
-        const user = await User.findByPk(req.params.id, {
+        const user = await User.findOne({
+            where: {email},
             attributes: { exclude: ['password'] }
         });
         if (!user) {

@@ -9,7 +9,7 @@ const Favorites = require('./Favorites');
 const syncDatabase = async() => {
     try {
         await sequelize.sync({});
-        console.log("Database synchronized with sucess.");
+        console.log("Database synchronized with success.");
     } catch (err) {
         console.log("Error synchronizing database", err.message);
     }

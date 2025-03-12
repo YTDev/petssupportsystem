@@ -1,4 +1,4 @@
-const { Animal, Species, Breed, Shelter } = require('../models');
+const { Animal, Species, Breed, Shelter } = require('../models/indexModels');
 
 //All animals
 exports.getAllAnimals = async (req, res) => {
