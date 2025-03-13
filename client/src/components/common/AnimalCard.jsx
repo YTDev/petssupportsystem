@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { PiPawPrint } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import AnimalCardSkeleton from "./AnimalCardSkeleton";
 
@@ -8,7 +8,7 @@ const AnimalCard = ({ pet, isLoading = false }) => {
     return <AnimalCardSkeleton />;
   }
 
-  const [isBookmark, setIsBookmark] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const getStatusColor = (status) => {
     if (!status) return { bg: "bg-gray-100", text: "text-gray-800" };
@@ -52,14 +52,14 @@ const AnimalCard = ({ pet, isLoading = false }) => {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setIsBookmark(!isBookmark);
+              setIsFavorite(!isFavorite);
             }}
             className="p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none"
-            aria-label={isBookmark ? "Remove bookmark" : "Add bookmark"}
+            aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
           >
-            <BookmarkIcon
-              className={`size-5 transition-colors ${
-                isBookmark ? "fill-yellow-400 text-blue-500" : "text-gray-800"
+            <PiPawPrint
+              className={`size-6 transition-colors ${
+                isFavorite ? "fill-yellow-400 text-blue-500" : "text-gray-800"
               }`}
             />
           </button>
