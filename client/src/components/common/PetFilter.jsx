@@ -100,7 +100,7 @@ const PetFilter = ({ onFilterChange }) => {
     setActiveAttributes(newAttributes);
   }
   
-
+  useEffect(() => handleResetFilters(), [])
 
   const handleResetFilters = () => {
     setActiveType("Dog");

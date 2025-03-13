@@ -14,12 +14,12 @@ const PetListings = () => {
   
   const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
 
-  // Calculate distance using the Haversine formula
+  // Calculate distance using the logic of Haversine formula
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     if (!lat1 || !lon1 || !lat2 || !lon2) return null;
     
     const toRadians = (degrees) => (degrees * Math.PI) / 180;
-    const R = 6371; // Earth's radius in km
+    const EARTH_RADIUS = 6371; // Earth's radius in km
     const dLat = toRadians(lat2 - lat1);
     const dLon = toRadians(lon2 - lon1);
 
@@ -31,7 +31,7 @@ const PetListings = () => {
       Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in km
+    return EARTH_RADIUS * c; // Distance in km
   };
 
   // Calculate age from birthDate

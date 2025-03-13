@@ -19,7 +19,8 @@ const Navbar = () => {
             {/* Logo */}
             <div className="font-display flex-shrink-0 flex items-center">
               <Link to="/" className="text-xl font-bold">
-                Logo
+                {/* change img */}
+                <img src="../../public/vite.svg" alt="" />
               </Link>
             </div>
           </div>

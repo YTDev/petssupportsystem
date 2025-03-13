@@ -22,7 +22,7 @@ const PetDetails = () => {
         const response = await axios.get(`${API_BASE_URL}/animals/${id}`);
         
         // Format the pet data for display
-        const animalData = response.data;
+        const animalData = response.data;        
         const formattedPet = {
           id: animalData.animalID,
           name: animalData.animalName,
@@ -37,8 +37,8 @@ const PetDetails = () => {
           imageUrl: animalData.imageUrl || "https://placehold.co/300x300?text=No+Image",
           shelter: animalData.Shelter?.shelterName || "Unknown Shelter",
           shelterAddress: animalData.Shelter?.address || "",
-          longitude: animalData.longitude,
-          latitude: animalData.latitude
+          longitude: animalData.Shelter.longitude,
+          latitude: animalData.Shelter.latitude
         };
         
         setPet(formattedPet);

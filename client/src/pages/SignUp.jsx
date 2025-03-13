@@ -7,7 +7,7 @@ function SignUp() {
   const { user } = useAuth();
 
   if (user) {
-    return <Navigate to="/pets" replace />;
+    return <Navigate to="/animals" replace />;
   }
 
   return (
