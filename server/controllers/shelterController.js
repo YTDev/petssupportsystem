@@ -1,6 +1,7 @@
-const { Shelter, Animal } = require('../models');
+const { Shelter } = require('../models/indexModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { Op } = require('sequelize');
 
 // Get all shelters
 exports.getAllShelters = async (req, res) => {
@@ -38,7 +39,7 @@ exports.registerShelter = async (req, res) => {
         // Check if shelter already exists with email or nif
         const existingShelter = await Shelter.findOne({
             where: {
-                [sequelize.Op.or]: [{ email }, { nif }, { phoneNumber }]
+                [Op.or]: [{ email }, { nif }, { phoneNumber }]
             }
         });
 

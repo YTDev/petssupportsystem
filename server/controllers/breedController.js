@@ -1,6 +1,6 @@
-const {Breed} = require('../models')
+const { Breed, Species } = require('../models/indexModels');
 
-//All breeds
+// All breeds
 exports.getAllBreeds = async (req, res) => {
     try {
         const breeds = await Breed.findAll({
@@ -15,13 +15,13 @@ exports.getAllBreeds = async (req, res) => {
     }
 };
 
-//Breed by ID
+// Breed by ID
 exports.getBreedById = async (req, res) => {
     try {
         const breed = await Breed.findByPk(req.params.id, {
             include: [
                 { model: Species },
-                ]
+            ]
         });
         if (!breed) {
             return res.status(404).json({ message: 'Breed not found' });
@@ -37,7 +37,10 @@ exports.getBreedById = async (req, res) => {
 exports.getBreedBySpecies = async (req, res) => {
     try {
         const breeds = await Breed.findAll({
-            where: { speciesID: req.params.speciesID },            
+            where: { speciesID: req.params.speciesID },
+            include: [
+                { model: Species }
+            ]
         });
         return res.status(200).json(breeds);
     } catch (error) {

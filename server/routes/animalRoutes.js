@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router;
+const router = express.Router();
 const animalController = require('../controllers/animalController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 //Public routes
 router.get('/', animalController.getAllAnimals);
+router.get('/filter', animalController.filterAnimals);
 router.get('/:id', animalController.getAnimalById);
 router.get('/shelter/:shelterID', animalController.getAnimalsByShelter);
 router.get('/species/:speciesID', animalController.getAnimalsBySpecies);

@@ -21,20 +21,22 @@ const testConnection = async () => {
         console.log('Connection to the database has been established successfully.');
 
         // Sync database (only in development)
-        // await syncDatabase();
+        await syncDatabase();
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }
 };
 
-// // Routes
-// app.use('/api', routes);
+testConnection();
 
-// // Error handling middleware
-// app.use((err, req, res, next) => {
-//     console.error(err.stack);
-//     res.status(500).send('Something went wrong!');
-// });
+// Routes
+app.use('/api', routes);
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
 // Start server
 app.listen(PORT, () => {

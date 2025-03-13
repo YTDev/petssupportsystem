@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { User, Shelter } = require('../models');
+const { User, Shelter } = require('../models/indexModels');
 
 // Authenticate middleware
 exports.authenticate = async (req, res, next) => {
@@ -17,19 +17,19 @@ exports.authenticate = async (req, res, next) => {
 
         // Check if token is for a user or shelter
         if (decoded.isShelter) {
-            const verifyShelter = await Shelter.findByPk(decoded.id);
-            if (!verifyShelter) {
+            const shelter = await Shelter.findByPk(decoded.id);
+            if (!shelter) {
                 return res.status(401).json({ message: 'Invalid token' });
             }
-            req.shelter = verifyShelter;
+            req.shelter = shelter;
             req.isShelter = true;
         } else {
-            const verifyUser = await User.findByPk(decoded.id);
-            if (!verifyUser) {
+            const user = await User.findByPk(decoded.id);
+            if (!user) {
                 return res.status(401).json({ message: 'Invalid token' });
             }
-            req.user = verifyUser;
-            req.isAdmin = verifyUser.isAdmin;
+            req.user = user;
+            req.isAdmin = user.isAdmin;
         }
 
         next();
@@ -39,10 +39,10 @@ exports.authenticate = async (req, res, next) => {
     }
 };
 
-// // Is admin middleware
-// exports.isAdmin = (req, res, next) => {
-//     if (!req.isAdmin) {
-//         return res.status(403).json({ message: 'Access denied. Admin required.' });
-//     }
-//     next();
-// };
+// Verify if request is from a shelter
+exports.verifyShelter = (req, res, next) => {
+    if (!req.isShelter) {
+        return res.status(403).json({ message: 'Access denied. Shelter account required.' });
+    }
+    next();
+};

@@ -1,4 +1,5 @@
 const { Animal, Species, Breed, Shelter } = require('../models/indexModels');
+const { Op } = require('sequelize');
 
 //All animals
 exports.getAllAnimals = async (req, res) => {
@@ -108,6 +109,85 @@ exports.getAnimalsBySpecies = async (req, res) => {
         return res.status(200).json(animals);
     } catch (error) {
         console.error('Error fetching animals by species:', error);
+        return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// Filter animals
+exports.filterAnimals = async (req, res) => {
+    try {
+        const { 
+            speciesID, 
+            breedID, 
+            gender, 
+            size, 
+            ageMin, 
+            ageMax, 
+            isVaccinated,
+            shelterID,
+            status
+        } = req.query;
+
+        // Build the where clause dynamically
+        const whereClause = {};
+        
+        // Add filters to the where clause if they exist
+        if (speciesID) whereClause.speciesID = speciesID;
+        if (breedID) whereClause.breedID = breedID;
+        if (gender) whereClause.gender = gender;
+        if (size) whereClause.size = size;
+        if (isVaccinated !== undefined && isVaccinated !== '') 
+            whereClause.isVaccinated = isVaccinated === 'true';
+        if (shelterID) whereClause.shelterID = shelterID;
+        if (status) whereClause.status = status;
+        
+        // Handle age range (convert to date)
+        if (ageMin || ageMax) {
+            const currentDate = new Date();
+            
+            if (ageMin && ageMax) {
+                // Both min and max age specified
+                const minDate = new Date(currentDate);
+                minDate.setFullYear(currentDate.getFullYear() - ageMax);
+                
+                const maxDate = new Date(currentDate);
+                maxDate.setFullYear(currentDate.getFullYear() - ageMin);
+                
+                whereClause.birthDate = {
+                    [Op.between]: [minDate, maxDate]
+                };
+            } else if (ageMin) {
+                // Only minimum age specified
+                const date = new Date(currentDate);
+                date.setFullYear(currentDate.getFullYear() - ageMin);
+                
+                whereClause.birthDate = {
+                    [Op.lte]: date
+                };
+            } else if (ageMax) {
+                // Only maximum age specified
+                const date = new Date(currentDate);
+                date.setFullYear(currentDate.getFullYear() - ageMax);
+                
+                whereClause.birthDate = {
+                    [Op.gte]: date
+                };
+            }
+        }
+
+        // Execute the query
+        const animals = await Animal.findAll({
+            where: whereClause,
+            include: [
+                { model: Species },
+                { model: Breed },
+                { model: Shelter, attributes: { exclude: ['password'] } }
+            ]
+        });
+
+        return res.status(200).json(animals);
+    } catch (error) {
+        console.error('Error filtering animals:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

@@ -1,11 +1,12 @@
-const { User, Animal, Favorites } = require('../models');
+const { User, Animal, Favorites } = require('../models/indexModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { where } = require('sequelize');
+const { Op } = require('sequelize');
 
 // Get user by Email
 exports.getUserByEmail = async (req, res) => {
     try {
+        const { email } = req.params;
         const user = await User.findOne({
             where: {email},
             attributes: { exclude: ['password'] }
