@@ -6,6 +6,21 @@ import { FaPinterestP } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
+      <div className="relative">
+        <div className="absolute pointer-events-none w-full h-auto bottom-0 overflow-hidden">
+          <svg
+            className="scale-[5]"
+            viewBox="0 0 2880 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 48h2880V0h-720C1442.5 52 720 0 720 0H0v48z"
+              class="fill-blue-200"
+            ></path>
+          </svg>
+        </div>
+      </div>
       <footer className="bg-blue-200 text-black py-16">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
