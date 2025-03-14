@@ -65,9 +65,9 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="md:col-span-1 lg:col-span-1 flex flex-col space-y-4">
+            <div className="md:col-span-1 lg:col-span-1 flex flex-col items-start  space-y-4">
               <h2 className="text-lg font-semibold">Quick Links</h2>
-              <Link to="/" className="hover:underline">
+              <Link to="/" className="hover:underline ">
                 Home
               </Link>
               <Link to="/pets" className="hover:underline">
@@ -87,19 +87,16 @@ const Footer = () => {
                 delivered straight to your inbox.
               </p>
               <form className="flex max-w-md overflow-hidden rounded-lg shadow-lg">
-                <label htmlFor="newsletter-email" className="sr-only">
-                  Email Address
-                </label>
                 <input
                   id="newsletter-email"
                   type="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-3 text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-3 text-black bg-white placeholder-gray-500 focus:outline-none "
                   required
                 />
                 <button
                   type="submit"
-                  className="cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold transition-colors duration-300 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold transition-colors duration-300 hover:bg-blue-700 focus:outline-none "
                 >
                   Subscribe
                 </button>
