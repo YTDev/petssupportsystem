@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/common/Navbar";
 import HeroSection from "../components/HeroSection";
 import Footer from "../components/common/Footer";
+// import Steps from "../components/steps";
 
 function Home() {
   return (
@@ -10,6 +11,7 @@ function Home() {
         <Navbar />
         <HeroSection />
       </div>
+      {/* <Steps /> */}
       <Footer />
     </>
   );
