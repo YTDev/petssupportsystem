@@ -9,14 +9,14 @@ const Footer = () => {
       <div className="relative">
         <div className="absolute pointer-events-none w-full h-auto bottom-0 overflow-hidden">
           <svg
-            className="scale-[5]"
+            className="scale-[6]"
             viewBox="0 0 2880 48"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M0 48h2880V0h-720C1442.5 52 720 0 720 0H0v48z"
-              class="fill-blue-200"
+              className="fill-blue-200"
             ></path>
           </svg>
         </div>
@@ -96,7 +96,7 @@ const Footer = () => {
                 />
                 <button
                   type="submit"
-                  className="cursor-pointer px-6 py-3 bg-blue-600 text-white font-semibold transition-colors duration-300 hover:bg-blue-700 focus:outline-none "
+                  className="cursor-pointer px-4 py-1.5 sm:px-6 sm:py-3 bg-blue-600 text-white font-semibold transition-colors duration-300 hover:bg-blue-700 focus:outline-none "
                 >
                   Subscribe
                 </button>
