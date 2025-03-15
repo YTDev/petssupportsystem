@@ -2,7 +2,8 @@ import React from "react";
 import Navbar from "../components/common/Navbar";
 import HeroSection from "../components/HeroSection";
 import Footer from "../components/common/Footer";
-// import Steps from "../components/steps";
+import Steps from "../components/steps";
+import AdoptionJourney from "../components/AdoptionJourney";
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
         <HeroSection />
       </div>
       {/* <Steps /> */}
+      <AdoptionJourney />
       <Footer />
     </>
   );
