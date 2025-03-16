@@ -1,4 +1,3 @@
-// src/context/FavoritesContext.jsx
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
@@ -8,12 +7,22 @@ export const FavoritesContext = createContext();
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, getUserId } = useContext(AuthContext);
   
   // Fetch user's favorites when authenticated
   useEffect(() => {
     const fetchFavorites = async () => {
-      if (!isAuthenticated || !user) {
+      if (!isAuthenticated) {
+        setFavorites([]);
+        setLoading(false);
+        return;
+      }
+      
+      // Get user ID from auth context
+      const userId = getUserId();
+      
+      if (!userId) {
+        console.warn("No user ID available to fetch favorites");
         setFavorites([]);
         setLoading(false);
         return;
@@ -21,21 +30,51 @@ export const FavoritesProvider = ({ children }) => {
       
       try {
         setLoading(true);
-        const response = await axios.get(`/api/users/${user.id}/favorites`);
-        setFavorites(response.data);
+        
+        // Try different endpoint variations to find the right one
+        try {
+          console.log(`Attempting to fetch favorites from /users/${userId}/favorites`);
+          const response = await axios.get(`/users/${userId}/favorites`);
+          console.log("Favorites response:", response.data);
+          setFavorites(response.data);
+        } catch (error) {
+          if (error.response?.status === 404) {
+            // Try alternative endpoint if first one fails
+            console.log("First endpoint not found, trying alternative");
+            try {
+              const response = await axios.get(`/favorites/${userId}`);
+              console.log("Favorites from alternative endpoint:", response.data);
+              setFavorites(response.data);
+            } catch (altError) {
+              console.error("Error fetching favorites from alternative endpoint:", altError);
+              setFavorites([]);
+            }
+          } else {
+            throw error;
+          }
+        }
       } catch (error) {
         console.error('Error fetching favorites:', error);
+        setFavorites([]);
       } finally {
         setLoading(false);
       }
     };
     
     fetchFavorites();
-  }, [user, isAuthenticated]);
+  }, [user, isAuthenticated, getUserId]);
   
   // Check if an animal is in favorites
   const isFavorite = (animalId) => {
-    return favorites.some(fav => fav.animalID === animalId);
+    if (!favorites || favorites.length === 0) return false;
+    
+    // Handle different possible response structures
+    if (Array.isArray(favorites)) {
+      return favorites.some(fav => 
+        fav.animalID === animalId || fav.id === animalId || fav.animalId === animalId
+      );
+    }
+    return false;
   };
   
   // Add an animal to favorites
@@ -44,15 +83,37 @@ export const FavoritesProvider = ({ children }) => {
       return { success: false, message: 'Please log in to add favorites' };
     }
     
+    const userId = getUserId();
+    if (!userId) {
+      return { success: false, message: 'User ID not available' };
+    }
+    
     try {
-      await axios.post('/api/users/favorites', {
-        userID: user.id,
-        animalID: animalId
-      });
+      console.log(`Attempting to add animal ${animalId} to favorites for user ${userId}`);
       
-      // Update local state
+      // Try different endpoint patterns
+      try {
+        await axios.post('/users/favorites', {
+          userID: userId,
+          animalID: animalId
+        });
+      } catch (error) {
+        if (error.response?.status === 404) {
+          console.log("First endpoint not found, trying alternative");
+          // Try alternative endpoint
+          await axios.post('/favorites', {
+            userId: userId,
+            animalId: animalId
+          });
+        } else {
+          throw error;
+        }
+      }
+      
+      // Update local state - optimistic update
       const newFavorite = { animalID: animalId };
       setFavorites(prev => [...prev, newFavorite]);
+      
       return { success: true };
     } catch (error) {
       console.error('Error adding to favorites:', error);
@@ -69,11 +130,32 @@ export const FavoritesProvider = ({ children }) => {
       return { success: false, message: 'Please log in to manage favorites' };
     }
     
+    const userId = getUserId();
+    if (!userId) {
+      return { success: false, message: 'User ID not available' };
+    }
+    
     try {
-      await axios.delete(`/api/users/favorites/${user.id}/${animalId}`);
+      console.log(`Attempting to remove animal ${animalId} from favorites for user ${userId}`);
+      
+      // Try different endpoint patterns
+      try {
+        await axios.delete(`/users/favorites/${userId}/${animalId}`);
+      } catch (error) {
+        if (error.response?.status === 404) {
+          console.log("First endpoint not found, trying alternative");
+          // Try alternative endpoint
+          await axios.delete(`/favorites/${userId}/${animalId}`);
+        } else {
+          throw error;
+        }
+      }
       
       // Update local state
-      setFavorites(prev => prev.filter(fav => fav.animalID !== animalId));
+      setFavorites(prev => prev.filter(fav => 
+        fav.animalID !== animalId && fav.id !== animalId && fav.animalId !== animalId
+      ));
+      
       return { success: true };
     } catch (error) {
       console.error('Error removing from favorites:', error);

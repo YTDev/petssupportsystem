@@ -1,33 +1,54 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { PiPawPrint, PiPawPrintFill } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import AnimalCardSkeleton from "./AnimalCardSkeleton";
 import { useFavorites } from "../../context/FavoritesContext";
+import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 const AnimalCard = ({ pet, isLoading = false }) => {
-  const {user, isAuthenticated} = useContext(AuthContext);
-  const {isFavorite, toggleFavorite} = useFavorites();
+  const { isAuthenticated } = useContext(AuthContext);
+  const { isFavorite, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
+  const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
 
   if (isLoading) {
     return <AnimalCardSkeleton />;
   }
 
+  // Determine if this pet is in favorites
+  const favoriteStatus = isFavorite(pet.id);
+
   const handleFavoriteToggle = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-
+    
+    if (isTogglingFavorite) return; // Prevent multiple clicks
+    
     if (!isAuthenticated) {
-      if(confirm("Please log in to save favorites. Go to login page?")) {
+      // Ask user to log in
+      if (window.confirm("Please log in to save favorites. Go to login page?")) {
         navigate("/login");
       }
       return;
     }
-
-    const result = await toggleFavorite(pet.id);
-    if (!result.success && result.message) {
-      alert(result.message);
+    
+    try {
+      setIsTogglingFavorite(true);
+      console.log(`Toggling favorite status for pet ${pet.id}, current status: ${favoriteStatus}`);
+      
+      const result = await toggleFavorite(pet.id);
+      
+      if (!result.success) {
+        console.error("Failed to toggle favorite:", result.message);
+        if (result.message) {
+          alert(result.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+    } finally {
+      setIsTogglingFavorite(false);
     }
   };
 
@@ -71,14 +92,17 @@ const AnimalCard = ({ pet, isLoading = false }) => {
         <div className="flex absolute cursor-pointer right-3 items-center gap-2">
           <button
             onClick={handleFavoriteToggle}
-            className="p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none"
-            aria-label={isFavorite(pet.id) ? "Remove from favorites" : "Add to favorite"}
+            disabled={isTogglingFavorite}
+            className={`p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none ${
+              isTogglingFavorite ? 'opacity-50' : ''
+            }`}
+            aria-label={favoriteStatus ? "Remove from favorites" : "Add to favorites"}
           >
-            {isFavorite(pet.id) ? (
-              <PiPawPrintFill className="size-6 text-red-600" />
+            {favoriteStatus ? (
+              <PiPawPrintFill className="size-5 text-red-400" />
             ) : (
-              <PiPawPrint className="size-6 text-gray-800" />
-            )}            
+              <PiPawPrint className="size-5 text-gray-800" />
+            )}
           </button>
         </div>
       </div>
@@ -86,7 +110,7 @@ const AnimalCard = ({ pet, isLoading = false }) => {
       {/* Information box overlay at the bottom */}
       <div className="absolute inset-x-4 bottom-3 h-15 flex-1 overflow-hidden rounded-2xl bg-white/80 py-1 pl-6">
         <h3 className="text-lg font-semibold text-gray-900">
-          {pet.name} ({pet.gender ? pet.gender.charAt(0) : '?'})
+          {pet.name} {pet.gender ? `(${pet.gender.charAt(0)})` : ''}
         </h3>
         <div className="flex items-center justify-between gap-4"></div>
 

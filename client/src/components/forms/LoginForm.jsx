@@ -1,12 +1,11 @@
 // LoginForm.jsx
 import React from "react";
 import { Formik, Form } from "formik";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
-import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
-// import { useNavigate } from "react-router-dom";
+
 const initialValues = {
   email: "",
   password: "",
@@ -21,25 +20,28 @@ const validationSchema = Yup.object({
 
 const LoginForm = () => {
   const { login } = useAuth();
-  // constate = useNavigate();
+  const navigate = useNavigate();
+  
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, setStatus }) => {
+      onSubmit={async (values, { setSubmitting, setStatus }) => {
         setStatus({ error: null });
-        // call the login function from our AuthContext
-        login(values.email, values.password)
-          .then(() => {
-            console.log("Logged in successfully: ", values);
-            // navigate("/dashboard");
-          })
-          .catch((error) => {
-            setStatus({ error: error.message });
-          })
-          .finally(() => {
-            setSubmitting(false);
+        
+        try {
+          // Call the login function from AuthContext that now uses real API
+          await login(values.email, values.password);
+          console.log("Logged in successfully");
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("Login error:", error);
+          setStatus({ 
+            error: error.message || "Login failed. Please check your credentials."
           });
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
       {({ isSubmitting, status, setStatus }) => (
@@ -54,7 +56,7 @@ const LoginForm = () => {
             label="Email Address"
             name="email"
             type="email"
-            placeholder="Enter your username"
+            placeholder="Enter your email"
           />
           <FormInput
             minimal={true}
@@ -74,12 +76,12 @@ const LoginForm = () => {
             type="submit"
             onClick={() => setStatus({ submitted: true })}
             disabled={isSubmitting}
-            className=" mx-auto block py-4 px-12 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
+            className="mx-auto block py-4 px-12 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
           >
             {isSubmitting ? "Logging in..." : "Log In"}
           </button>
           <div className="mt-4 text-center text-sm">
-            Don’t have an account?{" "}
+            Don't have an account?{" "}
             <Link to="/sign_up" className="text-blue-600 underline">
               Sign up
             </Link>

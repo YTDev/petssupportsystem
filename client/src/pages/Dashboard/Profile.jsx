@@ -1,5 +1,5 @@
 // src/pages/Dashboard/Profile.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import FormInput from "../../components/forms/FormInput";
@@ -7,31 +7,79 @@ import { useAuth } from "../../hooks/useAuth";
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
+  const [userType, setUserType] = useState("adopter"); // Default to adopter
 
+  // Determine user type when component mounts
+  useEffect(() => {
+    if (user) {
+      // Check if user is a shelter by looking for shelter-specific fields
+      setUserType(user.shelterName ? "shelter" : "adopter");
+    }
+  }, [user]);
+
+  // Define validation schema based on user type
   const validationSchema = Yup.object({
-    fullName: Yup.string()
-      .min(2, "Your name must be between 2 and 120 characters long")
-      .max(120, "Your name must be between 2 and 120 characters long")
-      .required("Name is required"),
+    // Common fields
     email: Yup.string()
       .email("Please enter a valid email address.")
       .required("Email is required"),
-    phone: Yup.string(),
-    streetAddress: Yup.string(),
-    city: Yup.string(),
-    state: Yup.string(),
-    zipCode: Yup.string(),
+    phoneNumber: Yup.string(),
+
+    // User-specific fields
+    name: userType === "adopter" ? Yup.string()
+      .min(2, "Your name must be between 2 and 120 characters long")
+      .max(120, "Your name must be between 2 and 120 characters long")
+      .required("Name is required") : Yup.string(),
+    
+    // Shelter-specific fields
+    shelterName: userType === "shelter" ? Yup.string()
+      .min(2, "Shelter name must be between 2 and 120 characters long")
+      .max(120, "Shelter name must be between 2 and 120 characters long")
+      .required("Shelter name is required") : Yup.string(),
+    
+    // Common address field
+    address: Yup.string(),
   });
 
-  const initialValues = {
-    fullName: user?.fullName || "",
-    email: user?.email || "",
-    phone: user?.phone || "",
-    streetAddress: user?.streetAddress || "",
-    city: user?.city || "",
-    state: user?.state || "",
-    zipCode: user?.zipCode || "",
+  // Initialize form values based on user type and existing data
+  const getInitialValues = () => {
+    if (!user) return {};
+
+    if (userType === "adopter") {
+      return {
+        name: user.name || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        address: user.address || ""
+      };
+    } else {
+      return {
+        shelterName: user.shelterName || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        address: user.address || ""
+      };
+    }
   };
+
+  const initialValues = getInitialValues();
+
+  // Prepare data for the API based on user type
+  const prepareFormData = (values) => {
+    // Remove any empty fields
+    const formData = {};
+    Object.keys(values).forEach(key => {
+      if (values[key]) {
+        formData[key] = values[key];
+      }
+    });
+    
+    return formData;
+  };
+
+  if (!user) {
+    return <div className="p-4">Loading profile...</div>;
+  }
 
   return (
     <div className="p-4 relative z-0">
@@ -40,19 +88,24 @@ const Profile = () => {
         initialValues={initialValues}
         enableReinitialize={true}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, setStatus }) => {
+        onSubmit={async (values, { setSubmitting, setStatus }) => {
           setStatus({ error: null, success: null });
-          updateProfile(values)
-            .then(() => {
-              console.log(values);
-              setStatus({ success: "Profile updated successfully!" });
-            })
-            .catch((error) => {
-              setStatus({ error: error.message });
-            })
-            .finally(() => {
-              setSubmitting(false);
+          
+          try {
+            // Prepare data for the API
+            const formData = prepareFormData(values);
+            
+            // Call the updateProfile function
+            await updateProfile(formData);
+            setStatus({ success: "Profile updated successfully!" });
+          } catch (error) {
+            console.error("Profile update error:", error);
+            setStatus({ 
+              error: error.message || "Failed to update profile. Please try again."
             });
+          } finally {
+            setSubmitting(false);
+          }
         }}
       >
         {({ isSubmitting, status, setStatus }) => (
@@ -67,48 +120,53 @@ const Profile = () => {
                 {status.success}
               </div>
             )}
-            <FormInput
-              label="Full Name"
-              name="fullName"
-              type="text"
-              placeholder="Enter your full name"
-            />
+
+            {/* User type indicator */}
+            <div className="mb-4 pb-2 border-b border-gray-200">
+              <p className="text-gray-600">
+                Account type: <span className="font-semibold capitalize">{userType}</span>
+              </p>
+            </div>
+            
+            {/* Render different fields based on user type */}
+            {userType === "adopter" ? (
+              <FormInput
+                label="Full Name"
+                name="name"
+                type="text"
+                placeholder="Enter your full name"
+              />
+            ) : (
+              <FormInput
+                label="Shelter Name"
+                name="shelterName"
+                type="text"
+                placeholder="Enter shelter name"
+              />
+            )}
+            
+            {/* Common fields */}
             <FormInput
               label="Email Address"
               name="email"
               type="email"
               placeholder="Enter your email"
             />
+            
             <FormInput
-              label="Phone Number (Optional)"
-              name="phone"
+              label="Phone Number"
+              name="phoneNumber"
               type="text"
               placeholder="Enter your phone number"
             />
+            
             <FormInput
-              label="Street Address (Optional)"
-              name="streetAddress"
+              label="Address"
+              name="address"
               type="text"
-              placeholder="Enter your street address"
+              placeholder="Enter your address"
             />
-            <FormInput
-              label="City (Optional)"
-              name="city"
-              type="text"
-              placeholder="Enter your city"
-            />
-            <FormInput
-              label="State (Optional)"
-              name="state"
-              type="text"
-              placeholder="Enter your state"
-            />
-            <FormInput
-              label="Zip Code (Optional)"
-              name="zipCode"
-              type="text"
-              placeholder="Enter your zip code"
-            />
+            
             <button
               type="submit"
               disabled={isSubmitting}

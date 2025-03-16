@@ -1,19 +1,29 @@
 // src/pages/Dashboard/Favorites.jsx
 import React, { useEffect, useState } from 'react';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useAuth } from '../../hooks/useAuth';
 import AnimalCard from '../../components/common/AnimalCard';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Favorites = () => {
   const { favorites, loading: favoritesLoading } = useFavorites();
+  const { isAuthenticated } = useAuth();
   const [animalDetails, setAnimalDetails] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   
   useEffect(() => {
     const fetchAnimalDetails = async () => {
       if (favoritesLoading) return;
       
-      if (favorites.length === 0) {
+      if (!isAuthenticated) {
+        setError("Please log in to view your favorites");
+        setLoading(false);
+        return;
+      }
+      
+      if (!favorites || favorites.length === 0) {
         setAnimalDetails([]);
         setLoading(false);
         return;
@@ -21,57 +31,117 @@ const Favorites = () => {
       
       try {
         setLoading(true);
-        // Fetch details for each favorited animal
-        const animalIds = favorites.map(fav => fav.animalID);
+        console.log("Fetching details for favorited animals:", favorites);
         
-        // Option 1: Fetch each animal individually
+        // Get animal IDs from favorites (handle different possible formats)
+        const animalIds = favorites.map(fav => 
+          fav.animalID || fav.animalId || fav.id
+        ).filter(id => id); // Filter out any undefined/null values
+        
+        console.log("Animal IDs to fetch:", animalIds);
+        
+        if (animalIds.length === 0) {
+          setAnimalDetails([]);
+          setLoading(false);
+          return;
+        }
+        
+        // Fetch each animal individually
         const animalPromises = animalIds.map(id => 
-          axios.get(`/api/animals/${id}`)
+          axios.get(`/animals/${id}`).catch(err => {
+            console.warn(`Error fetching animal ${id}:`, err);
+            return { data: null }; // Return null data for failed requests
+          })
         );
+        
         const responses = await Promise.all(animalPromises);
-        const animals = responses.map(res => res.data);
+        const animals = responses
+          .map(res => res.data)
+          .filter(animal => animal); // Filter out null results
         
-        // Option 2: If you have a backend endpoint to fetch multiple animals by IDs
-        // const response = await axios.post('/api/animals/batch', { ids: animalIds });
-        // const animals = response.data;
-        
+        console.log("Retrieved animal details:", animals);
         setAnimalDetails(animals);
       } catch (error) {
         console.error('Error fetching favorite animals:', error);
+        setError("Failed to load your favorites. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
     
     fetchAnimalDetails();
-  }, [favorites, favoritesLoading]);
+  }, [favorites, favoritesLoading, isAuthenticated]);
   
   // Format animal for card component
   const formatAnimalForCard = (animal) => {
-    // Same formatting logic as in PetListings
     return {
       id: animal.animalID,
       name: animal.animalName,
-      // Other properties...
+      type: animal.Species?.speciesName || (animal.speciesID === 1 ? "Dog" : "Cat"),
+      breed: animal.Breed?.breedName || "Mixed",
+      description: animal.animalDescription,
+      gender: animal.gender,
+      age: calculateAge(animal.birthDate),
+      status: animal.status || "Available",
+      size: animal.size,
+      imageUrl: animal.imageUrl || "https://placehold.co/300x300?text=No+Image",
+      shelter: animal.Shelter?.shelterName || "Unknown Shelter"
     };
   };
   
+  // Calculate age from birthDate
+  const calculateAge = (birthDate) => {
+    if (!birthDate) return null;
+    
+    const birth = new Date(birthDate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+    
+    return age;
+  };
+  
+  // Loading state
   if (loading) {
-    return <div>Loading your favorites...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+        <p className="text-gray-600">Loading your favorites...</p>
+      </div>
+    );
   }
   
+  // Error state
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold mb-4 text-red-600">Error</h2>
+        <p className="text-gray-600 mb-6">{error}</p>
+        <Link to="/animals" className="px-4 py-2 bg-blue-600 text-white rounded-md">
+          Browse Animals
+        </Link>
+      </div>
+    );
+  }
+  
+  // Empty state
   if (animalDetails.length === 0) {
     return (
       <div className="text-center py-12">
         <h2 className="text-2xl font-bold mb-4">No Favorites Yet</h2>
         <p className="text-gray-600 mb-6">Start browsing animals and add some to your favorites!</p>
-        <a href="/animals" className="px-4 py-2 bg-blue-600 text-white rounded-md">
+        <Link to="/animals" className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
           Browse Animals
-        </a>
+        </Link>
       </div>
     );
   }
   
+  // Success state with animal cards
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Your Favorite Animals</h1>

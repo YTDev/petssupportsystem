@@ -1,17 +1,19 @@
 import React from "react";
 import { Formik, Form } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
+
 const validationSchema = Yup.object({
   fullName: Yup.string()
     .min(2, "Your name must be between 2 and 120 characters long")
     .max(120, "Your name must be between 2 and 120 characters long")
     .required("Name is required"),
   email: Yup.string()
-    .email("Please enter a valid email address. Example: john@xyzwidgets.com")
+    .email("Please enter a valid email address. Example: john@example.com")
     .required("Email is required"),
   password: Yup.string()
     .min(6, "Your password must be 6 characters or longer.")
@@ -80,27 +82,58 @@ const initialValues = {
 
 const RegisterForm = () => {
   const { register } = useAuth();
+  const navigate = useNavigate();
+
+  // Prepare data for the API based on user role
+  const prepareFormData = (values) => {
+    if (values.role === "adopter") {
+      // Map form values to user registration API format
+      return {
+        name: values.fullName,
+        email: values.email,
+        password: values.password,
+        address: values.streetAddress,
+        phoneNumber: values.phone,
+        isAdmin: false,
+      };
+    } else {
+      // Map form values to shelter registration API format
+      return {
+        shelterName: values.shelterName,
+        email: values.email,
+        password: values.password,
+        phoneNumber: values.phone,
+        address: values.shelterStreetAddress,
+        nif: values.shelterZipCode, // Using zipCode as nif for this example
+      };
+    }
+  };
+  
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       validateOnBlur={true}
       validateOnChange={false}
-      onSubmit={(values, { setSubmitting, setStatus }) => {
+      onSubmit={async (values, { setSubmitting, setStatus }) => {
         setStatus({ error: null });
-        // Simulate an API call
-        register(values)
-          .then(() => {
-            console.log("Registration successful:", values);
-
-            navigate("/dashboard");
-          })
-          .catch((error) => {
-            setStatus({ error: error.message });
-          })
-          .finally(() => {
-            setSubmitting(false);
+        
+        try {
+          // Prepare the data for API based on role
+          const formData = prepareFormData(values);
+          
+          // Call the appropriate registration endpoint
+          await register(formData, values.role);
+          console.log("Registration successful");
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("Registration error:", error);
+          setStatus({ 
+            error: error.message || "Registration failed. Please try again."
           });
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
       {({ isSubmitting, values, status, setStatus }) => (
@@ -111,7 +144,7 @@ const RegisterForm = () => {
           <FormSelect label="Role" name="role">
             <option value="">Select your role</option>
             <option value="adopter">Adopter</option>
-            <option value="shelter">Shelter</option>
+            {/* <option value="shelter">Shelter</option> */}
           </FormSelect>
 
           <FormInput
@@ -142,29 +175,11 @@ const RegisterForm = () => {
           {values.role === "adopter" && (
             <>
               <FormInput
-                label="Street Address (Optional)"
+                label="Street Address (Required)"
                 name="streetAddress"
                 type="text"
                 placeholder="Enter your street address"
-              />
-              <FormInput
-                label="City (Optional)"
-                name="city"
-                type="text"
-                placeholder="Enter your city"
-              />
-              <FormInput
-                label="State (Optional)"
-                name="state"
-                type="text"
-                placeholder="Enter your state"
-              />
-              <FormInput
-                label="Zip Code (Optional)"
-                name="zipCode"
-                type="text"
-                placeholder="Enter your zip code"
-              />
+              />              
             </>
           )}
 
@@ -175,36 +190,12 @@ const RegisterForm = () => {
                 name="shelterName"
                 type="text"
                 placeholder="Enter your shelter's name"
-              />
-              <FormInput
-                label="Shelter Street Address"
-                name="shelterStreetAddress"
-                type="text"
-                placeholder="Enter your shelter's street address"
-              />
-              <FormInput
-                label="Shelter City"
-                name="shelterCity"
-                type="text"
-                placeholder="Enter your shelter's city"
-              />
-              <FormInput
-                label="Shelter State"
-                name="shelterState"
-                type="text"
-                placeholder="Enter your shelter's state"
-              />
-              <FormInput
-                label="Shelter Zip Code"
-                name="shelterZipCode"
-                type="text"
-                placeholder="Enter your shelter's zip code"
-              />
+              />             
             </>
           )}
 
           <FormInput
-            label="Phone Number (Optional)"
+            label="Phone Number (Required)"
             name="phone"
             type="text"
             placeholder="Enter your phone number"
