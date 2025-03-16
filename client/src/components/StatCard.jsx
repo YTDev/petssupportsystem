@@ -12,7 +12,7 @@ const StatCard = ({
 }) => {
   return (
     <div
-      className={`flex flex-col items-start p-7 bg-blue-50 rounded-lg shadow-md ${className}`}
+      className={`flex flex-col items-start p-7 bg-blue-50 border border-blue-200 rounded-3xl shadow-sm ${className}`}
     >
       <div className="flex items-center gap-2">
         <div className="mb-2 bg-blue-200 rounded-full p-3">{icon}</div>
