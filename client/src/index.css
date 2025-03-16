@@ -2,6 +2,6 @@
 @import "tailwindcss";
 @theme {
   /* -sans to change the default tailwind font */
-  --font-sans: "Roboto", serif;
+  /* --font-sans: "Roboto", serif; */
   /*or u can create a cutom font --font-display: smth*/
 }

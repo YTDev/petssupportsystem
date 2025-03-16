@@ -52,7 +52,7 @@ const Navbar = () => {
               <>
                 <button
                   onClick={logout}
-                  className="px-4 py-2 border border-[#fff] border-solid rounded-md  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
+                  className="px-4 py-2 border border-[#fff] border-solid rounded-3xl  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
                 >
                   Logout
                 </button>

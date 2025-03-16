@@ -25,15 +25,15 @@ const Steps = () => {
         <div className="hidden md:flex flex-col lg:flex-row text-center gap-4">
           <Link
             to="/pets"
-            className=" lg:block px-6 py-3 font-semibold text-sm bg-amber-500 border border-amber-500 rounded-3xl text-blue-950
+            className=" lg:block px-6 py-3 font-semibold text-sm bg-amber-500 border border-amber-500 rounded-3xl text-black
               "
           >
             Search Adoptable Pets
           </Link>
           <Link
             to="/pets"
-            className=" tracking-wider lg:block px-6 py-3 font-semibold text-sm bg-blue-950 border border-blue-950 
-            rounded-3xl text-amber-500 "
+            className=" tracking-wider lg:block px-6 py-3 font-semibold text-sm bg-amber-200 border border-amber-200 
+            rounded-3xl text-amber-700"
           >
             See Our Adoption Checklist
           </Link>
@@ -42,15 +42,15 @@ const Steps = () => {
       <div className="mt-8 flex md:hidden flex-col lg:flex-row text-center gap-4">
         <Link
           to="/pets"
-          className=" lg:block px-6 py-3 font-semibold text-sm bg-amber-500 border border-amber-500 rounded-3xl text-blue-950
+          className=" lg:block px-6 py-3 font-semibold text-sm bg-amber-500 border border-amber-500 rounded-3xl text-black
               "
         >
           Search Adoptable Pets
         </Link>
         <Link
           to="/pets"
-          className=" tracking-wider lg:block px-6 py-3 font-semibold text-sm bg-blue-950 border border-blue-950 
-            rounded-3xl text-amber-500 "
+          className=" tracking-wider lg:block px-6 py-3 font-semibold text-sm bg-amber-200 border border-amber-200 
+            rounded-3xl text-amber-700 "
         >
           See Our Adoption Checklist
         </Link>

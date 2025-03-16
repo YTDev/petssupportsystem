@@ -2,8 +2,9 @@ import React from "react";
 import Navbar from "../components/common/Navbar";
 import HeroSection from "../components/HeroSection";
 import Footer from "../components/common/Footer";
-import Steps from "../components/steps";
+
 import AdoptionJourney from "../components/AdoptionJourney";
+import FaqSection from "../components/FaqSection";
 
 function Home() {
   return (
@@ -12,8 +13,10 @@ function Home() {
         <Navbar />
         <HeroSection />
       </div>
-      {/* <Steps /> */}
-      <AdoptionJourney />
+      <div className="">
+        <AdoptionJourney />
+        <FaqSection />
+      </div>
       <Footer />
     </>
   );
