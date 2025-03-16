@@ -1,14 +1,35 @@
-import React, { useState } from "react";
-import { PiPawPrint } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { PiPawPrint, PiPawPrintFill } from "react-icons/pi";
+import { Link, useNavigate } from "react-router-dom";
 import AnimalCardSkeleton from "./AnimalCardSkeleton";
+import { useFavorites } from "../../context/FavoritesContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const AnimalCard = ({ pet, isLoading = false }) => {
+  const {user, isAuthenticated} = useContext(AuthContext);
+  const {isFavorite, toggleFavorite} = useFavorites();
+  const navigate = useNavigate();
+
   if (isLoading) {
     return <AnimalCardSkeleton />;
   }
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const handleFavoriteToggle = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isAuthenticated) {
+      if(confirm("Please log in to save favorites. Go to login page?")) {
+        navigate("/login");
+      }
+      return;
+    }
+
+    const result = await toggleFavorite(pet.id);
+    if (!result.success && result.message) {
+      alert(result.message);
+    }
+  };
 
   const getStatusColor = (status) => {
     if (!status) return { bg: "bg-gray-100", text: "text-gray-800" };
@@ -49,19 +70,15 @@ const AnimalCard = ({ pet, isLoading = false }) => {
         </span>
         <div className="flex absolute cursor-pointer right-3 items-center gap-2">
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setIsFavorite(!isFavorite);
-            }}
+            onClick={handleFavoriteToggle}
             className="p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none"
-            aria-label={isFavorite ? "Remove favorite" : "Add favorite"}
+            aria-label={isFavorite(pet.id) ? "Remove from favorites" : "Add to favorite"}
           >
-            <PiPawPrint
-              className={`size-6 transition-colors ${
-                isFavorite ? "fill-yellow-400 text-blue-500" : "text-gray-800"
-              }`}
-            />
+            {isFavorite(pet.id) ? (
+              <PiPawPrintFill className="size-6 text-red-600" />
+            ) : (
+              <PiPawPrint className="size-6 text-gray-800" />
+            )}            
           </button>
         </div>
       </div>

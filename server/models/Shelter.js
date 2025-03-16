@@ -48,6 +48,14 @@ const Shelter = sequelize.define('Shelter', {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
         field: 'isActive'
+    },
+    longitude: {
+        type: DataTypes.DECIMAL(10, 7),
+        field: 'longitude'
+    },
+    latitude: {
+        type: DataTypes.DECIMAL(10, 7),
+        field: 'latitude'
     }
 }, {
     tableName: 'shelter',

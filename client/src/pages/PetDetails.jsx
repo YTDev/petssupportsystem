@@ -37,8 +37,8 @@ const PetDetails = () => {
           imageUrl: animalData.imageUrl || "https://placehold.co/300x300?text=No+Image",
           shelter: animalData.Shelter?.shelterName || "Unknown Shelter",
           shelterAddress: animalData.Shelter?.address || "",
-          longitude: animalData.Shelter.longitude,
-          latitude: animalData.Shelter.latitude
+          longitude: animalData.Shelter?.longitude,
+          latitude: animalData.Shelter?.latitude
         };
         
         setPet(formattedPet);

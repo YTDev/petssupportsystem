@@ -79,14 +79,6 @@ const Animal = sequelize.define('Animal', {
     imageUrl: {
         type: DataTypes.STRING(512),
         field: 'imageUrl'
-    },
-    longitude: {
-        type: DataTypes.DECIMAL(10, 7),
-        field: 'longitude'
-    },
-    latitude: {
-        type: DataTypes.DECIMAL(10, 7),
-        field: 'latitude'
     }
 }, {
     tableName: 'animal',
