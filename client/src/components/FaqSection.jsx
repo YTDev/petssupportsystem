@@ -1,11 +1,10 @@
 import React from "react";
 import FAQItem from "./FAQItem";
 import FAQCallToAction from "./FAQCallToAction";
-import { Link } from "react-router-dom";
 
 const FaqSection = () => {
   return (
-    <section className="bg-white py-16 md:py-24">
+    <section className=" py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
           <h2 className="text-3xl font-semibold text-black tracking-wider">

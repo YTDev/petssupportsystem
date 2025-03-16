@@ -5,6 +5,7 @@ import Footer from "../components/common/Footer";
 
 import AdoptionJourney from "../components/AdoptionJourney";
 import FaqSection from "../components/FaqSection";
+import StatsSection from "../components/StatsSection";
 
 function Home() {
   return (
@@ -14,6 +15,7 @@ function Home() {
         <HeroSection />
       </div>
       <div className="">
+        <StatsSection />
         <AdoptionJourney />
         <FaqSection />
       </div>
