@@ -30,6 +30,8 @@ function HeroContent() {
           icon={<CatDog className="w-8 text-amber-500" />}
         />
       </div>
+
+      
     </div>
   );
 }
