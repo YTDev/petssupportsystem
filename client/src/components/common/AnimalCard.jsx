@@ -11,6 +11,7 @@ const AnimalCard = ({ pet, isLoading = false }) => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const navigate = useNavigate();
   const [isTogglingFavorite, setIsTogglingFavorite] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
 
   if (isLoading) {
     return <AnimalCardSkeleton />;
@@ -22,9 +23,9 @@ const AnimalCard = ({ pet, isLoading = false }) => {
   const handleFavoriteToggle = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (isTogglingFavorite) return; // Prevent multiple clicks
-    
+
     if (!isAuthenticated) {
       // Ask user to log in
       if (window.confirm("Please log in to save favorites. Go to login page?")) {
@@ -32,13 +33,13 @@ const AnimalCard = ({ pet, isLoading = false }) => {
       }
       return;
     }
-    
+
     try {
       setIsTogglingFavorite(true);
       console.log(`Toggling favorite status for pet ${pet.id}, current status: ${favoriteStatus}`);
-      
+
       const result = await toggleFavorite(pet.id);
-      
+
       if (!result.success) {
         console.error("Failed to toggle favorite:", result.message);
         if (result.message) {
@@ -54,7 +55,7 @@ const AnimalCard = ({ pet, isLoading = false }) => {
 
   const getStatusColor = (status) => {
     if (!status) return { bg: "bg-gray-100", text: "text-gray-800" };
-    
+
     switch (status.toLowerCase()) {
       case "available":
         return { bg: "bg-green-100", text: "text-green-800" };
@@ -79,7 +80,9 @@ const AnimalCard = ({ pet, isLoading = false }) => {
       <img
         src={pet.imageUrl || "https://placehold.co/300x300?text=No+Image"}
         alt={`Photo of ${pet.name}`}
-        className="w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-300 ease-in-out"
+        className={`w-full h-full object-cover sm:group-hover:scale-105 transition-transform duration-300 ease-in-out ${imageLoading ? 'opacity-0' : 'opacity-100'
+          }`}
+        onLoad={() => setImageLoading(false)}
       />
 
       {/* Overlay controls at the top */}
@@ -93,9 +96,8 @@ const AnimalCard = ({ pet, isLoading = false }) => {
           <button
             onClick={handleFavoriteToggle}
             disabled={isTogglingFavorite}
-            className={`p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none ${
-              isTogglingFavorite ? 'opacity-50' : ''
-            }`}
+            className={`p-2 rounded-full bg-white/80 hover:bg-white focus:outline-none ${isTogglingFavorite ? 'opacity-50' : ''
+              }`}
             aria-label={favoriteStatus ? "Remove from favorites" : "Add to favorites"}
           >
             {favoriteStatus ? (
@@ -117,7 +119,7 @@ const AnimalCard = ({ pet, isLoading = false }) => {
         <div className="flex items-center gap-2 text-m text-gray-600 ">
           <div className="flex items-center gap-2 text-l">
             <span className="text-gray-600">
-              {pet.age !== undefined && pet.age !== null 
+              {pet.age !== undefined && pet.age !== null
                 ? `${pet.age} ${pet.age === 1 ? 'year' : 'years'}`
                 : 'Age unknown'}
             </span>
@@ -126,8 +128,8 @@ const AnimalCard = ({ pet, isLoading = false }) => {
               <>
                 <div className="h-4 w-0.5 bg-gray-400"></div>
                 <span className="truncate text-gray-600">
-                  {typeof pet.distance === 'number' 
-                    ? `${pet.distance.toFixed(1)} km` 
+                  {typeof pet.distance === 'number'
+                    ? `${pet.distance.toFixed(1)} km`
                     : pet.distance}
                 </span>
               </>

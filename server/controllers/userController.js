@@ -1,4 +1,4 @@
-const { User, Animal, Favorites } = require('../models/indexModels');
+const { User, Animal, Favorites, Species, Breed, Shelter } = require('../models/indexModels');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');

@@ -1,5 +1,6 @@
 const { Animal, Species, Breed, Shelter } = require('../models/indexModels');
 const { Op } = require('sequelize');
+const { getAnimalImage } = require('../Services/animalImageService');
 
 //All animals
 exports.getAllAnimals = async (req, res) => {
@@ -41,13 +42,27 @@ exports.getAnimalById = async (req, res) => {
 //Create new animal
 exports.createAnimal = async (req, res) => {
     try {
-        const newAnimal = await Animal.create(req.body);
-        return res.status(201).json(newAnimal);
+      const animalData = req.body;
+      
+      // Get breed name for image lookup
+      const breed = await Breed.findByPk(animalData.breedID);
+      if (breed) {
+        // Fetch an image based on species and breed
+        const imageUrl = await getAnimalImage(animalData.speciesID, breed.breedName);
+        
+        // Only set the image if one isn't already provided
+        if (imageUrl && !animalData.imageUrl) {
+          animalData.imageUrl = imageUrl;
+        }
+      }
+      
+      const newAnimal = await Animal.create(animalData);
+      return res.status(201).json(newAnimal);
     } catch (error) {
-        console.error('Error creating animal:', error);
-        return res.status(500).json({ message: 'Server error', error: error.message });
+      console.error('Error creating animal:', error);
+      return res.status(500).json({ message: 'Server error', error: error.message });
     }
-};
+  };
 
 //Update animal
 exports.updateAnimal = async (req, res) => {
