@@ -27,8 +27,6 @@ const testConnection = async () => {
     }
 };
 
-testConnection();
-
 // Routes
 app.use('/api', routes);
 
