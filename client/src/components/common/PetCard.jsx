@@ -22,8 +22,16 @@ const PetCard = ({ pet }) => {
         </div>
         <div className="flex items-center gap-2 text-lg">
           <span className="text-gray-600">{pet.age} years </span>
-          <div className="h-4 w-0.5 bg-gray-400"></div>
-          <span className="truncate text-gray-600"> {pet.breed}</span>
+
+          {/* <span className="truncate text-gray-600"> {pet.breed}</span> */}
+          {pet.distance !== undefined && (
+            <>
+              <div className="h-4 w-0.5 bg-gray-400"></div>
+              <span className="truncate text-gray-600">
+                {pet.distance?.toFixed(0)} km
+              </span>
+            </>
+          )}
         </div>
       </div>
     </Link>

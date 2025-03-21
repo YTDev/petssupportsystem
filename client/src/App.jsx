@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
 import DashboardHome from "./pages/Dashboard/DashboardHome";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import DashboardLayout from "./components/layout/DashboardLayout";
@@ -14,10 +15,6 @@ import Profile from "./pages/Dashboard/Profile";
 import Favorites from "./pages/Dashboard/Favorites";
 import PetListings from "./pages/PetListings";
 import PetDetails from "./pages/PetDetails";
-import axios from "axios";
-
-axios.defaults.baseURL = "http://localhost:8000";
-axios.defaults.withCredentials = true;
 
 function App() {
   return (
@@ -29,27 +26,39 @@ function App() {
         <Navbar />
         <HeroSection />
       </div> */}
+
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sign_up" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/pets" element={<PetListings />} />
-          <Route path="/pets/:id" element={<PetDetails />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<DashboardHome />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="applications" element={<Applications />} />
-            <Route path="favorites" element={<Favorites />} />
-          </Route>
-        </Routes>
+        <FavoritesProvider>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/sign_up" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+
+            {/* Animal Routes */}
+            <Route path="/animals" element={<PetListings />} />
+            <Route path="/animals/:id" element={<PetDetails />} />
+
+            {/* Dashboard Routes */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<DashboardHome />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="applications" element={<Applications />} />
+              <Route path="favorites" element={<Favorites />} />
+            </Route>
+
+            {/* Fallback for old routes */}
+            {/* <Route path="/pets" element={<PetListings />} />
+          <Route path="/pets/:id" element={<PetDetails />} /> */}
+          </Routes>
+        </FavoritesProvider>
       </AuthProvider>
     </>
   );

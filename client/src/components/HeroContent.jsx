@@ -22,7 +22,7 @@ function HeroContent() {
 
       <div className="flex">
         <HeroButton
-          onClick={() => navigate("/pets")}
+          onClick={() => navigate("/animals")}
           className="z-10 mt-10 block 
       mx-auto lg:mx-0  text-lg sm:text-xl px-8 sm:px-12  py-3 sm:py-6 rounded-2xl cursor-pointer"
           icon={<CatDog className="w-8 text-amber-500" />}
