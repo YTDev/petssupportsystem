@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 
 // Add your API keys here
 const DOG_API_KEY = 'live_qGqB6q2jKeiCRMB9oLtOD9qiPiBD5griSrSce0KLZOAA0ZRXDUnD1hJqrmI9QftN';
@@ -20,7 +20,7 @@ const catApiClient = axios.create({
  * @param {string} breedName - The name of the dog breed
  * @returns {Promise<string|null>}
  */
-export const fetchDogImageByBreed = async (breedName) => {
+const fetchDogImageByBreed = async (breedName) => {
   try {
     // Try to find the breed ID first
     const breedsResponse = await dogApiClient.get('/breeds/search', {
@@ -55,7 +55,7 @@ export const fetchDogImageByBreed = async (breedName) => {
  * @param {string} breedName - The name of the cat breed
  * @returns {Promise<string|null>} - The URL of the image or null if not found
  */
-export const fetchCatImageByBreed = async (breedName) => {
+const fetchCatImageByBreed = async (breedName) => {
   try {
     // Try to find the breed ID first
     const breedsResponse = await catApiClient.get('/breeds/search', {
@@ -91,7 +91,7 @@ export const fetchCatImageByBreed = async (breedName) => {
  * @param {string} breedName - The breed name
  * @returns {Promise<string|null>} - The URL of the image or null if not found
  */
-export const getAnimalImage = async (speciesId, breedName) => {
+const getAnimalImage = async (speciesId, breedName) => {
   if (speciesId === 1) {
     return await fetchDogImageByBreed(breedName);
   } else if (speciesId === 2) {
@@ -100,4 +100,10 @@ export const getAnimalImage = async (speciesId, breedName) => {
     console.warn(`Unsupported species ID: ${speciesId}`);
     return null;
   }
+};
+
+module.exports = {
+  fetchDogImageByBreed,
+  fetchCatImageByBreed,
+  getAnimalImage
 };

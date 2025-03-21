@@ -1,6 +1,6 @@
 const { Animal, Species, Breed, Shelter } = require('../models/indexModels');
 const { Op } = require('sequelize');
-const { getAnimalImage } = require('../Services/animalImageService');
+const { getAnimalImage } = require('../services/animalImageService');
 
 //All animals
 exports.getAllAnimals = async (req, res) => {
