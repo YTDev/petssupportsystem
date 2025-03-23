@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NavbarAlt from "../components/common/NavbarAlt";
-import DesktopGrid from "../components/layout/DesktopGrid";
+
 import MapComponent from "../components/MapComponent";
+import PetDetailsGrid from "../components/layout/PetDetailsGrid";
+import { FaMapMarkerAlt, FaEnvelope, FaHome } from "react-icons/fa";
 const PetDetails = () => {
   const { id } = useParams();
   const [pet, setPet] = useState(null);
@@ -41,6 +43,8 @@ const PetDetails = () => {
           shelterAddress: animalData.Shelter?.address || "",
           longitude: animalData.Shelter?.longitude,
           latitude: animalData.Shelter?.latitude,
+          shelterEmail: animalData.Shelter?.email,
+          shelterPhone: animalData.Shelter?.phoneNumber,
         };
 
         setPet(formattedPet);
@@ -72,17 +76,6 @@ const PetDetails = () => {
     }
 
     return age;
-  };
-
-  // Generate multiple images for the grid if only one is available
-  const getImageArray = (imageUrl) => {
-    // If no image, use placeholders
-    if (!imageUrl || imageUrl.includes("placehold.co")) {
-      return Array(5).fill("https://placehold.co/600x400?text=No+Image");
-    }
-
-    // Otherwise use the real image multiple times
-    return Array(5).fill(imageUrl);
   };
 
   if (loading) {
@@ -128,91 +121,69 @@ const PetDetails = () => {
   return (
     <div>
       <NavbarAlt />
-      <DesktopGrid images={getImageArray(pet.imageUrl)} />
-      <div className="max-w-7xl relative mx-auto flex w-full flex-col px-6 md:flex-row py-8">
-        <div className="mb-4 w-full md:mb-0 md:w-2/3 md:pr-12">
-          <h2 className="text-3xl font-bold mb-2">{pet.name}</h2>
+      <div className="max-w-7xl px-4 mx-auto mt-6">
+        <Link
+          to="/animals"
+          className="px-4 py-2 border border-gray-300 rounded-md mr-4 hover:bg-gray-50"
+        >
+          Back to Listings
+        </Link>
+      </div>
+      <PetDetailsGrid pet={pet} />
+      <div className="max-w-7xl px-4 mx-auto py-8">
+        <div className="w-full md:mb-0 md:w-2/3 md:pr-12">
+          <div className="flex justify-between items-center ">
+            <h2 className="text-3xl font-bold mb-1">About {pet.name}</h2>
+            <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+              {pet.age} {pet.age === 1 ? "year" : "years"}
+            </span>
+          </div>
+          <p className="text-xs text-gray-500 mb-2">
+            At the shelter since: {new Date(pet.joinDate).toLocaleDateString()}
+          </p>
+          <p className="text-gray-700">{pet.description}</p>
+          <hr className="w-full  border-t border-gray-300 my-4" />
           <div className="mb-6">
-            <p className="text-gray-600 mb-2">
-              {pet.breed} • {pet.type} • {pet.gender} • {pet.age}{" "}
-              {pet.age === 1 ? "year" : "years"} old
-            </p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
-                {pet.size} size
-              </span>
-              {pet.isVaccinated && (
-                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                  Vaccinated
-                </span>
-              )}
-            </div>
-            <div className="mb-6">
-              <h3 className="text-xl font-semibold mb-2">About {pet.name}</h3>
-              <p className="text-gray-700">{pet.description}</p>
-            </div>
-
             {pet.shelter && (
-              <div className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  Shelter Information
-                </h3>
-                <p className="font-medium">{pet.shelter}</p>
-                {pet.shelterAddress && (
-                  <p className="text-gray-600">{pet.shelterAddress}</p>
-                )}
+              <div className="  ">
+                <h3 className="text-xl font-semibold mb-4 ">Contact Details</h3>
+                <div className="space-y-2">
+                  <p className=" flex items-center text-gray-700">
+                    <FaHome className="inline-block mr-2 text-gray-500" />
+                    {pet.shelter}
+                  </p>
+
+                  {pet.shelterAddress && (
+                    <p className="text-gray-700 flex items-center">
+                      <FaMapMarkerAlt className="inline-block mr-2 text-gray-500" />
+                      {pet.shelterAddress}
+                    </p>
+                  )}
+
+                  {pet.shelterEmail && (
+                    <p className="text-gray-700 flex items-center">
+                      <FaEnvelope className="inline-block mr-2 text-gray-500" />
+                      <a
+                        href={`mailto:${pet.shelterEmail}`}
+                        className="hover:text-blue-500"
+                      >
+                        {pet.shelterEmail}
+                      </a>
+                    </p>
+                  )}
+                </div>
               </div>
             )}
-
-            <div className="mt-6">
-              <Link
-                to="/animals"
-                className="px-4 py-2 border border-gray-300 rounded-md mr-4 hover:bg-gray-50"
-              >
-                Back to Listings
-              </Link>
-              <button
-                onClick={() => alert("Contact feature not implemented yet")}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                Contact Shelter
-              </button>
-            </div>
+          </div>
+          <hr className="w-full  border-t border-gray-300 my-4" />
+          <div className="rounded-3xl overflow-hidden">
+            <MapComponent
+              latitude={pet.latitude}
+              longitude={pet.longitude}
+              petName={pet.name}
+            />
           </div>
         </div>
-
-        {/* Right sidebar/column */}
-        <div className="w-full md:w-1/3 md:sticky md:top-24 md:self-start">
-          <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-            <h3 className="text-xl font-semibold mb-4">Adoption Information</h3>
-            <p className="mb-4">
-              Interested in adopting {pet.name}? Contact the shelter to schedule
-              a visit or learn more about the adoption process.
-            </p>
-            <p className="text-sm text-gray-500 mb-2">
-              At the shelter since:{" "}
-              {new Date(pet.joinDate).toLocaleDateString()}
-            </p>
-            <button
-              onClick={() =>
-                alert("Adoption application feature not implemented yet")
-              }
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Apply to Adopt
-            </button>
-          </div>
-        </div>
-
-        {/* map */}
-      </div>
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <h3 className="text-2xl font-bold mb-4">Location</h3>
-        <MapComponent
-          latitude={pet.latitude}
-          longitude={pet.longitude}
-          petName={pet.name}
-        />
       </div>
     </div>
   );
