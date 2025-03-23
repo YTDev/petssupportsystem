@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="font-display flex-shrink-0 flex items-center">
               <Link to="/" className="text-xl font-bold">
                 {/* change img */}
-                <img src="../../public/vite.svg" alt="" />
+                <img src="/vite.svg" alt="" />
               </Link>
             </div>
           </div>
