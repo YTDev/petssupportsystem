@@ -26,7 +26,7 @@ const AvatarDropdown = () => {
         onClick={toggleDropdown}
       >
         <div className="w-8 h-8 flex items-center justify-center rounded-full bg-amber-500  text-black text-sm font-semibold hover:scale-105 ">
-          {user?.fullName?.charAt(0).toUpperCase() || "U"}
+          {user?.name?.charAt(0).toUpperCase() || "U"}
         </div>
 
         <IoChevronDown

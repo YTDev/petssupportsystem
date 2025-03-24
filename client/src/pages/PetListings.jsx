@@ -26,9 +26,9 @@ const PetListings = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return EARTH_RADIUS * c; // Distance in km
@@ -43,7 +43,10 @@ const PetListings = () => {
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
 
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birth.getDate())
+    ) {
       age--;
     }
 
@@ -89,21 +92,22 @@ const PetListings = () => {
         }
 
         // Process the animals to add calculated fields
-        const processedAnimals = response.data.map(animal => {
-
+        const processedAnimals = response.data.map((animal) => {
           const shelterLat = animal.Shelter?.latitude;
           const shelterLon = animal.Shelter?.longitude;
 
           return {
             ...animal,
-            distance: userLocation && shelterLat && shelterLon ?
-              calculateDistance(
-                userLocation.latitude,
-                userLocation.longitude,
-                shelterLat,
-                shelterLon
-              ) : null,
-            age: calculateAge(animal.birthDate)
+            distance:
+              userLocation && shelterLat && shelterLon
+                ? calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    shelterLat,
+                    shelterLon
+                  )
+                : null,
+            age: calculateAge(animal.birthDate),
           };
         });
 
@@ -121,69 +125,83 @@ const PetListings = () => {
   }, [userLocation]);
 
   // Handle filter changes
-  const handleFilterChange = useCallback(async (filters) => {
-    setLoading(true);
+  const handleFilterChange = useCallback(
+    async (filters) => {
+      setLoading(true);
 
-    try {
-      // Extract query parameters and sorting preferences
-      const { queryParams, sortingPreferences } = filters;
+      try {
+        // Extract query parameters and sorting preferences
+        const { queryParams, sortingPreferences } = filters;
 
-      // Make API call with filters
-      const response = await axios.get(`${API_BASE_URL}/animals/filter`, {
-        params: queryParams
-      });
-
-      // Process animals with distance and age
-      let filteredResults = response.data.map(animal => {
-        const shelterLat = animal.Shelter?.latitude;
-        const shelterLon = animal.Shelter?.longitude;
-
-        return {
-          ...animal,
-          distance: userLocation && shelterLat && shelterLon ?
-            calculateDistance(
-              userLocation.latitude,
-              userLocation.longitude,
-              shelterLat,
-              shelterLon
-            ) : null,
-          age: calculateAge(animal.birthDate)
-        };
-      });
-
-      // Apply client-side sorting based on sorting preferences
-      if (sortingPreferences.length > 0) {
-        filteredResults.sort((a, b) => {
-          for (const pref of sortingPreferences) {
-            if (pref === "Closest" && a.distance !== null && b.distance !== null) {
-              if (a.distance !== b.distance) return a.distance - b.distance;
-            } else if (pref === "Youngest" && a.age !== null && b.age !== null) {
-              if (a.age !== b.age) return a.age - b.age;
-            } else if (pref === "New Joiners") {
-              const dateA = new Date(a.joinDate || 0).getTime();
-              const dateB = new Date(b.joinDate || 0).getTime();
-              if (dateA !== dateB) return dateB - dateA; // Newest first
-            }
-          }
-          return 0;
+        // Make API call with filters
+        const response = await axios.get(`${API_BASE_URL}/animals/filter`, {
+          params: queryParams,
         });
-      }
 
-      setFilteredAnimals(filteredResults);
-    } catch (err) {
-      setError("Failed to apply filters. Please try again later.");
-      console.error("Error applying filters:", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [userLocation, API_BASE_URL]);
+        // Process animals with distance and age
+        let filteredResults = response.data.map((animal) => {
+          const shelterLat = animal.Shelter?.latitude;
+          const shelterLon = animal.Shelter?.longitude;
+
+          return {
+            ...animal,
+            distance:
+              userLocation && shelterLat && shelterLon
+                ? calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    shelterLat,
+                    shelterLon
+                  )
+                : null,
+            age: calculateAge(animal.birthDate),
+          };
+        });
+
+        // Apply client-side sorting based on sorting preferences
+        if (sortingPreferences.length > 0) {
+          filteredResults.sort((a, b) => {
+            for (const pref of sortingPreferences) {
+              if (
+                pref === "Closest" &&
+                a.distance !== null &&
+                b.distance !== null
+              ) {
+                if (a.distance !== b.distance) return a.distance - b.distance;
+              } else if (
+                pref === "Youngest" &&
+                a.age !== null &&
+                b.age !== null
+              ) {
+                if (a.age !== b.age) return a.age - b.age;
+              } else if (pref === "New Joiners") {
+                const dateA = new Date(a.joinDate || 0).getTime();
+                const dateB = new Date(b.joinDate || 0).getTime();
+                if (dateA !== dateB) return dateB - dateA; // Newest first
+              }
+            }
+            return 0;
+          });
+        }
+
+        setFilteredAnimals(filteredResults);
+      } catch (err) {
+        setError("Failed to apply filters. Please try again later.");
+        console.error("Error applying filters:", err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [userLocation, API_BASE_URL]
+  );
 
   // Format animal data for AnimalCard component
   const formatAnimalForCard = (animal) => {
     return {
       id: animal.animalID,
       name: animal.animalName,
-      type: animal.Species?.speciesName || (animal.speciesID === 1 ? "Dog" : "Cat"),
+      type:
+        animal.Species?.speciesName || (animal.speciesID === 1 ? "Dog" : "Cat"),
       breed: animal.Breed?.breedName || "Mixed",
       description: animal.animalDescription,
       gender: animal.gender,
@@ -201,7 +219,7 @@ const PetListings = () => {
     <div>
       <NavbarAlt />
       <PetFilter onFilterChange={handleFilterChange} />
-      <div className="max-w-8xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold mb-6">Available Pets for Adoption</h1>
 
         {error && (
@@ -212,19 +230,26 @@ const PetListings = () => {
 
         {loading ? (
           <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-            {Array(8).fill().map((_, index) => (
-              <AnimalCardSkeleton key={index} />
-            ))}
+            {Array(8)
+              .fill()
+              .map((_, index) => (
+                <AnimalCardSkeleton key={index} />
+              ))}
           </div>
         ) : filteredAnimals.length === 0 ? (
           <div className="text-center py-10">
             <h2 className="text-xl font-semibold mb-2">No pets found</h2>
-            <p className="text-gray-600">Try adjusting your filters to see more results</p>
+            <p className="text-gray-600">
+              Try adjusting your filters to see more results
+            </p>
           </div>
         ) : (
           <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
             {filteredAnimals.map((animal) => (
-              <AnimalCard key={animal.animalID} pet={formatAnimalForCard(animal)} />
+              <AnimalCard
+                key={animal.animalID}
+                pet={formatAnimalForCard(animal)}
+              />
             ))}
           </div>
         )}

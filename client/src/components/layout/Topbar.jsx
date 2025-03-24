@@ -8,7 +8,7 @@ const Topbar = () => {
   return (
     <div className="bg-gray-100 shadow p-4 flex justify-between items-center">
       <div className="text-gray-800 text-xl font-semibold invisible sm:visible">
-        Welcome, {user ? user.fullName : "User"}!
+        Welcome, {user ? user.name : "User"}!
       </div>
 
       <button
@@ -16,7 +16,7 @@ const Topbar = () => {
         onClick={() => navigate("/dashboard/profile")}
       >
         <div className="w-12 h-12  rounded-full bg-blue-500 flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
-          {user?.fullName?.charAt(0) || "U"}
+          {user?.name?.charAt(0) || "U"}
         </div>
       </button>
     </div>

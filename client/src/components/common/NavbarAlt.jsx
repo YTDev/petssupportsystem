@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import AvatarDropdown from "./AvatarDropdown";
 import { useAuth } from "../../hooks/useAuth";
+import { PiPawPrint } from "react-icons/pi";
 
 const NavbarAlt = () => {
   const { user } = useAuth();
@@ -23,7 +24,12 @@ const NavbarAlt = () => {
 
           <div className="flex items-center space-x-4">
             {user ? (
-              <AvatarDropdown />
+              <div className="flex items-center space-x-4">
+                <Link to="/dashboard/favorites" className="cursor-pointer">
+                  <PiPawPrint size={30} className="text-blue-950" />
+                </Link>
+                <AvatarDropdown />
+              </div>
             ) : (
               <>
                 <Link

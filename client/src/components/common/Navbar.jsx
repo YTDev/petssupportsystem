@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-
+import { PiPawPrint } from "react-icons/pi";
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="font-display flex-shrink-0 flex items-center">
               <Link to="/" className="text-xl font-bold">
                 {/* change img */}
-                <img src="../../public/vite.svg" alt="" />
+                <img src="/vite.svg" alt="" />
               </Link>
             </div>
           </div>
@@ -51,12 +51,17 @@ const Navbar = () => {
           <div className="flex items-center gap-2 font-medium">
             {user ? (
               <>
-                <button
-                  onClick={logout}
-                  className="px-4 py-2 border border-[#fff] border-solid rounded-3xl  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
-                >
-                  Logout
-                </button>
+                <div className="flex items-center space-x-4">
+                  <Link to="/dashboard/favorites" className="cursor-pointer">
+                    <PiPawPrint size={30} className="text-[#f9e5bd]" />
+                  </Link>
+                  <button
+                    onClick={logout}
+                    className="px-4 py-2 border border-[#fff] border-solid rounded-3xl  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
+                  >
+                    Logout
+                  </button>
+                </div>
               </>
             ) : (
               <>

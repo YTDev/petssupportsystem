@@ -9,7 +9,7 @@ const DashboardHome = () => {
       <h1 className="text-3xl font-bold mb-4">Dashboard Home</h1>
       {user ? (
         <p className="mt-2">
-          Welcome, {user.fullName}! Here you can view your latest activities and
+          Welcome, {user.name}! Here you can view your latest activities and
           updates.
         </p>
       ) : (
