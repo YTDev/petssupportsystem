@@ -1,2 +1,41 @@
 #imageSlider .flickity-viewport {
+    height: 500px;
+}
+
+#blogSlider {
+    height: 500px;
+    position: relative;
+}
+@media screen and (min-width: 768px) {
+    #blogSlider {
+        position: static;
+    }
+}
+
+.flickity-prev-next-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;  /* reduced from default */
+    height: 35px; /* reduced from default */
+}
+
+.flickity-prev-next-button .flickity-button-icon {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: 20px;  /* smaller icon size */
+    height: 20px; /* smaller icon size */
+}
+
+.flickity-prev-next-button.previous {
+    left: 0px;
+    transform: translate(-50%, -50%); 
+
+}
+
+.flickity-prev-next-button.next {
+    right: 0px;
+    transform: translate(50%, -50%);
 }
