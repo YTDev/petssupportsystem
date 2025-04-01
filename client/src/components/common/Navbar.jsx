@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Sling as Hamburger } from "hamburger-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { Link as Scroll} from 'react-scroll';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -10,6 +11,8 @@ const Navbar = () => {
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
+
+
 
   return (
     <nav className="">
@@ -33,18 +36,12 @@ const Navbar = () => {
             >
               About us
             </a>
-            <a
-              href="#"
-              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-            >
-              How it works
-            </a>
-            <a
-              href="#"
-              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-            >
-              Testimonials
-            </a>
+            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]" 
+                    to="how-it-works" smooth={true} duration={500}>How It Works</Scroll>
+            
+            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]" 
+                    to="success-stories" smooth={true} duration={500}>Testimonials</Scroll>
+              
           </div>
 
           {/* Desktop Buttons */}
@@ -97,12 +94,24 @@ const Navbar = () => {
             <a href="#" className="text-xl">
               About us
             </a>
-            <a href="#" className="text-xl">
-              How it works
-            </a>
-            <a href="#" className="text-xl">
+            <Scroll 
+              className="cursor-pointer text-xl" 
+              to="how-it-works" 
+              smooth={true} 
+              duration={500}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              How It Works
+            </Scroll>
+            <Scroll 
+              className="cursor-pointer text-xl" 
+              to="success-stories" 
+              smooth={true} 
+              duration={500}
+              onClick={() => setIsMenuOpen(false)}
+            >
               Testimonials
-            </a>
+            </Scroll>
             <hr className="border-t border-gray-300" />
             <Link
               to="/sign_up"

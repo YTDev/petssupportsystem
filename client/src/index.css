@@ -1,7 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
+html{
+  scroll-behavior: smooth;
+}
 @theme {
   /* -sans to change the default tailwind font */
   /* --font-sans: "Roboto", serif; */
   /*or u can create a cutom font --font-display: smth*/
 }
+
+
