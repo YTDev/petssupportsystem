@@ -15,7 +15,7 @@ const PetListings = () => {
 
   //Pagination states
   const [currentPage, setCurrentPage] = useState(1);
-  const [animalsPerPage] = useState(16);
+  const [animalsPerPage] = useState(8); // Number of animals per page
 
   const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
 
@@ -263,7 +263,7 @@ const PetListings = () => {
         ) : (
           <>
             <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-              {filteredAnimals.map((animal) => (
+              {currentAnimals.map((animal) => (
                 <AnimalCard
                   key={animal.animalID}
                   pet={formatAnimalForCard(animal)}
