@@ -1,9 +1,11 @@
 import React from "react";
 import FAQItem from "./FAQItem";
 import FAQCallToAction from "./FAQCallToAction";
+import { Element } from 'react-scroll';
 
 const FaqSection = () => {
   return (
+<Element name="questions">
     <section className=" py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center">
@@ -36,6 +38,7 @@ const FaqSection = () => {
         <FAQCallToAction />
       </div>
     </section>
+    </Element>
   );
 };
 

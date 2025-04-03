@@ -3,7 +3,7 @@ import { Sling as Hamburger } from "hamburger-react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { PiPawPrint } from "react-icons/pi";
-import { Link as Scroll} from 'react-scroll';
+import { Link as Scroll } from 'react-scroll';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -31,18 +31,16 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <div className="hidden font-medium lg:flex md:gap-4 ">
-            <a
-              href="#"
-              className="px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-            >
-              About us
-            </a>
-            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]" 
-                    to="how-it-works" smooth={true} duration={500}>How It Works</Scroll>
-            
-            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]" 
-                    to="success-stories" smooth={true} duration={500}>Testimonials</Scroll>
-              
+
+            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+              to="success-stories" smooth={true} duration={500}>Testimonials</Scroll>
+
+            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+              to="how-it-works" smooth={true} duration={500}>How It Works</Scroll>
+
+            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+              to="questions" smooth={true} duration={500}>Questions</Scroll>
+
           </div>
 
           {/* Desktop Buttons */}
@@ -81,9 +79,8 @@ const Navbar = () => {
             </Link>
 
             <div
-              className={`lg:hidden relative z-100 ${
-                isMenuOpen ? "text-blue-950" : " text-[#f9e5bd]"
-              }`}
+              className={`lg:hidden relative z-100 ${isMenuOpen ? "text-blue-950" : " text-[#f9e5bd]"
+                }`}
             >
               <Hamburger size={25} toggled={isMenuOpen} toggle={toggleMenu} />
             </div>
@@ -97,27 +94,37 @@ const Navbar = () => {
             <Link to="/" className="text-xl font-bold">
               Logo
             </Link>
-            <a href="#" className="text-xl">
-              About us
-            </a>
-            <Scroll 
-              className="cursor-pointer text-xl" 
-              to="how-it-works" 
-              smooth={true} 
-              duration={500}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              How It Works
-            </Scroll>
-            <Scroll 
-              className="cursor-pointer text-xl" 
-              to="success-stories" 
-              smooth={true} 
+
+            <Scroll
+              className="cursor-pointer text-xl"
+              to="success-stories"
+              smooth={true}
               duration={500}
               onClick={() => setIsMenuOpen(false)}
             >
               Testimonials
             </Scroll>
+
+            <Scroll
+              className="cursor-pointer text-xl"
+              to="how-it-works"
+              smooth={true}
+              duration={500}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              How It Works
+            </Scroll>
+            
+            <Scroll
+              className="cursor-pointer text-xl"
+              to="questions"
+              smooth={true}
+              duration={500}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Questions
+            </Scroll>
+
             <hr className="border-t border-gray-300" />
             <Link
               to="/sign_up"

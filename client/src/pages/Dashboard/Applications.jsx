@@ -1,5 +1,14 @@
-function Applications() {
-    return <div>Applications</div>;
+import React from "react";
+import AdoptionPdf from "../../components/AdoptionPDF";
+
+const Applications = () => {
+    return (
+        <div>
+            Applications
+            <AdoptionPdf />
+        </div>
+        
+    );
 }
 
-export default Applications
+export default Applications;
