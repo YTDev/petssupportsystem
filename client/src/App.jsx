@@ -3,7 +3,7 @@ import "./App.css";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-
+import Contact from './pages/Contact';
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { FavoritesProvider } from "./context/FavoritesContext";
@@ -53,7 +53,7 @@ function App() {
               <Route path="applications" element={<Applications />} />
               <Route path="favorites" element={<Favorites />} />
             </Route>
-
+            <Route path="/contact" element={<Contact />} />
             {/* Fallback for old routes */}
             {/* <Route path="/pets" element={<PetListings />} />
           <Route path="/pets/:id" element={<PetDetails />} /> */}

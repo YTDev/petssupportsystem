@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { LuFacebook, LuInstagram } from "react-icons/lu";
 import { FaPinterestP } from "react-icons/fa";
 
+
 const Footer = () => {
   return (
     <>

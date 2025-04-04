@@ -9,6 +9,10 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  
+  // Add this check for contact page
+  const isContactPage = location.pathname === '/contact';
+
   function toggleMenu() {
     setIsMenuOpen(!isMenuOpen);
   }
@@ -30,18 +34,18 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden font-medium lg:flex md:gap-4 ">
+          {!isContactPage && (
+            <div className="hidden font-medium lg:flex md:gap-4 text-white">
+              <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+                to="success-stories" smooth={true} duration={500}>Testimonials</Scroll>
 
-            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-              to="success-stories" smooth={true} duration={500}>Testimonials</Scroll>
+              <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+                to="how-it-works" smooth={true} duration={500}>How It Works</Scroll>
 
-            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-              to="how-it-works" smooth={true} duration={500}>How It Works</Scroll>
-
-            <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
-              to="questions" smooth={true} duration={500}>Questions</Scroll>
-
-          </div>
+              <Scroll className="cursor-pointer px-3 py-1 hover:text-amber-400 underline-offset-[8px]"
+                to="questions" smooth={true} duration={500}>Questions</Scroll>
+            </div>
+          )}
 
           {/* Desktop Buttons */}
           <div className="flex items-center gap-2 font-medium">
@@ -53,7 +57,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={logout}
-                    className="px-4 py-2 border border-[#fff] border-solid rounded-3xl  hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
+                    className="px-4 py-2 border border-[#fff] border-solid rounded-3xl text-white hover:border-[#e89b3d] hover:text-[#e89b3d] transition duration-300"
                   >
                     Logout
                   </button>
@@ -88,15 +92,15 @@ const Navbar = () => {
         </div>
       </div>
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="absolute z-20 top-1 left-1 right-1 font-medium bg-[#f9e5bd] flex flex-col rounded-md shadow-md text-blue-950">
-          <div className="flex flex-col m-4 mt- mb-4 px-3 py-1 gap-7">
-            <Link to="/" className="text-xl font-bold">
+      {isMenuOpen && !isContactPage && (
+        <div className="absolute z-20 top-1 left-1 right-1 font-medium bg-[#103D62] flex flex-col rounded-md shadow-md">
+          <div className="flex flex-col m-4 mt- mb-4 px-3 py-1 gap-7 text-white">
+            <Link to="/" className="text-xl font-bold text-white">
               Logo
             </Link>
 
             <Scroll
-              className="cursor-pointer text-xl"
+              className="cursor-pointer text-xl text-white hover:text-amber-400"
               to="success-stories"
               smooth={true}
               duration={500}
@@ -106,7 +110,7 @@ const Navbar = () => {
             </Scroll>
 
             <Scroll
-              className="cursor-pointer text-xl"
+              className="cursor-pointer text-xl text-white hover:text-amber-400"
               to="how-it-works"
               smooth={true}
               duration={500}
@@ -116,7 +120,7 @@ const Navbar = () => {
             </Scroll>
             
             <Scroll
-              className="cursor-pointer text-xl"
+              className="cursor-pointer text-xl text-white hover:text-amber-400"
               to="questions"
               smooth={true}
               duration={500}
