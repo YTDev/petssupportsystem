@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NavbarAlt from "../components/common/NavbarAlt";
+import Footer from "../components/common/Footer";
 
 import MapComponent from "../components/MapComponent";
 import PetDetailsGrid from "../components/layout/PetDetailsGrid";
@@ -185,6 +186,7 @@ const PetDetails = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
