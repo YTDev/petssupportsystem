@@ -19,6 +19,7 @@ function Home() {
         <StatsSection />
         <AdoptionJourney />
         <FaqSection />
+        <AdoptionForm />
       </div>
       <Footer />
     </>

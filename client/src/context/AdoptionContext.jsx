@@ -1,10 +1,13 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { AuthContext } from "./AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 export const AdoptionContext = createContext();
 
 export const adoptionProvider = ({ children }) => {
+  const { isAuthenticated } = useContext(useAuth);
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [pet, setPet] = useState(null);
   const { petID } = useParams(); // Pet id
@@ -18,56 +21,17 @@ export const adoptionProvider = ({ children }) => {
   axios.defaults.baseURL = API_URL;
 
   // Token verification
-  useEffect(() => {
-    const verifyToken = async () => {
-      if (token) {
-        try {
-          console.log("Verifying token:", token);
-
-          try {
-            const response = await axios.get("/users/me");
-            console.log("User data from /me endpoint:", response.data);
-            setUser(response.data);
-          } catch (meError) {
-            console.log(
-              "Couldn't use /me endpoint, trying email lookup:",
-              meError.message
-            );
-
-            const email = localStorage.getItem("userEmail");
-            if (email) {
-              const response = await axios.get(`/users/email/${email}`);
-              console.log("User data from email lookup:", response.data);
-
-              // Save full user data
-              if (response.data) {
-                setUser(response.data);
-              } else {
-                throw new Error("User data not found");
-              }
-            } else {
-              throw new Error("No user email found in storage");
-            }
-          }
-        } catch (error) {
-          console.error("Token verification failed:", error);
-          localStorage.removeItem("token");
-          localStorage.removeItem("userEmail");
-          setToken(null);
-          setUser(null);
-        }
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    };
-
-    verifyToken();
-  }, [token]);
+  if (!isAuthenticated) {
+    // Ask user to log in
+    if (window.confirm("Please log in to save favorites. Go to login page?")) {
+      navigate("/login");
+    }
+    return;
+  }
 
   // Animal details fetch
   useEffect(() => {
-    const fetchAdoptions = async () => {
+    const fetchPetDetails = async () => {
       setLoading(true);
       setError(null);
 
@@ -111,9 +75,45 @@ export const adoptionProvider = ({ children }) => {
     fetchPetDetails();
   }, [petID]);
 
+  const registerAdoption = async (adoptionData, motive) => {
+    try {
+      // Select the appropriate endpoint based on role
+      const endpoint =
+        motive === "adoption"
+          ? "/adoption/createAdoption"
+          : "/message/createMessage";
 
+      const response = await axios.post(endpoint, adoptionData);
+      console.log("Registration response:", response.data);
 
+      //const { token: authToken, user: userData2 } = response.data;
 
+      /* // Ensure we have user ID
+      if (!userData2 || !userData2.id) {
+        console.warn("Adoption response missing user ID:", userData2);
+        // Try to extract user ID from token if possible
+        userData2.id = extractUserIdFromToken(authToken);
+      }
 
-  
+      return userData2;
+       */
+    } catch (error) {
+      console.error("Adoption error:", error);
+      throw new Error(
+        error.response?.data?.message || "Request failed. Please try again."
+      );
+    }
+  };
+
+  return (
+    <AdoptionContext.Provider
+      value={{
+        registerAdoption,
+      }}
+    >
+      {children}
+    </AdoptionContext.Provider>
+  );
 };
+
+export const useAdoptions = () => useContext(AdoptionContext);

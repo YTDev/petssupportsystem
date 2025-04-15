@@ -16,39 +16,22 @@ const { user } = useAuth();
 
 // Fetch pet context from adoption
 
-const { pet } = AdoptionContext();
+const { pet } = useAdoptions();
 
 const validationSchema = Yup.object({
   motive: Yup.string()
-    .oneOf(
-      ["question", "adoption"],
-      "Por favor selecione um motivo para contacto"
-    )
+    .oneOf(["adoption"], "Por favor selecione um motivo para contacto")
     .required("Motive is required"),
 
   userName: Yup.string(),
   animalName: Yup.string(),
+  shelterName: Yup.string(),
   phone: Yup.string(),
 
-  cc: Yup.string()
-    .min(9, "O número de Cartão de Cidadão necessita de ter 9 digitos")
-    .max(9, "O número de cartão de cidadão necessita de ter 9 dígitos"),
   streetAddress: Yup.string().when("motive", {
     is: "adoption",
     then: (schema) =>
       schema.required("Para adoção é necessário um endereço válido"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
-  city: Yup.string().when("motive", {
-    is: "adoption",
-    then: (schema) =>
-      schema.required("Para adoção é necessário uma cidade válida"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
-  zipCode: Yup.string().when("motive", {
-    is: "adoption",
-    then: (schema) =>
-      schema.required("Para adoção é necessário um código-postal válido"),
     otherwise: (schema) => schema.notRequired(),
   }),
   message: Yup.string()
@@ -62,31 +45,30 @@ const validationSchema = Yup.object({
 
 const initialValues = {
   motivo: "",
-  email: user.email || "",
-  userName: user.name || "",
-  userID: user.id || "",
-  phoneNumber: user.phone || "",
-  animalName: "",
-  cc: "",
-  streetAddress: user.address || "",
-  city: "",
-  zipCode: "",
+  userId: user?.id || "",
+  animalId: pet?.id || "",
+  shelterId: pet?.shelterId || "",
+  email: user?.email || "",
+  userName: user?.name || "",
+  animalName: pet?.name || "",
+  shelterName: pet?.shelter || "",
+  phoneNumber: user?.phone || "",
+  streetAddress: user?.address || "",
   message: "",
 };
 
 const AdoptionForm = () => {
   const navigate = useNavigate();
 
-  const prepareAdotpionFormData = (values) => {
+  const prepareAdoptionFormData = (values) => {
     if (values.motivo === "adoption") {
       return {
         motivo: values.motivo,
-        userNome: values.userNome,
+        userName: values.userName,
+        animalName: values.animalName,
+        shelterName: values.shelterName,
         phoneNumber: values.phoneNumber,
         streetAddress: values.streetAddress,
-        cc: values.cc,
-        city: values.city,
-        zipCode: values.zipCode,
         message: values.message,
       };
     } else {
@@ -110,12 +92,12 @@ const AdoptionForm = () => {
 
         try {
           // Prepare the data for API based on role
-          const formData = prepareFormData(values);
+          const formData = prepareAdoptionFormData(values);
 
           //-----------------------Up to here ---------------------------//
 
           // Call the appropriate registration endpoint
-          await register(formData, values.motivo);
+          await registerAdoption(formData, values.motivo);
           console.log("Registration successful");
           navigate("/dashboard");
         } catch (error) {
@@ -133,64 +115,49 @@ const AdoptionForm = () => {
           {status?.error && (
             <div className="mb-4 text-center text-red-600">{status.error}</div>
           )}
-          <FormSelect label="Role" name="role">
-            <option value="">Select your role</option>
-            <option value="adopter">Adopter</option>
+          <FormSelect label="Purpose" name="motivo">
+            <option value="">Selecione o seu motivo:</option>
+            <option value="adoption">Adoção</option>
             {/* <option value="shelter">Shelter</option> */}
           </FormSelect>
 
           <FormInput
-            label="Full Name"
-            name="fullName"
+            label="Nome Completo"
+            name="userName"
             type="text"
-            placeholder="Enter your full name"
+            placeholder="Insira o seu nome"
           />
           <FormInput
-            label="Email Address"
+            label="Email"
             name="email"
             type="email"
-            placeholder="Enter your email address"
+            placeholder="Insira o seu email"
           />
           <FormInput
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
+            label="Nome do animal:"
+            name="animalName"
+            type="text"
+            placeholder="Nome do animal:"
           />
           <FormInput
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm your password"
+            label="Abrigo"
+            name="shelterName"
+            type="text"
+            placeholder="Nome do abrigo"
           />
 
-          {values.role === "adopter" && (
-            <>
-              <FormInput
-                label="Street Address (Required)"
-                name="streetAddress"
-                type="text"
-                placeholder="Enter your street address"
-              />
-            </>
-          )}
-
-          {values.role === "shelter" && (
-            <>
-              <FormInput
-                label="Shelter Name"
-                name="shelterName"
-                type="text"
-                placeholder="Enter your shelter's name"
-              />
-            </>
-          )}
+          <FormInput
+            label="Endereço"
+            name="streetAddress"
+            type="text"
+            placeholder="Digite o seu endereço"
+          />
 
           <FormInput
-            label="Phone Number (Required)"
+            label="Contacto Telefónico"
             name="phone"
             type="text"
-            placeholder="Enter your phone number"
+            placeholder="Insira o seu contacto"
           />
 
           <FormCheckbox
