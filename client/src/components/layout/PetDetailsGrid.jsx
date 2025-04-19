@@ -5,6 +5,7 @@ import { IoIosResize } from "react-icons/io";
 import { TbVaccine } from "react-icons/tb";
 import { IoIosMale, IoIosFemale } from "react-icons/io";
 import { PiDogThin, PiCatThin } from "react-icons/pi";
+import { Link, useNavigate } from "react-router-dom";
 
 function PetDetailsGrid({ pet }) {
   return (
@@ -78,12 +79,13 @@ function PetDetailsGrid({ pet }) {
               </div>
             </div>
           </div>
-          <button
-            onClick={() => alert("Contact feature not implemented yet")}
+
+          <Link
+            to={`/adoption/${pet.id}`}
             className="mx-6 cursor-pointer mb-6 px-6 py-4 bg-amber-500 text-blue-950 rounded-md font-medium text-xl "
           >
             Request Info
-          </button>
+          </Link>
         </div>
       </div>
     </div>

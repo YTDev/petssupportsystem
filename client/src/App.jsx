@@ -15,6 +15,8 @@ import Profile from "./pages/Dashboard/Profile";
 import Favorites from "./pages/Dashboard/Favorites";
 import PetListings from "./pages/PetListings";
 import PetDetails from "./pages/PetDetails";
+import { AdoptionProvider } from "./context/AdoptionContext";
+import AdoptionRequest from "./pages/AdoptionRequest";
 
 function App() {
   return (
@@ -29,35 +31,40 @@ function App() {
 
       <AuthProvider>
         <FavoritesProvider>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/sign_up" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
+          <AdoptionProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/sign_up" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
 
-            {/* Animal Routes */}
-            <Route path="/animals" element={<PetListings />} />
-            <Route path="/animals/:id" element={<PetDetails />} />
+              {/* Animal Routes */}
+              <Route path="/animals" element={<PetListings />} />
+              <Route path="/animals/:id" element={<PetDetails />} />
 
-            {/* Dashboard Routes */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<DashboardHome />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="applications" element={<Applications />} />
-              <Route path="favorites" element={<Favorites />} />
-            </Route>
+              {/* Adoption Routes */}
+              <Route path="/adoption/:id" element={<AdoptionRequest />} />
 
-            {/* Fallback for old routes */}
-            {/* <Route path="/pets" element={<PetListings />} />
+              {/* Dashboard Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<DashboardHome />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="applications" element={<Applications />} />
+                <Route path="favorites" element={<Favorites />} />
+              </Route>
+
+              {/* Fallback for old routes */}
+              {/* <Route path="/pets" element={<PetListings />} />
           <Route path="/pets/:id" element={<PetDetails />} /> */}
-          </Routes>
+            </Routes>
+          </AdoptionProvider>
         </FavoritesProvider>
       </AuthProvider>
     </>

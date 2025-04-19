@@ -1,26 +1,21 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Formik, Form } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
-//import { PetDetails } from "../components/pages/PetDetails";
 import { AdoptionContext } from "../../context/AdoptionContext";
+
+//import { PetDetails } from "../components/pages/PetDetails";
+//import { useAdoptions } from "../../context/AdoptionContext";
 //import Adoption from "../../../../server/models/Adoption";
-
-// Fetch user information from Auth Context
-const { user } = useAuth();
-
-// Fetch pet context from adoption
-
-const { pet } = useAdoptions();
 
 const validationSchema = Yup.object({
   motive: Yup.string()
-    .oneOf(["adoption"], "Por favor selecione um motivo para contacto")
+    .oneOf(["adoption"], "Por favor seleciosne um motivo para contacto")
     .required("Motive is required"),
 
   userName: Yup.string(),
@@ -43,22 +38,24 @@ const validationSchema = Yup.object({
   email: Yup.string(),
 });
 
-const initialValues = {
-  motivo: "",
-  userId: user?.id || "",
-  animalId: pet?.id || "",
-  shelterId: pet?.shelterId || "",
-  email: user?.email || "",
-  userName: user?.name || "",
-  animalName: pet?.name || "",
-  shelterName: pet?.shelter || "",
-  phoneNumber: user?.phone || "",
-  streetAddress: user?.address || "",
-  message: "",
-};
-
-const AdoptionForm = () => {
+const AdoptionForm = ({ pet }) => {
   const navigate = useNavigate();
+
+  // Fetch user information from Auth Context
+  const { user } = useAuth();
+
+  const initialValues = {
+    motivo: "",
+    userId: user?.id || "",
+    animalId: pet?.id || "",
+    shelterId: pet?.shelterId || "",
+    email: user?.email || "",
+    userName: user?.name || "",
+    animalName: pet?.name || "",
+    shelterName: pet?.shelter || "",
+    phone: user?.phone || "",
+    message: "",
+  };
 
   const prepareAdoptionFormData = (values) => {
     if (values.motivo === "adoption") {
@@ -160,6 +157,13 @@ const AdoptionForm = () => {
             placeholder="Insira o seu contacto"
           />
 
+          <FormInput
+            label="Mensagem"
+            name="mensagem"
+            type="text"
+            placeholder="Insira o corpo do seu pedido"
+          />
+
           <FormCheckbox
             label={
               <>
@@ -182,7 +186,7 @@ const AdoptionForm = () => {
             disabled={isSubmitting}
             className="mx-auto block py-4 px-5 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
           >
-            {isSubmitting ? "Registering..." : "Let's get started"}
+            {isSubmitting ? "A enviar..." : "Enviar pedido!"}
           </button>
         </Form>
       )}

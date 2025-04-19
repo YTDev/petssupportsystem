@@ -7,6 +7,7 @@ import Footer from "../components/common/Footer";
 import MapComponent from "../components/MapComponent";
 import PetDetailsGrid from "../components/layout/PetDetailsGrid";
 import { FaMapMarkerAlt, FaEnvelope, FaHome } from "react-icons/fa";
+import AdoptionForm from "../components/forms/AdoptionForm";
 const PetDetails = () => {
   const { id } = useParams();
   const [pet, setPet] = useState(null);

@@ -1,43 +1,48 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+import AdoptionForm from "../components/forms/AdoptionForm";
 
 export const AdoptionContext = createContext();
 
-export const adoptionProvider = ({ children }) => {
-  const { isAuthenticated } = useContext(useAuth);
+export const AdoptionProvider = ({ children }) => {
+  const { user, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [pet, setPet] = useState(null);
   const { petID } = useParams(); // Pet id
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
 
-  const API_URL = "http://localhost:8000/api"; // Update with your API URL
+  const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
 
   // Configure axios with the base URL
-  axios.defaults.baseURL = API_URL;
+  axios.defaults.baseURL = API_BASE_URL;
 
   // Token verification
-  if (!isAuthenticated) {
-    // Ask user to log in
-    if (window.confirm("Please log in to save favorites. Go to login page?")) {
-      navigate("/login");
+  /*   useEffect(() => {
+    if (!isAuthenticated) {
+      // Ask user to log in
+      if (
+        window.confirm(
+          "You aren't currently logged in to make an adoption. Go to login page?"
+        )
+      ) {
+        navigate("/login");
+      }
     }
-    return;
-  }
+  }, [isAuthenticated]); */
 
   // Animal details fetch
   useEffect(() => {
     const fetchPetDetails = async () => {
       setLoading(true);
       setError(null);
-
+      console.log("HELP ME PLEASE I CANT FIGURE THIS OUT SOMEONE HEL-");
       try {
         const response = await axios.get(`${API_BASE_URL}/animals/${petID}`);
-
+        console.log("ERROR :", response);
         // Format the pet data for display
         const animalData = response.data;
         const formattedPet = {
@@ -62,7 +67,7 @@ export const adoptionProvider = ({ children }) => {
           shelterEmail: animalData.Shelter?.email,
           shelterPhone: animalData.Shelter?.phoneNumber,
         };
-
+        console.log("FORMATED PET: \n", formattedPet);
         setPet(formattedPet);
       } catch (err) {
         console.error("Error fetching pet details:", err);
@@ -108,6 +113,7 @@ export const adoptionProvider = ({ children }) => {
   return (
     <AdoptionContext.Provider
       value={{
+        pet,
         registerAdoption,
       }}
     >
