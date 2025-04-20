@@ -41,9 +41,9 @@ const AdoptionForm = ({ pet }) => {
 
   const initialValues = {
     motivo: "",
-    userId: user?.id || "",
+    userId: user?.userID || "",
     animalId: pet?.id || "",
-    shelterId: pet?.shelterId || "",
+    shelterId: pet?.shelter || "",
     email: user?.email || "",
     userName: user?.name || "",
     animalName: pet?.name || "",
@@ -57,9 +57,9 @@ const AdoptionForm = ({ pet }) => {
   const prepareAdoptionFormData = (values) => {
     if (values.motivo === "adoption") {
       return {
-        userID: 1,
+        userID: user.userID,
         animalID: pet.id,
-        sherlterID: 1,
+        shelterID: 1,
         userName: values.userName,
         animalName: values.animalName,
         shelterName: values.shelterName,
