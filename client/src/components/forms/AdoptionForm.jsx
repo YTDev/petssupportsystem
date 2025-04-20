@@ -1,28 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Formik, Form } from "formik";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
-import { AdoptionContext } from "../../context/AdoptionContext";
-
-//import { PetDetails } from "../components/pages/PetDetails";
-//import { useAdoptions } from "../../context/AdoptionContext";
-//import Adoption from "../../../../server/models/Adoption";
+import { AdoptionContext, useAdoptions } from "../../context/AdoptionContext";
 
 const validationSchema = Yup.object({
-  motive: Yup.string()
-    .oneOf(["adoption"], "Por favor seleciosne um motivo para contacto")
-    .required("Motive is required"),
-
+  motive: Yup.string().oneOf(
+    ["adoption"],
+    "Por favor selecione um motivo para contacto"
+  ),
   userName: Yup.string(),
   animalName: Yup.string(),
   shelterName: Yup.string(),
   phone: Yup.string(),
-
   streetAddress: Yup.string().when("motive", {
     is: "adoption",
     then: (schema) =>
@@ -32,15 +26,16 @@ const validationSchema = Yup.object({
   message: Yup.string()
     .min(
       100,
-      "Por favor insira uma breve mensagem a referir o que predende comunicar ao abrigo (Motivo)"
+      "Por favor insira uma breve mensagem a referir o que pretende comunicar ao abrigo (Motivo)"
     )
-    .max(1200, "A sua mensagem tem um limite máximo de 1200 caratéres"),
+    .max(1200, "A sua mensagem tem um limite máximo de 1200 caracteres"),
   email: Yup.string(),
+  terms: Yup.boolean().oneOf([true], "Deve aceitar os termos e condições"),
 });
 
 const AdoptionForm = ({ pet }) => {
   const navigate = useNavigate();
-
+  const { registerAdoption } = useContext(AdoptionContext);
   // Fetch user information from Auth Context
   const { user } = useAuth();
 
@@ -53,26 +48,32 @@ const AdoptionForm = ({ pet }) => {
     userName: user?.name || "",
     animalName: pet?.name || "",
     shelterName: pet?.shelter || "",
-    phone: user?.phone || "",
+    streetAddress: user.address || "",
+    phone: user?.phoneNumber || "",
     message: "",
+    terms: false,
   };
 
   const prepareAdoptionFormData = (values) => {
     if (values.motivo === "adoption") {
       return {
-        motivo: values.motivo,
+        userID: 1,
+        animalID: pet.id,
+        sherlterID: 1,
         userName: values.userName,
         animalName: values.animalName,
         shelterName: values.shelterName,
-        phoneNumber: values.phoneNumber,
-        streetAddress: values.streetAddress,
+        email: user.email,
+        phoneNumber: values.phone,
+        address: values.streetAddress,
         message: values.message,
       };
+      console.log("Values data:", user.email);
     } else {
       return {
         motivo: values.motivo,
-        userNome: values.userNome,
-        phoneNumber: values.phoneNumber,
+        userName: values.userName,
+        phoneNumber: values.phone,
         message: values.message,
       };
     }
@@ -85,29 +86,24 @@ const AdoptionForm = ({ pet }) => {
       validateOnBlur={true}
       validateOnChange={false}
       onSubmit={async (values, { setSubmitting, setStatus }) => {
+        console.log("Form submitted!", values);
         setStatus({ error: null });
-
         try {
-          // Prepare the data for API based on role
+          console.log("Entered the first function!");
           const formData = prepareAdoptionFormData(values);
-
-          //-----------------------Up to here ---------------------------//
-
-          // Call the appropriate registration endpoint
+          console.log("Prepared formData:", formData);
           await registerAdoption(formData, values.motivo);
           console.log("Registration successful");
           navigate("/dashboard");
         } catch (error) {
-          console.error("Registration error:", error);
-          setStatus({
-            error: error.message || "Registration failed. Please try again.",
-          });
+          console.error("Error during registration:", error);
+          setStatus({ error: error.message || "Registration failed" });
         } finally {
           setSubmitting(false);
         }
       }}
     >
-      {({ isSubmitting, values, status, setStatus }) => (
+      {({ isSubmitting, status, setStatus }) => (
         <Form className="bg-white max-w-lg w-full mx-auto shadow-lg rounded-md p-4 sm:p-10">
           {status?.error && (
             <div className="mb-4 text-center text-red-600">{status.error}</div>
@@ -142,24 +138,21 @@ const AdoptionForm = ({ pet }) => {
             type="text"
             placeholder="Nome do abrigo"
           />
-
           <FormInput
             label="Endereço"
             name="streetAddress"
             type="text"
             placeholder="Digite o seu endereço"
           />
-
           <FormInput
             label="Contacto Telefónico"
             name="phone"
             type="text"
             placeholder="Insira o seu contacto"
           />
-
           <FormInput
             label="Mensagem"
-            name="mensagem"
+            name="message"
             type="text"
             placeholder="Insira o corpo do seu pedido"
           />

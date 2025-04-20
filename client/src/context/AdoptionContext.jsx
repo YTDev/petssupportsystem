@@ -81,27 +81,19 @@ export const AdoptionProvider = ({ children }) => {
   }, [petID]);
 
   const registerAdoption = async (adoptionData, motive) => {
+    console.log("Entered the function!");
+    console.log("Adoption data: ", adoptionData);
     try {
-      // Select the appropriate endpoint based on role
       const endpoint =
         motive === "adoption"
-          ? "/adoption/createAdoption"
+          ? "/adoptions/createAdoption"
           : "/message/createMessage";
 
       const response = await axios.post(endpoint, adoptionData);
       console.log("Registration response:", response.data);
 
-      //const { token: authToken, user: userData2 } = response.data;
-
-      /* // Ensure we have user ID
-      if (!userData2 || !userData2.id) {
-        console.warn("Adoption response missing user ID:", userData2);
-        // Try to extract user ID from token if possible
-        userData2.id = extractUserIdFromToken(authToken);
-      }
-
-      return userData2;
-       */
+      // Return the response data
+      return response.data;
     } catch (error) {
       console.error("Adoption error:", error);
       throw new Error(

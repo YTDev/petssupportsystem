@@ -108,7 +108,7 @@ const RegisterForm = () => {
       };
     }
   };
-  
+
   return (
     <Formik
       initialValues={initialValues}
@@ -117,19 +117,19 @@ const RegisterForm = () => {
       validateOnChange={false}
       onSubmit={async (values, { setSubmitting, setStatus }) => {
         setStatus({ error: null });
-        
+
         try {
           // Prepare the data for API based on role
           const formData = prepareFormData(values);
-          
+
           // Call the appropriate registration endpoint
           await register(formData, values.role);
           console.log("Registration successful");
           navigate("/dashboard");
         } catch (error) {
           console.error("Registration error:", error);
-          setStatus({ 
-            error: error.message || "Registration failed. Please try again."
+          setStatus({
+            error: error.message || "Registration failed. Please try again.",
           });
         } finally {
           setSubmitting(false);
@@ -179,7 +179,7 @@ const RegisterForm = () => {
                 name="streetAddress"
                 type="text"
                 placeholder="Enter your street address"
-              />              
+              />
             </>
           )}
 
@@ -190,7 +190,7 @@ const RegisterForm = () => {
                 name="shelterName"
                 type="text"
                 placeholder="Enter your shelter's name"
-              />             
+              />
             </>
           )}
 
