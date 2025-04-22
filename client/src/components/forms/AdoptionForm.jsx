@@ -6,7 +6,7 @@ import FormInput from "./FormInput";
 import FormSelect from "./FormSelect";
 import FormCheckbox from "./FormCheckbox";
 import { useAuth } from "../../hooks/useAuth";
-import { AdoptionContext, useAdoptions } from "../../context/AdoptionContext";
+import { useAdoptions } from "../../context/AdoptionContext";
 
 const validationSchema = Yup.object({
   motive: Yup.string().oneOf(
@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
 
 const AdoptionForm = ({ pet }) => {
   const navigate = useNavigate();
-  const { registerAdoption } = useContext(AdoptionContext);
+  const { registerAdoption } = useAdoptions();
   // Fetch user information from Auth Context
   const { user } = useAuth();
 
