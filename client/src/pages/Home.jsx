@@ -6,8 +6,7 @@ import Footer from "../components/common/Footer";
 import AdoptionJourney from "../components/AdoptionJourney";
 import FaqSection from "../components/FaqSection";
 import StatsSection from "../components/StatsSection";
-//import AdoptionForm from "../components/forms/AdoptionForm";
-
+import SuccessSection from "../components/SuccessSection";
 function Home() {
   return (
     <>
@@ -17,6 +16,7 @@ function Home() {
       </div>
       <div className="">
         <StatsSection />
+        <SuccessSection />
         <AdoptionJourney />
         <FaqSection />
         {/* <AdoptionForm /> */}

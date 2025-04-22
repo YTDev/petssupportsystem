@@ -70,7 +70,7 @@ const Footer = () => {
               <Link to="/" className="hover:underline ">
                 Home
               </Link>
-              <Link to="/pets" className="hover:underline">
+              <Link to="/animals" className="hover:underline">
                 Pets
               </Link>
               <Link to="/contact" className="hover:underline">

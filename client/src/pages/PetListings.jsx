@@ -4,6 +4,7 @@ import AnimalCard from "../components/common/AnimalCard";
 import AnimalCardSkeleton from "../components/common/AnimalCardSkeleton";
 import NavbarAlt from "../components/common/NavbarAlt";
 import PetFilter from "../components/common/PetFilter";
+import PaginationControl from "../components/common/PaginationControl";
 
 const PetListings = () => {
   const [animals, setAnimals] = useState([]);
@@ -11,6 +12,10 @@ const PetListings = () => {
   const [userLocation, setUserLocation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  //Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [animalsPerPage] = useState(8); // Number of animals per page
 
   const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
 
@@ -26,9 +31,9 @@ const PetListings = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(lat1)) *
-        Math.cos(toRadians(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return EARTH_RADIUS * c; // Distance in km
@@ -101,11 +106,11 @@ const PetListings = () => {
             distance:
               userLocation && shelterLat && shelterLon
                 ? calculateDistance(
-                    userLocation.latitude,
-                    userLocation.longitude,
-                    shelterLat,
-                    shelterLon
-                  )
+                  userLocation.latitude,
+                  userLocation.longitude,
+                  shelterLat,
+                  shelterLon
+                )
                 : null,
             age: calculateAge(animal.birthDate),
           };
@@ -148,11 +153,11 @@ const PetListings = () => {
             distance:
               userLocation && shelterLat && shelterLon
                 ? calculateDistance(
-                    userLocation.latitude,
-                    userLocation.longitude,
-                    shelterLat,
-                    shelterLon
-                  )
+                  userLocation.latitude,
+                  userLocation.longitude,
+                  shelterLat,
+                  shelterLon
+                )
                 : null,
             age: calculateAge(animal.birthDate),
           };
@@ -185,6 +190,7 @@ const PetListings = () => {
         }
 
         setFilteredAnimals(filteredResults);
+        setCurrentPage(1); // Reset to first page after filter change
       } catch (err) {
         setError("Failed to apply filters. Please try again later.");
         console.error("Error applying filters:", err);
@@ -215,6 +221,17 @@ const PetListings = () => {
     };
   };
 
+  // Pagination logic
+  const indexOfLastAnimal = currentPage * animalsPerPage;
+  const indexOfFirstAnimal = indexOfLastAnimal - animalsPerPage;
+  const currentAnimals = filteredAnimals.slice(
+    indexOfFirstAnimal,
+    indexOfLastAnimal
+  );
+  const totalPages = Math.ceil(filteredAnimals.length / animalsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div>
       <NavbarAlt />
@@ -230,7 +247,7 @@ const PetListings = () => {
 
         {loading ? (
           <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-            {Array(8)
+            {Array(16)
               .fill()
               .map((_, index) => (
                 <AnimalCardSkeleton key={index} />
@@ -244,14 +261,25 @@ const PetListings = () => {
             </p>
           </div>
         ) : (
-          <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
-            {filteredAnimals.map((animal) => (
-              <AnimalCard
-                key={animal.animalID}
-                pet={formatAnimalForCard(animal)}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4">
+              {currentAnimals.map((animal) => (
+                <AnimalCard
+                  key={animal.animalID}
+                  pet={formatAnimalForCard(animal)}
+                />
+              ))}
+            </div>
+
+            {/* Use the separate Pagination component */}
+            <PaginationControl
+              currentPage={currentPage}
+              totalPages={totalPages}
+              paginate={paginate}
+              totalItems={filteredAnimals.length}
+              itemsPerPage={animalsPerPage}
+            />
+          </>
         )}
       </div>
     </div>
