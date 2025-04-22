@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
@@ -10,6 +16,7 @@ export const AdoptionProvider = ({ children }) => {
   const { user, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const [pet, setPet] = useState(null);
+  const [adoptions, setAdoptions] = useState([]);
   const { petID } = useParams(); // Pet id
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -21,25 +28,12 @@ export const AdoptionProvider = ({ children }) => {
   axios.defaults.baseURL = API_BASE_URL;
 
   // Token verification
-  /*   useEffect(() => {
-    if (!isAuthenticated) {
-      // Ask user to log in
-      if (
-        window.confirm(
-          "You aren't currently logged in to make an adoption. Go to login page?"
-        )
-      ) {
-        navigate("/login");
-      }
-    }
-  }, [isAuthenticated]); */
 
   // Animal details fetch
   useEffect(() => {
     const fetchPetDetails = async () => {
       setLoading(true);
       setError(null);
-      console.log("HELP ME PLEASE I CANT FIGURE THIS OUT SOMEONE HEL-");
       try {
         const response = await axios.get(`${API_BASE_URL}/animals/${petID}`);
         console.log("ERROR :", response);
@@ -67,7 +61,6 @@ export const AdoptionProvider = ({ children }) => {
           shelterEmail: animalData.Shelter?.email,
           shelterPhone: animalData.Shelter?.phoneNumber,
         };
-        console.log("FORMATED PET: \n", formattedPet);
         setPet(formattedPet);
       } catch (err) {
         console.error("Error fetching pet details:", err);
@@ -102,11 +95,47 @@ export const AdoptionProvider = ({ children }) => {
     }
   };
 
+  const userAdoptions = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      console.log("Trying connection...");
+      const response = await axios.get(
+        `${API_BASE_URL}/adoptions/userAdoptions/${user.userID}`
+      );
+      // Assume response.data is an array of adoption objects
+      const adoptionsData = response.data;
+
+      // Optionally, format each adoption object if needed
+      const formattedAdoptions = adoptionsData.map((adopt) => ({
+        userID: adopt.userID,
+        animalID: adopt.animalID,
+        shelterID: adopt.shelterID,
+        userName: adopt.userName,
+        animalName: adopt.animalName,
+        shelterName: adopt.shelterName,
+        email: adopt.email,
+        address: adopt.address,
+        message: adopt.message,
+      }));
+
+      setAdoptions(formattedAdoptions);
+      console.log("Formated adoptions", formattedAdoptions);
+    } catch (err) {
+      console.error("Error fetching adoption requests:", err);
+      setError("Failed to load adoption requests. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AdoptionContext.Provider
       value={{
+        adoptions,
         pet,
         registerAdoption,
+        userAdoptions,
       }}
     >
       {children}

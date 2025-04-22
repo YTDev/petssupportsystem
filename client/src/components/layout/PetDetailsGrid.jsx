@@ -82,7 +82,7 @@ function PetDetailsGrid({ pet }) {
 
           <Link
             to={`/adoption/${pet.id}`}
-            className="mx-6 cursor-pointer mb-6 px-6 py-4 bg-amber-500 text-blue-950 rounded-md font-medium text-xl "
+            className="mx-6 cursor-pointer mb-6 px-6 py-4 bg-amber-500 text-blue-950 rounded-md font-medium text-xl flex justify-center text-center"
           >
             Request Info
           </Link>

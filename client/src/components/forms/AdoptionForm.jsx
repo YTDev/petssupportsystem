@@ -108,6 +108,9 @@ const AdoptionForm = ({ pet }) => {
           {status?.error && (
             <div className="mb-4 text-center text-red-600">{status.error}</div>
           )}
+          <h2 className="text-2xl font-bold text-center mb-6">
+            Registo de Interesse
+          </h2>
           <FormSelect label="Purpose" name="motivo">
             <option value="">Selecione o seu motivo:</option>
             <option value="adoption">Adoção</option>
