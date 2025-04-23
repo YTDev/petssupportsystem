@@ -3,20 +3,28 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NavbarAlt from "../components/common/NavbarAlt";
 import Footer from "../components/common/Footer";
-
-import MapComponent from "../components/MapComponent";
-import PetDetailsGrid from "../components/layout/PetDetailsGrid";
-import { FaMapMarkerAlt, FaEnvelope, FaHome } from "react-icons/fa";
 import AdoptionForm from "../components/forms/AdoptionForm";
 
+import { useAdoptions } from "../context/AdoptionContext";
 const AdoptionRequest = () => {
   const { id } = useParams();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [alreadyRequested, setAlreadyRequested] = useState(false);
+  const { userAdoptions } = useAdoptions();
   const API_BASE_URL = "http://localhost:8000/api";
-
+  useEffect(() => {
+    async function check() {
+      try {
+        const list = await userAdoptions();
+        setAlreadyRequested(list.some((r) => r.animalID === Number(id)));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    check();
+  }, [id]);
   useEffect(() => {
     const fetchPetDetails = async () => {
       setLoading(true);
@@ -79,7 +87,23 @@ const AdoptionRequest = () => {
       </div>
     );
   }
-
+  if (alreadyRequested) {
+    return (
+      <div className="max-w-3xl mx-auto p-6 text-center">
+        <h2 className="text-2xl font-bold mb-4">
+          You’ve already sent a request for this pet!
+        </h2>
+        <p>
+          <Link
+            to="/animals"
+            className="px-4 py-2 border border-gray-300 rounded-md mr-4 hover:bg-gray-50"
+          >
+            Back to Listings
+          </Link>
+        </p>
+      </div>
+    );
+  }
   if (error || !pet) {
     return (
       <div>

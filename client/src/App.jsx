@@ -54,7 +54,9 @@ function App() {
               path="/adoption/:id"
               element={
                 <AdoptionProvider>
-                  <AdoptionRequest />
+                  <ProtectedRoute>
+                    <AdoptionRequest />
+                  </ProtectedRoute>
                 </AdoptionProvider>
               }
             />
