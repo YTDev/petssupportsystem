@@ -50,7 +50,14 @@ function App() {
             />
 
             {/* Adoption Routes */}
-            <Route path="/adoption/:id" element={<AdoptionRequest />} />
+            <Route
+              path="/adoption/:id"
+              element={
+                <AdoptionProvider>
+                  <AdoptionRequest />
+                </AdoptionProvider>
+              }
+            />
 
             {/* Dashboard Routes */}
             <Route
