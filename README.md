@@ -65,7 +65,7 @@ server/
 
 + Node.js
 + MySQL
-+ npm or yarn
++ npm
 
 ### Instalation
 
