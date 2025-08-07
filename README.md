@@ -79,7 +79,7 @@ cd pet-support-system
 cd server
 npm install
 ```
-3. Install fronten dependencies
+3. Install frontend dependencies
 ```
 cd server
 npm install
