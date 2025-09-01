@@ -40,7 +40,7 @@ function SignUp() {
         </header>
 
         <div className="text-center text-4xl font-medium mt-52 px-2 sm:px-7">
-          Lorem ipsum dolor sit amet consectetur adipisicing.
+          Please insert your infomation as requested
         </div>
       </div>
       <div className="-mt-48 pb-30">
