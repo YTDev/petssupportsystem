@@ -1,43 +1,39 @@
 const { User, Animal, Adoption, Shelter } = require("../models/indexModels");
 
-
 // Fetch all adoptions
-exports.getAllAdoptionRequests = async(req,res) =>{
+exports.getAllAdoptionRequests = async (req, res) => {
   try {
     const allAdoptions = await Adoption.findAll({
       include: [
-        {model: Animal},
-        {model: User, attributes: {exclude: ['password']}},
-        {model: Shelter, attributes: {exclude: ['password']}},
+        { model: Animal },
+        { model: User, attributes: { exclude: ["password"] } },
+        { model: Shelter, attributes: { exclude: ["password"] } },
       ],
     });
     return res.status(200).json(allAdoptions);
-  }catch(error){
-    console.log('Error fetching adoptions', error);
-    return res.status(500).json({message:'Server Error', error: error.message});
+  } catch (error) {
+    console.log("Error fetching adoptions", error);
+    return res
+      .status(500)
+      .json({ message: "Server Error", error: error.message });
   }
-}
-
+};
 
 // Get user adoption requests
 exports.getUserAdoptionRequests = async (req, res) => {
   try {
     const { userID } = req.params;
-    console.log("\n",req.params,"\n");
+    console.log("\n", req.params, "\n");
     const adoption = await Adoption.findAll({
-      where: {userID: userID},
-        
+      where: { userID: userID },
 
-          through: { attributes: [] }, // Don't include join table data
-          include: [
-            { model: Animal },
-            { model: Shelter, attributes: { exclude: ["password"] } },
-            { model: User, attributes: { exclude: ["password"]}},
-          ],
-        
-      
+      through: { attributes: [] }, // Don't include join table data
+      include: [
+        { model: Animal },
+        { model: Shelter, attributes: { exclude: ["password"] } },
+        { model: User, attributes: { exclude: ["password"] } },
+      ],
     });
-
 
     if (!adoption) {
       return res.status(404).json({ message: "User not found" });

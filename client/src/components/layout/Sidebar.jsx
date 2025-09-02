@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { LuAlignJustify } from "react-icons/lu";
-import { LuLayoutDashboard } from "react-icons/lu"
-import { IoHome } from "react-icons/io5";;
+import { LuLayoutDashboard } from "react-icons/lu";
+import { IoHome } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { TbDog } from "react-icons/tb";
 import { FaHeart } from "react-icons/fa";
@@ -70,7 +70,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
             </NavLink>
           </li>
           {/* Dashboard*/}
-          <li
+          {/*  <li
             className={`transition-[background-color, width] duration-200 ease-linear flex flex-col
               ${sidebarOpen ? "" : "hover:w-50"}
               `}
@@ -96,7 +96,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar }) => {
               <LuLayoutDashboard className="flex items-center justify-center w-16 text-xl " />
               <span className={`ml-2`}>Dashboard</span>
             </NavLink>
-          </li>
+          </li> */}
           {/* Profile */}
           <li
             className={` transition-[background-color, width] duration-200 ease-linear flex flex-col
