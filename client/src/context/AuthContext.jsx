@@ -35,7 +35,10 @@ export const AuthProvider = ({ children }) => {
             console.log("User data from /me endpoint:", response.data);
             setUser(response.data);
           } catch (meError) {
-            console.log("Couldn't use /me endpoint, trying email lookup:", meError.message);
+            console.log(
+              "Couldn't use /me endpoint, trying email lookup:",
+              meError.message
+            );
 
             const email = localStorage.getItem("userEmail");
             if (email) {
@@ -60,11 +63,10 @@ export const AuthProvider = ({ children }) => {
           setToken(null);
           setUser(null);
         }
-        
       } else {
         setUser(null);
       }
-      setLoading(false);      
+      setLoading(false);
     };
 
     verifyToken();
@@ -73,41 +75,42 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       console.log("Attempting login with:", email);
-      
+
       const response = await axios.post("/users/login", { email, password });
       console.log("Login response:", response.data);
-      
+
       const { token: authToken, user: userData } = response.data;
-      
+
       // Ensure we have user ID
       if (!userData || !userData.id) {
         console.warn("Login response missing user ID:", userData);
         // Try to extract user ID from token if possible
         userData.id = extractUserIdFromToken(authToken);
       }
-      
+
       // Store auth data
       localStorage.setItem("token", authToken);
       localStorage.setItem("userEmail", email);
       localStorage.setItem("userId", userData.id);
-      
+
       setToken(authToken);
       setUser(userData);
-      
+
       return userData;
     } catch (error) {
       console.error("Login error:", error);
       throw new Error(
-        error.response?.data?.message || "Login failed. Please check your credentials."
+        error.response?.data?.message ||
+          "Login failed. Please check your credentials."
       );
     }
   };
 
-   // Helper function to extract user ID from JWT token
-   const extractUserIdFromToken = (token) => {
+  // Helper function to extract user ID from JWT token
+  const extractUserIdFromToken = (token) => {
     try {
       // JWT tokens have three parts separated by periods
-      const payload = token.split('.')[1];
+      const payload = token.split(".")[1];
       const decodedPayload = JSON.parse(atob(payload));
       return decodedPayload.id;
     } catch (e) {
@@ -119,33 +122,35 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData, role) => {
     try {
       // Select the appropriate endpoint based on role
-      const endpoint = role === "shelter" ? "/shelters/register" : "/users/register";
-      
+      const endpoint =
+        role === "shelter" ? "/shelters/register" : "/users/register";
+
       const response = await axios.post(endpoint, userData);
       console.log("Registration response:", response.data);
-      
+
       const { token: authToken, user: userData2 } = response.data;
-      
+
       // Ensure we have user ID
       if (!userData2 || !userData2.id) {
         console.warn("Registration response missing user ID:", userData2);
         // Try to extract user ID from token if possible
         userData2.id = extractUserIdFromToken(authToken);
       }
-      
+
       // Store auth data
       localStorage.setItem("token", authToken);
       localStorage.setItem("userEmail", userData.email);
       localStorage.setItem("userId", userData2.id);
-      
+
       setToken(authToken);
       setUser(userData2);
-      
+
       return userData2;
     } catch (error) {
       console.error("Registration error:", error);
       throw new Error(
-        error.response?.data?.message || "Registration failed. Please try again."
+        error.response?.data?.message ||
+          "Registration failed. Please try again."
       );
     }
   };
@@ -155,14 +160,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userId");
-    
+
     // Reset state
     setToken(null);
     setUser(null);
-    
+
     // Remove auth header
     delete axios.defaults.headers.common["Authorization"];
-    
+
     console.log("User logged out");
   };
 
@@ -179,42 +184,49 @@ export const AuthProvider = ({ children }) => {
       }
 
       // Determine the correct endpoint based on user role
-      const endpoint = user.shelterName || user.role === "shelter" 
-        ? `/shelters/${userId}`
-        : `/users/${userId}`;
-      
-      console.log("Updating profile at endpoint:", endpoint, "with data:", updates);
-      
+      const endpoint =
+        user.shelterName || user.role === "shelter"
+          ? `/shelters/${userId}`
+          : `/users/${userId}`;
+
+      console.log(
+        "Updating profile at endpoint:",
+        endpoint,
+        "with data:",
+        updates
+      );
+
       const response = await axios.put(endpoint, updates);
       console.log("Profile update response:", response.data);
-      
+
       // Update the user in state
-      setUser({...user, ...response.data});
+      setUser({ ...user, ...response.data });
       return response.data;
     } catch (error) {
       console.error("Profile update error:", error);
       throw new Error(
-        error.response?.data?.message || "Profile update failed. Please try again."
+        error.response?.data?.message ||
+          "Profile update failed. Please try again."
       );
     }
   };
 
-   // Get the current user ID
-   const getUserId = () => {
+  // Get the current user ID
+  const getUserId = () => {
     return user?.id || localStorage.getItem("userId");
   };
 
   return (
     <AuthContext.Provider
-      value={{ 
-        user, 
-        login, 
-        register, 
-        logout, 
+      value={{
+        user,
+        login,
+        register,
+        logout,
         updateProfile,
         getUserId,
         isAuthenticated: !!user,
-        loading
+        loading,
       }}
     >
       {children}

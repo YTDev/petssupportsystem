@@ -84,6 +84,18 @@ export const AdoptionProvider = ({ children }) => {
     }
   };
 
+  const cancelAdoption = async (userID, animalID) => {
+    try {
+      const response = await axios.delete(
+        `/adoptions/removeAdoption/${userID}/${animalID}`
+      );
+      window.location.reload();
+      return response;
+    } catch (error) {
+      throw new Error("There was an error removing your request", error);
+    }
+  };
+
   return (
     <AdoptionContext.Provider
       value={{
@@ -91,6 +103,7 @@ export const AdoptionProvider = ({ children }) => {
         pet,
         registerAdoption,
         userAdoptions,
+        cancelAdoption,
       }}
     >
       {children}

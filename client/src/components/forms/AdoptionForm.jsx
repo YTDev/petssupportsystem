@@ -109,16 +109,16 @@ const AdoptionForm = ({ pet }) => {
             <div className="mb-4 text-center text-red-600">{status.error}</div>
           )}
           <h2 className="text-2xl font-bold text-center mb-6">
-            Registo de Interesse
+            Adoption Request
           </h2>
           <FormSelect label="Purpose" name="motivo">
-            <option value="">Selecione o seu motivo:</option>
-            <option value="adoption">Adoção</option>
+            <option value="">Pick a motive:</option>
+            <option value="adoption">Adoption</option>
             {/* <option value="shelter">Shelter</option> */}
           </FormSelect>
 
           <FormInput
-            label="Nome Completo"
+            label="Name"
             name="userName"
             type="text"
             placeholder="Insira o seu nome"
@@ -130,31 +130,31 @@ const AdoptionForm = ({ pet }) => {
             placeholder="Insira o seu email"
           />
           <FormInput
-            label="Nome do animal:"
+            label="Animal Name:"
             name="animalName"
             type="text"
             placeholder="Nome do animal:"
           />
           <FormInput
-            label="Abrigo"
+            label="Shelter"
             name="shelterName"
             type="text"
             placeholder="Nome do abrigo"
           />
           <FormInput
-            label="Endereço"
+            label="Address"
             name="streetAddress"
             type="text"
             placeholder="Digite o seu endereço"
           />
           <FormInput
-            label="Contacto Telefónico"
+            label="Contact"
             name="phone"
             type="text"
             placeholder="Insira o seu contacto"
           />
           <FormInput
-            label="Mensagem"
+            label="Message"
             name="message"
             type="text"
             placeholder="Insira o corpo do seu pedido"
@@ -182,7 +182,7 @@ const AdoptionForm = ({ pet }) => {
             disabled={isSubmitting}
             className="mx-auto block py-4 px-5 font-bold bg-amber-500 opacity-80 text-lg text-blue-950 rounded-md hover:opacity-100 focus:outline-none mt-4 cursor-pointer"
           >
-            {isSubmitting ? "A enviar..." : "Enviar pedido!"}
+            {isSubmitting ? "Sending..." : "Send request!"}
           </button>
         </Form>
       )}

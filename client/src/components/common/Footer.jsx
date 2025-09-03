@@ -29,11 +29,7 @@ const Footer = () => {
                 to="/"
                 className="flex items-center space-x-3 rtl:space-x-reverse"
               >
-                <img
-                  src="/vite.svg"
-                  alt="Logo"
-                  className="w-12 h-12 rounded-full"
-                />
+                <img src="/OnlyPawsShadeless.svg" alt="" width="70vw" />
               </Link>
 
               <p className="mt-4 max-w-md">Adopt a pet, change a life.</p>
