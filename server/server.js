@@ -17,10 +17,12 @@ const connection = mysql.createConnection({
 
   //-------------------------------Local Connection----------------------------------//
 
-  /*host: "localhost",
+  /*
+  host: "localhost",
   user: "root",
   password: "",
-  database: "bd_onlypaws",*/
+  database: "bd_onlypaws",
+  */
 });
 
 // Connect to the database
