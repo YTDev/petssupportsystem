@@ -12,7 +12,8 @@ function ImageCardSwiper() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "http://localhost:8000/api";
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
   // Fetch animals from the API
   useEffect(() => {
@@ -24,22 +25,25 @@ function ImageCardSwiper() {
 
         if (Array.isArray(response.data) && response.data.length > 0) {
           // Filter to only include animals with valid images
-          const animalsWithImages = response.data.filter(animal =>
-            animal.imageUrl && animal.imageUrl.trim() !== "" &&
-            !animal.imageUrl.includes("No+Image")
+          const animalsWithImages = response.data.filter(
+            (animal) =>
+              animal.imageUrl &&
+              animal.imageUrl.trim() !== "" &&
+              !animal.imageUrl.includes("No+Image")
           );
 
           // Randomly select 10 animals (or fewer if not enough available)
           const randomizedAnimals = getRandomAnimals(animalsWithImages, 10);
 
           // Format the data for the swiper
-          const formattedAnimals = randomizedAnimals.map(animal => ({
+          const formattedAnimals = randomizedAnimals.map((animal) => ({
             id: animal.animalID,
-            src: animal.imageUrl || "https://placehold.co/400x600?text=No+Image",
+            src:
+              animal.imageUrl || "https://placehold.co/400x600?text=No+Image",
             alt: `${animal.animalName}`,
             breed: animal.Breed?.breedName || "Mixed Breed",
             homeDetails: animal.size || "Pet",
-            name: animal.animalName
+            name: animal.animalName,
           }));
 
           setAnimals(formattedAnimals);

@@ -17,7 +17,8 @@ const PetListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [animalsPerPage] = useState(8); // Number of animals per page
 
-  const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
   // Calculate distance using the logic of Haversine formula
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -31,9 +32,9 @@ const PetListings = () => {
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+        Math.cos(toRadians(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return EARTH_RADIUS * c; // Distance in km
@@ -106,11 +107,11 @@ const PetListings = () => {
             distance:
               userLocation && shelterLat && shelterLon
                 ? calculateDistance(
-                  userLocation.latitude,
-                  userLocation.longitude,
-                  shelterLat,
-                  shelterLon
-                )
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    shelterLat,
+                    shelterLon
+                  )
                 : null,
             age: calculateAge(animal.birthDate),
           };
@@ -153,11 +154,11 @@ const PetListings = () => {
             distance:
               userLocation && shelterLat && shelterLon
                 ? calculateDistance(
-                  userLocation.latitude,
-                  userLocation.longitude,
-                  shelterLat,
-                  shelterLon
-                )
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    shelterLat,
+                    shelterLon
+                  )
                 : null,
             age: calculateAge(animal.birthDate),
           };

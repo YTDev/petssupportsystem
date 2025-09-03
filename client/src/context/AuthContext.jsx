@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const API_URL = "http://localhost:8000/api"; // Update with your API URL
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
   // Configure axios with the base URL
   axios.defaults.baseURL = API_URL;

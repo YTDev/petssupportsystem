@@ -21,7 +21,8 @@ export const AdoptionProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = "http://localhost:8000/api"; // Update with your API URL
+  const API_BASE_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000/api";
 
   // Configure axios with the base URL
   axios.defaults.baseURL = API_BASE_URL;
