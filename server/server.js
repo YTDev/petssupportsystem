@@ -6,21 +6,21 @@ const DB_PASS = process.env.DB_PASSWORD;
 const connection = mysql.createConnection({
   //-------------------------------Avien Connection----------------------------------//
 
-  /*  host: "mysql-3f888ca6-pet-support-system.j.aivencloud.com", 
+  host: "mysql-3f888ca6-pet-support-system.j.aivencloud.com", 
   port: 17999,
   user: "avnadmin", 
   password: DB_PASS,
   database: "pet-support-system", 
   ssl: {
     ca: fs.readFileSync("./cert/ca.pem"), // Ensure SSL is used, adjust as necessary
-  }, */
+  }
 
   //-------------------------------Local Connection----------------------------------//
 
-  host: "localhost",
+  /*host: "localhost",
   user: "root",
   password: "",
-  database: "bd_onlypaws",
+  database: "bd_onlypaws",*/
 });
 
 // Connect to the database
