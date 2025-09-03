@@ -22,7 +22,7 @@ const Navbar = () => {
             <div className="font-display flex-shrink-0 flex items-center">
               <Link to="/" className="text-xl font-bold">
                 {/* change img */}
-                <img src="/OnlyPawsShadeless.svg" alt="" width="70vw" />
+                <img src="/OnlyPaws_Logo.svg" alt="" width="70vw" />
               </Link>
             </div>
           </div>

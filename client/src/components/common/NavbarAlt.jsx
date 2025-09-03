@@ -18,7 +18,7 @@ const NavbarAlt = () => {
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="text-xl font-bold text-blue-900">
-              <img src="/OnlyPawsShadeless.svg" alt="" width="70vw" />
+              <img src="/OnlyPaws_Logo.svg" alt="" width="70vw" />
             </Link>
           </div>
 
