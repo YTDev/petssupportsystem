@@ -1,20 +1,22 @@
 const mysql = require("mysql2");
+const fs = require("fs");
 require("dotenv").config();
 const DB_PASS = process.env.DB_PASSWORD;
-
 // Create a connection to the database
 const connection = mysql.createConnection({
-  //-------------------------------Aiven Connection----------------------------------//
-  host: "mysql-3f888ca6-pet-support-system.j.aivencloud.com",
+  //-------------------------------Avien Connection----------------------------------//
+
+  host: "mysql-3f888ca6-pet-support-system.j.aivencloud.com", 
   port: 17999,
-  user: "avnadmin",
+  user: "avnadmin", 
   password: DB_PASS,
-  database: "pet-support-system",
+  database: "pet-support-system", 
   ssl: {
-    rejectUnauthorized: false, // This allows the connection without the ca.pem file
-  },
+    ca: fs.readFileSync("./cert/ca.pem"), // Ensure SSL is used, adjust as necessary
+  }
 
   //-------------------------------Local Connection----------------------------------//
+
   /*
   host: "localhost",
   user: "root",
